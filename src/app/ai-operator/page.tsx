@@ -9,7 +9,7 @@ import Testimonial from '@/components/ai-operator/Testimonial'
 import ResultsMetrics from '@/components/ai-operator/ResultsMetrics'
 import CTASection from '@/components/ai-operator/CTASection'
 import DarkHeader from '@/components/ai-operator/DarkHeader'
-import Footer from '@/components/Footer'
+import Footer from '@/components/layout/Footer'
 
 export default function AIOperatorPage() {
   

@@ -3,8 +3,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Users, Clock, TrendingUp, Shield } from 'lucide-react'
 
@@ -164,7 +164,7 @@ export default function IndustriesPage() {
             >
               <Button 
                 size="lg"
-                onClick={() => window.open('https://admin.conversailabs.com/', '_blank')}
+                onClick={() => window.open('https://dashboard.conversailabs.com/', '_blank')}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
               >
                 Start Building Your Agent
@@ -335,7 +335,7 @@ export default function IndustriesPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg"
-                onClick={() => window.open('https://admin.conversailabs.com/', '_blank')}
+                onClick={() => window.open('https://dashboard.conversailabs.com/', '_blank')}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
               >
                 Build Your First Agent

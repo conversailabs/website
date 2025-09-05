@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Phone, Calendar, CheckCircle } from 'lucide-react'
-import ContactModal from '@/components/ContactModal'
+import ContactModal from '@/components/forms/ContactModal'
 
 export default function CTASection() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
@@ -54,7 +54,7 @@ export default function CTASection() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
-                  onClick={() => window.open('https://admin.conversailabs.com/', '_blank')}
+                  onClick={() => window.open('https://dashboard.conversailabs.com/', '_blank')}
                   className="px-8 py-4 rounded-lg bg-white text-gray-900 font-semibold text-lg hover:bg-gray-100 transition-colors group"
                 >
                   Start Free Trial
@@ -104,7 +104,7 @@ export default function CTASection() {
               <h3 className="text-xl font-semibold !text-white mb-2">Try Live Demo</h3>
               <p className="text-gray-400 mb-4">Experience our AI operator with a real phone call</p>
               <button 
-                onClick={() => window.open('https://admin.conversailabs.com/', '_blank')}
+                onClick={() => window.open('https://dashboard.conversailabs.com/', '_blank')}
                 className="text-blue-400 hover:text-blue-300 font-medium"
               >
                 Call Now →

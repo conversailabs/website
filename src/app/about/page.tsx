@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui/button'
 import { ExternalLink, Users, Target, Lightbulb, Heart } from 'lucide-react'
 
@@ -242,7 +242,7 @@ export default function AboutPage() {
             >
               <Button 
                 size="lg"
-                onClick={() => window.open('https://admin.conversailabs.com/', '_blank')}
+                onClick={() => window.open('https://dashboard.conversailabs.com/', '_blank')}
                 className="bg-white text-blue-600 hover:bg-gray-100"
               >
                 Start Building Today

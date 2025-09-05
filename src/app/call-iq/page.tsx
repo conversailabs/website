@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import CallIQHeader from "@/components/CallIQHeader";
-import CallIQFooter from "@/components/CallIQFooter";
+import CallIQHeader from "@/components/layout/CallIQHeader";
+import CallIQFooter from "@/components/layout/CallIQFooter";
 import { 
   Brain, 
   TrendingUp, 

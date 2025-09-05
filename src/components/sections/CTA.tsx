@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {Play, Phone } from 'lucide-react';
-import ContactModal from './ContactModal';
+import ContactModal from '../forms/ContactModal';
 
 const CTA = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -14,7 +14,7 @@ const CTA = () => {
   };
   
   const handleTryDemo = () => {
-    window.open('https://admin.conversailabs.com/', '_blank');
+    window.open('https://dashboard.conversailabs.com/', '_blank');
   };
   
   const handleContactSales = () => {

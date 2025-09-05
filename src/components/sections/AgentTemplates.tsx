@@ -75,7 +75,7 @@ const AgentTemplates = () => {
 
   const handleTryDemo = () => {
     // Redirect to admin panel
-    window.open('https://admin.conversailabs.com/', '_blank');
+    window.open('https://dashboard.conversailabs.com/', '_blank');
   };
 
   return (

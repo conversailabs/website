@@ -24,7 +24,6 @@ const industries = [
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileIndustryOpen, setMobileIndustryOpen] = useState(false);
-  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const pathname = usePathname();
 
   const handleConnectWithUs = () => {
@@ -111,35 +110,13 @@ const Header = () => {
               </div>
             )}
 
-            {/* Products Dropdown */}
-            <div className="relative group">
-              <div 
-                className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium px-3 py-2 rounded-md hover:bg-blue-50"
-                style={{ cursor: 'pointer' }}
-              >
-                <span>Products</span>
-                <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
-              </div>
-
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-white rounded-lg shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-40">
-                <div className="py-3">
-                  <Link
-                    href="/call-iq"
-                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 border-l-2 border-transparent hover:border-blue-400 transition-all"
-                  >
-                    Call IQ
-                  </Link>
-                </div>
-              </div>
-            </div>
-
             <Link
-              href="/smartdesk"
-              className="text-gray-600 hover:text-green-600 transition-all duration-300 font-medium relative group px-3 py-2 rounded-md hover:bg-green-50"
+              href="/call-iq"
+              className="text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium relative group px-3 py-2 rounded-md hover:bg-blue-50"
               style={{ cursor: 'pointer' }}
             >
-              SmartDesk
-              <span className="absolute -bottom-1 left-3 right-3 h-0.5 bg-green-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+              Call IQ
+              <span className="absolute -bottom-1 left-3 right-3 h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
             </Link>
 
             <Link
@@ -150,15 +127,6 @@ const Header = () => {
             >
               Pricing
               <span className="absolute -bottom-1 left-3 right-3 h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-            </Link>
-
-            <Link
-              href="/ai-crm"
-              className="text-gray-600 hover:text-purple-600 transition-all duration-300 font-medium relative group px-3 py-2 rounded-md hover:bg-purple-50"
-              style={{ cursor: 'pointer' }}
-            >
-              AI CRM
-              <span className="absolute -bottom-1 left-3 right-3 h-0.5 bg-purple-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
             </Link>
 
             <Link
@@ -203,60 +171,20 @@ const Header = () => {
             >
               Features
             </Link>
-            {/* Products Dropdown in Mobile */}
-            <div>
-              <button
-                className="flex items-center justify-between w-full text-gray-800 font-medium hover:text-blue-600"
-                onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-              >
-                <span>Products</span>
-                <ChevronDown
-                  className={`w-4 h-4 transform transition-transform duration-200 ${
-                    mobileProductsOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {mobileProductsOpen && (
-                <ul className="mt-2 pl-4 border-l border-gray-200 space-y-2">
-                  <li>
-                    <Link
-                      href="/call-iq"
-                      className="block px-2 py-1 text-sm text-gray-700 
-      hover:bg-blue-100 hover:text-blue-700 
-      active:bg-blue-200 active:text-blue-800 
-      focus:bg-blue-100 focus:text-blue-700 
-      border-l-2 border-transparent 
-      hover:border-blue-500 active:border-blue-700 
-      transition-all"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      Call IQ
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </div>
-            
             <Link
-              href="/smartdesk"
-              className="text-gray-800 hover:text-green-600"
+              href="/call-iq"
+              className="text-gray-800 hover:text-blue-600"
               onClick={() => setMobileOpen(false)}
             >
-              SmartDesk
+              Call IQ
             </Link>
+            
             <Link
               href={pathname === "/smartdesk" ? "#pricing" : "/pricing"}
               onClick={pathname === "/smartdesk" ? (e) => handleNavClick(e, "pricing") : () => setMobileOpen(false)}
               className="text-gray-800 hover:text-blue-600"
             >
               Pricing
-            </Link>
-            <Link
-              href="/ai-crm"
-              className="text-gray-800 hover:text-purple-600"
-              onClick={() => setMobileOpen(false)}
-            >
-              AI CRM
             </Link>
             <Link
               href="/about"

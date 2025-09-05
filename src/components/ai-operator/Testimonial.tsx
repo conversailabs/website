@@ -27,7 +27,7 @@ export default function Testimonial() {
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl h-full min-h-[400px] lg:min-h-[450px]">
                 <Image
-                  src="/gen img.png"
+                  src="/gen img.jpeg"
                   alt="Customer testimonial"
                   width={600}
                   height={450}
@@ -70,7 +70,7 @@ export default function Testimonial() {
                     <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" />
                     <div>
                       <p className="font-semibold !text-white">Customer Success Leader</p>
-                      <p className="text-sm text-gray-400">Santhosh Vishwanathan</p>
+                      <p className="text-sm text-gray-400">James Harrington</p>
                     </div>
                   </div>
                 </blockquote>

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowDown, Phone } from 'lucide-react';
-import ContactModal from './ContactModal';
+import ContactModal from '../forms/ContactModal';
 
 const Hero = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const handleSeeHowItWorks = () => {
-    window.open('https://admin.conversailabs.com/', '_blank');
+    window.open('https://dashboard.conversailabs.com/', '_blank');
   };
 
   return (

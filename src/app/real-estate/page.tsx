@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import IndustryHeader from '@/components/IndustryHeader'
-import Footer from '@/components/Footer'
+import IndustryHeader from '@/components/layout/IndustryHeader'
+import Footer from '@/components/layout/Footer'
 import RealEstateHero from '@/components/real-estate/Hero'
 import CoreFeatures from '@/components/real-estate/CoreFeatures'
 import Integration from '@/components/real-estate/Integration'

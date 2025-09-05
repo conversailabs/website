@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
-import AgentDetailsExplorer from "@/components/AgentDetailsExplorer";
+import AgentDetailsExplorer from "@/components/demos/AgentDetailsExplorer";
 
 type UseCase = {
   title: string;

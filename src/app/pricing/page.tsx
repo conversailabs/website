@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Star, MessageSquare, Phone, Zap, BarChart3, Shield } from 'lucide-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import ContactModal from '@/components/ContactModal';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import ContactModal from '@/components/forms/ContactModal';
 
 interface PricingPlan {
   name: string;

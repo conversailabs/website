@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight,CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import ContactModal from './ContactModal';
+import ContactModal from '../forms/ContactModal';
 
 interface CTABannerProps {
   industry: string;

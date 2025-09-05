@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import IndustryHeader from '@/components/IndustryHeader'
-import Footer from '@/components/Footer'
+import IndustryHeader from '@/components/layout/IndustryHeader'
+import Footer from '@/components/layout/Footer'
 import LoanServicingHero from '@/components/loan-servicing/Hero'
 import CoreFeatures from '@/components/loan-servicing/CoreFeatures'
 import Integration from '@/components/loan-servicing/Integration'

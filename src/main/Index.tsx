@@ -1,14 +1,14 @@
 "use client"
 import React, { useEffect } from 'react';
-import Header from '@/components/Header';
-import Hero from '@/components/Hero';
-import DemoSection from '@/components/DemoSection';
-import ProblemSolution from '@/components/ProblemSolution';
-import TechnicalFeatures from '@/components/TechnicalFeatures';
-import AgentTemplates from '@/components/AgentTemplates';
-import Features from '@/components/Features';
-import CTA from '@/components/CTA';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Hero from '@/components/sections/Hero';
+import DemoSection from '@/components/demos/DemoSection';
+import ProblemSolution from '@/components/sections/ProblemSolution';
+import TechnicalFeatures from '@/components/sections/TechnicalFeatures';
+import AgentTemplates from '@/components/sections/AgentTemplates';
+import Features from '@/components/sections/Features';
+import CTA from '@/components/sections/CTA';
+import Footer from '@/components/layout/Footer';
 import { updateSEO } from '@/utils/seo';
 import { addStructuredData, createOrganizationStructuredData, createWebsiteStructuredData } from '@/utils/structuredData';
 

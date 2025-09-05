@@ -95,7 +95,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
         >
           <Button 
             size="lg"
-            onClick={() => window.open('https://admin.conversailabs.com/', '_blank')}
+            onClick={() => window.open('https://dashboard.conversailabs.com/', '_blank')}
             className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
           >
             Try {industry} Agent Template
@@ -104,7 +104,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
           <Button 
             variant="outline" 
             size="lg"
-            onClick={() => window.open('https://admin.conversailabs.com/', '_blank')}
+            onClick={() => window.open('https://dashboard.conversailabs.com/', '_blank')}
             className="px-8 py-3 rounded-full font-semibold border-2 hover:bg-gray-50"
           >
             Build Custom Agent

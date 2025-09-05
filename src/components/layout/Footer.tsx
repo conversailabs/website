@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
-import ContactModal from "./ContactModal";
+import ContactModal from "../forms/ContactModal";
 
 const Footer = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -16,7 +16,7 @@ const Footer = () => {
         { name: "Pricing", path: "/pricing" },
         { name: "Industries", path: "/industries" },
         { name: "Schedule Demo", path: "/schedule-demo" },
-        { name: "Admin Panel", path: "https://admin.conversailabs.com/" },
+        { name: "Admin Panel", path: "https://dashboard.conversailabs.com/" },
       ],
     },
     {

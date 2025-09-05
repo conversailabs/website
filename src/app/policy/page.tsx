@@ -1,5 +1,5 @@
 "use client";
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
 const Policy: React.FC = () => (
     <>
     <Header/>

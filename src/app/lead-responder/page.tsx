@@ -7,8 +7,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { motion } from 'framer-motion';
-import Footer from '@/components/Footer';
-import ContactModal from '@/components/ContactModal';
+import Footer from '@/components/layout/Footer';
+import ContactModal from '@/components/forms/ContactModal';
 
 export default function LeadResponderPage() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);

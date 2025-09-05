@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import ErrorBoundary from "@/components/ErrorBoundary";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
-import MicrosoftClarity from "@/components/MicrosoftClarity";
-import FacebookSDK from "@/components/FacebookSDK";
+import ErrorBoundary from "@/components/utilities/ErrorBoundary";
+import GoogleAnalytics from "@/components/tracking/GoogleAnalytics";
+import MicrosoftClarity from "@/components/tracking/MicrosoftClarity";
+import FacebookSDK from "@/components/tracking/FacebookSDK";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

@@ -1,13 +1,13 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import Header from '@/components/Header';
-import { HeroSection } from '@/components/HeroSection';
-import { FeaturesSection } from '@/components/FeaturesSection';
-import UseCaseSection from '@/components/UseCaseSection';
-import StatsSection from '@/components/StatsSection';
-import FAQSection from '@/components/FAQSection';
-import { CTABanner } from '@/components/CTABanner';
+import Header from '@/components/layout/Header';
+import { HeroSection } from '@/components/sections/HeroSection';
+import { FeaturesSection } from '@/components/sections/FeaturesSection';
+import UseCaseSection from '@/components/sections/UseCaseSection';
+import StatsSection from '@/components/sections/StatsSection';
+import FAQSection from '@/components/sections/FAQSection';
+import { CTABanner } from '@/components/sections/CTABanner';
 
 import industriesData from '@/data/industriesfinal.json';
 
