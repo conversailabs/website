@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { Phone, MessageSquare, ArrowRight, Sparkles } from 'lucide-react'
+import { Phone, MessageSquare, Sparkles } from 'lucide-react'
 import ContactModal from '@/components/forms/ContactModal'
 import { motion } from 'framer-motion'
 
@@ -72,25 +72,42 @@ export default function AIOperatorHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+            className="flex flex-col lg:flex-row gap-4 justify-center items-center mb-16 max-w-4xl mx-auto"
           >
+            {/* US Voice AI Button */}
             <button 
-              onClick={() => setIsContactModalOpen(true)}
-              className="relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 !text-white px-8 py-3 text-base font-semibold group shadow-xl hover:shadow-2xl transition-all duration-300 rounded-lg"
+              onClick={() => window.open('tel:+14422839581', '_blank')}
+              className="relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 !text-white px-8 py-3 text-base font-semibold group shadow-xl hover:shadow-2xl transition-all duration-300 rounded-lg whitespace-nowrap"
             >
               <span className="relative z-10 flex items-center justify-center">
-                Schedule a Demo
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <span className="mr-2">🇺🇸</span>
+                <Phone className="mr-2 w-5 h-5" />
+                Call US Voice AI Agent
               </span>
               <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
             </button>
+
+            {/* UK WhatsApp Button */}
             <button 
-              onClick={() => window.open('https://dashboard.conversailabs.com/', '_blank')}
-              className="relative border-2 border-gray-600 hover:border-gray-500 bg-gray-900/50 backdrop-blur-sm !text-white px-8 py-3 text-base font-semibold group hover:bg-gray-800/50 transition-all duration-300 shadow-xl hover:shadow-2xl rounded-lg"
+              onClick={() => window.open('https://wa.me/447846877743', '_blank')}
+              className="relative bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 !text-white px-8 py-3 text-base font-semibold group shadow-xl hover:shadow-2xl transition-all duration-300 rounded-lg whitespace-nowrap"
             >
               <span className="flex items-center justify-center">
+                <span className="mr-2">🇬🇧</span>
+                <MessageSquare className="mr-2 w-5 h-5" />
+                Chat with UK WhatsApp Agent
+              </span>
+            </button>
+
+            {/* UK Voice AI Button */}
+            <button 
+              onClick={() => window.open('tel:+447846877743', '_blank')}
+              className="relative border-2 border-gray-600 hover:border-gray-500 bg-gray-900/50 backdrop-blur-sm !text-white px-8 py-3 text-base font-semibold group hover:bg-gray-800/50 transition-all duration-300 shadow-xl hover:shadow-2xl rounded-lg whitespace-nowrap"
+            >
+              <span className="flex items-center justify-center">
+                <span className="mr-2">🇬🇧</span>
                 <Phone className="mr-2 w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors" />
-                Call AI Operator
+                Call UK Voice AI Agent
               </span>
             </button>
           </motion.div>
