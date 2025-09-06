@@ -7,12 +7,6 @@ import { TrendingUp, Users, Clock, DollarSign } from 'lucide-react'
 const StatsSection = () => {
   const stats = [
     {
-      number: "2,179+",
-      label: "Businesses Scaling with ConversAI",
-      icon: Users,
-      gradient: "from-purple-600 to-blue-600"
-    },
-    {
       number: "73%",
       label: "Average Resolution Rate with AI",
       subtitle: "(Aug 2025, across 2,100 stores)",
@@ -35,13 +29,13 @@ const StatsSection = () => {
   ]
 
   return (
-    <section className="py-24 bg-gray-50 relative overflow-hidden">
+    <section className="py-24 bg-gradient-to-b from-black via-gray-950 to-gray-900 relative overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-grid-gray-200/[0.05] bg-grid" />
+      <div className="absolute inset-0 bg-grid-gray-800/[0.05] bg-grid" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -51,31 +45,31 @@ const StatsSection = () => {
                 whileHover={{ y: -8, scale: 1.02 }}
                 className="relative group"
               >
-                <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-200 hover:border-purple-400 shadow-lg hover:shadow-xl transition-all duration-300 h-full">
+                <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-gray-800 hover:border-blue-500/50 shadow-lg hover:shadow-xl transition-all duration-300 h-full">
                   {/* Icon */}
                   <div className={`w-12 h-12 bg-gradient-to-r ${stat.gradient} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                     <stat.icon className="w-6 h-6 text-white" />
                   </div>
                   
                   {/* Number */}
-                  <h3 className="text-4xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-4xl font-bold !text-white mb-2">
                     {stat.number}
                   </h3>
                   
                   {/* Label */}
-                  <p className="text-gray-600 text-sm font-medium">
+                  <p className="text-gray-400 text-sm font-medium">
                     {stat.label}
                   </p>
                   
                   {/* Subtitle */}
                   {stat.subtitle && (
-                    <p className="text-purple-600 text-xs mt-2">
+                    <p className="text-blue-400 text-xs mt-2">
                       {stat.subtitle}
                     </p>
                   )}
                   
                   {/* Hover Effect Border */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600/0 via-purple-600/20 to-purple-600/0 opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/20 to-blue-600/0 opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300 pointer-events-none" />
                 </div>
               </motion.div>
             ))}
