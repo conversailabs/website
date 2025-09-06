@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { TrendingUp, Users, Clock, DollarSign } from 'lucide-react'
+import { TrendingUp, Clock, DollarSign } from 'lucide-react'
 
 const StatsSection = () => {
   const stats = [

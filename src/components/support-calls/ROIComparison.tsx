@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Check, X, TrendingUp, Clock, Globe, Users } from 'lucide-react'
+import { Check, X, TrendingUp, Clock, Users } from 'lucide-react'
 
 const ROIComparison = () => {
   const [hoveredCard, setHoveredCard] = useState<'human' | 'ai' | null>(null)

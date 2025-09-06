@@ -1,29 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageSquare, ChevronDown, Menu, X } from "lucide-react";
+import { MessageSquare, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { scrollToElement } from "@/utils/scrollToElement";
 import { Button } from "@/components/ui/button";
 
 
 const DarkHeader = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const pathname = usePathname();
 
   const handleConnectWithUs = () => {
     window.open("https://wa.me/918076018082", "_blank");
-  };
-
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string
-  ) => {
-    if (pathname === "/" || pathname === "/smartdesk") {
-      e.preventDefault();
-      scrollToElement(sectionId);
-    }
     setMobileOpen(false);
   };
 

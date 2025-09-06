@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { Phone, MessageSquare, ArrowRight, Sparkles, MapPin } from 'lucide-react'
+import { Phone, MessageSquare, Sparkles } from 'lucide-react'
 import ContactModal from '@/components/forms/ContactModal'
 import { motion } from 'framer-motion'
 
