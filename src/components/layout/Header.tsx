@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { MessageSquare, ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { scrollToElement } from "@/utils/scrollToElement";
+// import { scrollToElement } from "@/utils/scrollToElement";
 import { Button } from "@/components/ui/button";
 import FeaturesOverlay from "@/components/sections/FeaturesOverlay";
 
@@ -21,16 +21,16 @@ const Header = () => {
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const pathname = usePathname();
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    sectionId: string
-  ) => {
-    if (pathname === "/" || pathname === "/smartdesk") {
-      e.preventDefault();
-      scrollToElement(sectionId);
-    }
-    setMobileOpen(false);
-  };
+  // const handleNavClick = (
+  //   e: React.MouseEvent<HTMLAnchorElement>,
+  //   sectionId: string
+  // ) => {
+  //   if (pathname === "/" || pathname === "/smartdesk") {
+  //     e.preventDefault();
+  //     scrollToElement(sectionId);
+  //   }
+  //   setMobileOpen(false);
+  // };
 
   // Common class for glassmorphic navigation items
   const navItemClasses = "glassmorphic-nav-item text-gray-700 rounded-md px-4 py-2 text-sm font-medium transition-all duration-300";
