@@ -67,7 +67,7 @@ export default function PromptBuilderDemo({ onSwitchDemo, onSwitchToDebtCollecti
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative flex-1 max-w-5xl"
+            className="relative flex-1 max-w-2xl"
           >
             <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 blur-3xl opacity-40" />
             
@@ -109,14 +109,14 @@ export default function PromptBuilderDemo({ onSwitchDemo, onSwitchToDebtCollecti
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex-shrink-0 space-y-4"
+            className="flex-shrink-0 space-y-4 w-full lg:w-auto"
           >
             {/* Demo Switch Buttons */}
             <div className="flex flex-col items-start space-y-3">
               {(onSwitchDemo || onSwitchToDebtCollection) && (
                 <button
                   onClick={onSwitchDemo || onSwitchToDebtCollection}
-                  className="group w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-green-400 hover:bg-green-50 transition-all duration-200"
+                  className="group w-full lg:w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-green-400 hover:bg-green-50 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-green-100 flex items-center justify-center transition-colors">
@@ -133,7 +133,7 @@ export default function PromptBuilderDemo({ onSwitchDemo, onSwitchToDebtCollecti
               {onSwitchToDermaClinic && (
                 <button
                   onClick={onSwitchToDermaClinic}
-                  className="group w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-pink-400 hover:bg-pink-50 transition-all duration-200"
+                  className="group w-full lg:w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-pink-400 hover:bg-pink-50 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-pink-100 flex items-center justify-center transition-colors">

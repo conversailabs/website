@@ -158,20 +158,20 @@ const VoiceHero = () => {
       <LiquidOrb size={35} initialX={-600} duration={46} className="morphing-orb" />
       <LiquidOrb size={45} initialX={-50} duration={39} className="morphing-orb" />
 
-      <div className="relative z-10 flex flex-col items-center justify-start text-center px-4 pt-28 md:pt-24 pb-12 min-h-screen">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+      <div className="relative z-10 flex flex-col items-center justify-start text-center px-4 pt-20 md:pt-24 pb-12 min-h-screen">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 leading-tight">
           Insurance Voice AI workers from Sales to Service
         </h1>
-        <p className="text-lg text-gray-600 mb-6 max-w-2xl">
+        <p className="text-lg text-gray-600 mb-4 max-w-2xl">
           AI phone to automate quote intake, endorsements, FNOL, and renewals
           24x7,
           <br />
           without sacrificing the human touch
         </p>
 
-        <div className="relative w-full h-80 flex items-center justify-center mb-6">
+        <div className="relative w-full h-48 md:h-80 flex items-center justify-center mb-4">
           <motion.div
-            className="relative w-64 h-64 z-10 cursor-pointer"
+            className="relative w-40 h-40 md:w-64 md:h-64 z-10 cursor-pointer"
             onClick={handleTalkClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -203,7 +203,7 @@ const VoiceHero = () => {
         <p className="text-gray-500 text-sm mb-6">
           Go live in a day, increase quote intake by 74%
         </p>
-         <div className="text-gray-500 text-sm font-medium">
+         <div className="text-gray-500 text-sm font-medium mb-4">
             Trusted by MGAs and Agencies across the US
           </div>
       </div>
