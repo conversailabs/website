@@ -173,9 +173,6 @@ const AIAgents = () => {
 
   return (
     <section className="relative pt-0 pb-24 bg-white overflow-visible">
-      {/* Hero Section Background Extension */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-[#F0F2F5]" />
-
       <div className="container mx-auto px-4 sm:px-6 relative">
         {/* Logo Circle - Positioned at top center, overlapping previous section */}
         <motion.div
