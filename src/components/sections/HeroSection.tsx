@@ -95,7 +95,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
       <LiquidOrb size={35} initialX={-600} duration={46} className="morphing-orb" color={color} />
       <LiquidOrb size={45} initialX={-50} duration={39} className="morphing-orb" color={color} />
 
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 pb-4 md:pt-20 md:pb-8">
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-24 pb-4 md:pt-32 md:pb-8">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
           <Button
             variant="outline"
             onClick={() => window.open('/schedule-demo', '_self')}
-            className="px-8 py-3 text-md rounded-lg font-semibold border-2 hover:bg-gray-50"
+            className="px-8 py-3 text-md rounded-lg font-semibold border-2 border-gray-700 text-gray-700 hover:bg-gray-700 hover:text-white transition-all duration-300"
           >
             Schedule Demo
           </Button>
