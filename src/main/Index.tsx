@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import Hero from '@/components/sections/Hero';
+import AIAgents from '@/components/sections/AIAgents';
 import DemoSection from '@/components/demos/DemoSection';
 import Footer from '@/components/layout/Footer';
 import { updateSEO } from '@/utils/seo';
@@ -25,6 +26,7 @@ const Index = () => {
     <div className="w-full overflow-x-hidden">
       <Header />
       <Hero />
+      <AIAgents />
       <DemoSection />
       {/* <ProblemSolution />
       <TechnicalFeatures />
