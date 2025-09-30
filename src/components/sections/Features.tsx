@@ -1,95 +1,264 @@
-import React from 'react';
-import { Phone, MessageSquare, Users, FileText, Check } from 'lucide-react';
+"use client";
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { Phone, MessageSquare, Users, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 const Features = () => {
   const featuresSectionRef = React.useRef<HTMLDivElement>(null);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
 
   React.useEffect(() => {
-    // Add id to the section for navigation
     if (featuresSectionRef.current) {
       featuresSectionRef.current.id = 'features';
     }
   }, []);
+
   const features = [
     {
       icon: Phone,
-      title: "Human-Like Voice Conversations",
-      items: [
-        "Handles outbound/inbound phone calls with natural speech",
-        "Understands interruptions and context, responds like a human",
-        "Professional voices in 6+ languages with perfect accent matching",
-        "Real-time call transcription with sentiment analysis",
-        "Instantly transfers high-intent leads to your sales team"
-      ]
+      title: "Voice Conversations",
+      shortDescription: "Natural AI phone calls that handle leads like your best sales rep",
+      points: [
+        "Handles inbound/outbound calls naturally",
+        "6+ languages with perfect accents",
+        "Real-time call transcription"
+      ],
+      gradient: "from-blue-600 to-cyan-500"
     },
     {
       icon: MessageSquare,
       title: "Omnichannel Messaging",
-      items: [
-        "AI-driven conversations on WhatsApp, Email, SMS, and Web Chat",
-        "Handles full qualification flows—asks, answers, nudges, schedules",
-        "Personalizes follow-ups based on context & history",
-        "Not just templates—true, two-way, dynamic chat"
-      ]
+      shortDescription: "Unified AI conversations across all messaging platforms",
+      points: [
+        "WhatsApp, Email, SMS, Web Chat",
+        "Dynamic two-way conversations",
+        "Context-aware follow-ups"
+      ],
+      gradient: "from-purple-600 to-pink-500"
     },
     {
       icon: Users,
-      title: "Voice-Powered Lead Intelligence",
-      items: [
-        "Analyzes voice tone and speech patterns for buying intent",
-        "Automatically scores leads based on call engagement quality",
-        "Extracts key data points from natural phone conversations",
-      ]
+      title: "Lead Intelligence",
+      shortDescription: "Voice-powered insights that score and qualify leads instantly",
+      points: [
+        "Voice tone & pattern analysis",
+        "Automatic lead scoring",
+        "Natural data extraction"
+      ],
+      gradient: "from-green-600 to-emerald-500"
     },
     {
       icon: FileText,
-      title: "Call Analytics & CRM Integration",
-      items: [
-        "AI-generated call summaries with key action items",
-        "Automatic CRM updates after every phone conversation",
-        "Voice analytics dashboard showing conversion metrics",
-        "Searchable call recordings with instant playback"
-      ]
+      title: "Analytics & CRM",
+      shortDescription: "Complete call insights with automatic CRM integration",
+      points: [
+        "AI-generated call summaries",
+        "Automatic CRM updates",
+        "Searchable call recordings"
+      ],
+      gradient: "from-orange-600 to-red-500"
     }
   ];
 
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      api?.scrollTo(index);
+    },
+    [api]
+  );
+
+  const scrollPrev = useCallback(() => {
+    api?.scrollPrev();
+  }, [api]);
+
+  const scrollNext = useCallback(() => {
+    api?.scrollNext();
+  }, [api]);
+
   return (
-    <div ref={featuresSectionRef} className="py-16 bg-white relative overflow-hidden">
+    <div ref={featuresSectionRef} className="py-16 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Deep Dive: Features
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Powerful Features
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Voice-first AI technology that transforms phone conversations into qualified leads
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Voice-first AI technology that transforms conversations into qualified leads
           </p>
         </div>
-        
-        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {features.map((feature, index) => (
-            <div 
+
+        <div className="relative max-w-7xl mx-auto">
+          <Carousel
+            setApi={setApi}
+            className="w-full"
+            opts={{
+              align: "center",
+              loop: true,
+              skipSnaps: false,
+              inViewThreshold: 0.7,
+            }}
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {features.map((feature, index) => (
+                <CarouselItem
+                  key={index}
+                  className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3"
+                >
+                  <div
+                    className="p-1 cursor-pointer"
+                    onClick={() => scrollTo(index)}
+                  >
+                    <div
+                      className={cn(
+                        "relative bg-white rounded-2xl border border-gray-200 p-6 h-full transition-all duration-500 transform-gpu",
+                        current === index
+                          ? "scale-100 md:scale-105 opacity-100 shadow-2xl border-gray-300"
+                          : "scale-95 md:scale-90 opacity-60 md:opacity-70 shadow-md hover:opacity-80",
+                        current !== index && "md:blur-[0.5px]"
+                      )}
+                    >
+                      {/* Icon */}
+                      <div className="flex justify-center mb-4">
+                        <div className={cn(
+                          "w-14 h-14 rounded-xl flex items-center justify-center bg-gradient-to-br shadow-lg",
+                          feature.gradient
+                        )}>
+                          <feature.icon className="w-7 h-7 text-white" />
+                        </div>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className={cn(
+                        "text-xl font-bold text-center mb-3 transition-all duration-300",
+                        current === index ? "text-gray-900" : "text-gray-700"
+                      )}>
+                        {feature.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className={cn(
+                        "text-sm text-center mb-4 transition-all duration-300",
+                        current === index ? "text-gray-600" : "text-gray-500"
+                      )}>
+                        {feature.shortDescription}
+                      </p>
+
+                      {/* Points - Only visible on active card */}
+                      <div className={cn(
+                        "space-y-2 transition-all duration-500",
+                        current === index
+                          ? "opacity-100 max-h-40"
+                          : "opacity-0 max-h-0 overflow-hidden"
+                      )}>
+                        {feature.points.map((point, pointIndex) => (
+                          <div key={pointIndex} className="flex items-start">
+                            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 mt-1.5 mr-2 flex-shrink-0" />
+                            <span className="text-xs text-gray-600">{point}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Active Indicator */}
+                      {current === index && (
+                        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-b-2xl" />
+                      )}
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+
+          {/* Navigation Buttons */}
+          <Button
+            variant="outline"
+            size="icon"
+            className={cn(
+              "absolute left-0 top-1/2 -translate-y-1/2 z-10",
+              "w-10 h-10 md:w-12 md:h-12 rounded-full",
+              "bg-white/90 backdrop-blur-sm border-gray-200",
+              "hover:bg-gray-50 hover:border-gray-300",
+              "transition-all duration-200 shadow-lg",
+              "hidden md:flex"
+            )}
+            onClick={scrollPrev}
+          >
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+            <span className="sr-only">Previous feature</span>
+          </Button>
+
+          <Button
+            variant="outline"
+            size="icon"
+            className={cn(
+              "absolute right-0 top-1/2 -translate-y-1/2 z-10",
+              "w-10 h-10 md:w-12 md:h-12 rounded-full",
+              "bg-white/90 backdrop-blur-sm border-gray-200",
+              "hover:bg-gray-50 hover:border-gray-300",
+              "transition-all duration-200 shadow-lg",
+              "hidden md:flex"
+            )}
+            onClick={scrollNext}
+          >
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+            <span className="sr-only">Next feature</span>
+          </Button>
+        </div>
+
+        {/* Mobile Navigation Dots */}
+        <div className="flex justify-center items-center gap-2 mt-6 md:hidden">
+          {Array.from({ length: count }).map((_, index) => (
+            <button
               key={index}
-              className="bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 animate-fade-in"
-              style={{ animationDelay: `${index * 200}ms` }}
-            >
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                  <feature.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900">
-                  {feature.title}
-                </h3>
-              </div>
-              
-              <ul className="space-y-3">
-                {feature.items.map((item, itemIndex) => (
-                  <li key={itemIndex} className="flex items-start space-x-3">
-                    <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              onClick={() => scrollTo(index)}
+              className={cn(
+                "transition-all duration-300",
+                current === index
+                  ? "w-8 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+                  : "w-2 h-2 bg-gray-300 rounded-full hover:bg-gray-400"
+              )}
+              aria-label={`Go to feature ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Desktop Dots */}
+        <div className="hidden md:flex justify-center items-center gap-3 mt-8">
+          {features.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollTo(index)}
+              className={cn(
+                "transition-all duration-300",
+                current === index
+                  ? "w-10 h-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full shadow-lg"
+                  : "w-2.5 h-2.5 bg-gray-300 rounded-full hover:bg-gray-400 hover:scale-125"
+              )}
+              aria-label={`Go to ${features[index].title}`}
+            />
           ))}
         </div>
       </div>

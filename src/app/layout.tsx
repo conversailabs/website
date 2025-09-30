@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NODE_ENV === 'production'
+    ? 'https://conversailabs.com'
+    : 'http://localhost:3002'),
   title: "Accelerating AI-Powered Conversations",
   description: "ConversAI Labs helps businesses automate conversations with AI across voice, WhatsApp, email and more, increasing customer satisfaction and reducing response times.",
   icons: {

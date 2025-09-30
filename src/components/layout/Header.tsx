@@ -6,29 +6,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { scrollToElement } from "@/utils/scrollToElement";
 import { Button } from "@/components/ui/button";
+import FeaturesOverlay from "@/components/sections/FeaturesOverlay";
 
 const industries = [
   "Healthcare & Wellness",
   "Education",
-  "Home Services",
   "Finance & Legal",
   "Real Estate & Housing",
-  "Travel & Hospitality",
-  "Retail",
-  "Technology",
-  "Fitness & Wellness",
-  "Public Services",
-  "Automotive & Transport",
 ];
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileIndustryOpen, setMobileIndustryOpen] = useState(false);
+  const [featuresOpen, setFeaturesOpen] = useState(false);
   const pathname = usePathname();
-
-  const handleConnectWithUs = () => {
-    window.open("https://wa.me/918076018082", "_blank");
-  };
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -41,10 +32,15 @@ const Header = () => {
     setMobileOpen(false);
   };
 
+  // Common class for glassmorphic navigation items
+  const navItemClasses = "glassmorphic-nav-item text-gray-700 rounded-md px-4 py-2 text-sm font-medium transition-all duration-300";
+
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md border-b border-gray-200 z-50">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
+    <>
+      <header className="fixed top-0 left-0 right-0 z-50">
+        <div className="glassmorphic-header">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link
             href="/"
@@ -65,42 +61,35 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            <Link
-              href={pathname === "/smartdesk" ? "#features" : "/#features"}
-              onClick={(e) => handleNavClick(e, "features")}
-              className="text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium relative group px-3 py-2 rounded-md hover:bg-blue-50"
-              style={{ cursor: 'pointer' }}
+          <nav className="hidden lg:flex items-center space-x-4">
+            <button
+              onClick={() => setFeaturesOpen(true)}
+              className={navItemClasses}
             >
               Features
-              <span className="absolute -bottom-1 left-3 right-3 h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-            </Link>
+            </button>
 
-
-            {/* Industries Dropdown - Hidden on SmartDesk page */}
             {pathname !== "/smartdesk" && (
               <div className="relative group">
-                <div 
-                  className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium px-3 py-2 rounded-md hover:bg-blue-50"
-                  style={{ cursor: 'pointer' }}
+                <div
+                  className={`${navItemClasses} flex items-center space-x-1 cursor-pointer`}
                 >
                   <span>Industries</span>
                   <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
                 </div>
-
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-80 bg-white rounded-lg shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-40">
-                  <div className="py-3">
-                    <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-100">
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 w-72 bg-white rounded-lg shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-40">
+                  <div className="py-2">
+                    <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                       Industries We Serve
                     </div>
-                    {industries.map((industry, index) => (
+                    {industries.map((industry) => (
                       <Link
-                        key={index}
+                        key={industry}
                         href={`/industries/${industry
                           .toLowerCase()
                           .replace(/\s+/g, "-")
                           .replace("&", "and")}`}
-                        className="block px-4 py-3 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 border-l-2 border-transparent hover:border-blue-400 transition-all"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600"
                       >
                         {industry}
                       </Link>
@@ -110,38 +99,25 @@ const Header = () => {
               </div>
             )}
 
-            <Link
-              href="/call-iq"
-              className="text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium relative group px-3 py-2 rounded-md hover:bg-blue-50"
-              style={{ cursor: 'pointer' }}
-            >
+            {/* <Link href="/call-iq" className={navItemClasses}>
               Call IQ
-              <span className="absolute -bottom-1 left-3 right-3 h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-            </Link>
+            </Link> */}
 
-            <Link
+            {/* <Link
               href={pathname === "/smartdesk" ? "#pricing" : "/pricing"}
-              onClick={pathname === "/smartdesk" ? (e) => handleNavClick(e, "pricing") : undefined}
-              className="text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium relative group px-3 py-2 rounded-md hover:bg-blue-50"
-              style={{ cursor: 'pointer' }}
+              onClick={ pathname === "/smartdesk" ? (e) => handleNavClick(e, "pricing") : undefined }
+              className={navItemClasses}
             >
               Pricing
-              <span className="absolute -bottom-1 left-3 right-3 h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-            </Link>
-
-            <Link
-              href="/about"
-              className="text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium relative group px-3 py-2 rounded-md hover:bg-blue-50"
-              style={{ cursor: 'pointer' }}
-            >
+            </Link> */}
+{/* 
+            <Link href="/about" className={navItemClasses}>
               About
-              <span className="absolute -bottom-1 left-3 right-3 h-0.5 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-            </Link>
-
+            </Link> */}
+            
             <Button
               onClick={() => window.open('/schedule-demo', '_self')}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              style={{ cursor: 'pointer' }}
+              className="glassmorphic-primary-button px-5 py-2 text-sm rounded-md font-medium"
             >
               Schedule Demo
             </Button>
@@ -157,46 +133,47 @@ const Header = () => {
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Mobile Navigation */}
-      {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-200 shadow-md">
+        {/* Mobile Navigation */}
+        {mobileOpen && (
+          <div className="lg:hidden glassmorphic-mobile-menu mx-4 mt-2 rounded-lg">
           <div className="flex flex-col px-6 py-4 space-y-2 text-sm">
-            <Link
-              href={pathname === "/smartdesk" ? "#features" : "/#features"}
-              onClick={(e) => handleNavClick(e, "features")}
-              className="text-gray-800 hover:text-blue-600"
+            <button
+              onClick={() => {
+                setFeaturesOpen(true);
+                setMobileOpen(false);
+              }}
+              className="text-gray-800 hover:text-blue-600 font-medium py-2 text-left"
             >
               Features
-            </Link>
+            </button>
             <Link
               href="/call-iq"
-              className="text-gray-800 hover:text-blue-600"
+              className="text-gray-800 hover:text-blue-600 font-medium py-2"
               onClick={() => setMobileOpen(false)}
             >
               Call IQ
             </Link>
-            
             <Link
               href={pathname === "/smartdesk" ? "#pricing" : "/pricing"}
-              onClick={pathname === "/smartdesk" ? (e) => handleNavClick(e, "pricing") : () => setMobileOpen(false)}
-              className="text-gray-800 hover:text-blue-600"
+              onClick={ pathname === "/smartdesk" ? (e) => handleNavClick(e, "pricing") : () => setMobileOpen(false) }
+              className="text-gray-800 hover:text-blue-600 font-medium py-2"
             >
               Pricing
             </Link>
             <Link
               href="/about"
-              className="text-gray-800 hover:text-blue-600"
+              className="text-gray-800 hover:text-blue-600 font-medium py-2"
               onClick={() => setMobileOpen(false)}
             >
               About
             </Link>
 
-            {/* Expandable Industries in Mobile - Hidden on SmartDesk page */}
             {pathname !== "/smartdesk" && (
-              <div>
+              <div className="py-2">
                 <button
                   className="flex items-center justify-between w-full text-gray-800 font-medium hover:text-blue-600"
                   onClick={() => setMobileIndustryOpen(!mobileIndustryOpen)}
@@ -210,20 +187,14 @@ const Header = () => {
                 </button>
                 {mobileIndustryOpen && (
                   <ul className="mt-2 pl-4 border-l border-gray-200 space-y-2">
-                    {industries.map((industry, index) => (
-                      <li key={index}>
+                    {industries.map((industry) => (
+                      <li key={industry}>
                         <Link
                           href={`/industries/${industry
                             .toLowerCase()
                             .replace(/\s+/g, "-")
                             .replace("&", "and")}`}
-                          className="block px-2 py-1 text-sm text-gray-700 
-      hover:bg-blue-100 hover:text-blue-700 
-      active:bg-blue-200 active:text-blue-800 
-      focus:bg-blue-100 focus:text-blue-700 
-      border-l-2 border-transparent 
-      hover:border-blue-500 active:border-blue-700 
-      transition-all"
+                          className="block text-sm text-gray-700 hover:text-blue-700"
                           onClick={() => setMobileOpen(false)}
                         >
                           {industry}
@@ -236,15 +207,85 @@ const Header = () => {
             )}
 
             <Button
-              onClick={handleConnectWithUs}
-              className="w-full mt-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+              onClick={() => {
+                  window.open('/schedule-demo', '_self');
+                  setMobileOpen(false);
+              }}
+              className="w-full mt-4 glassmorphic-primary-button"
             >
-              Connect with Us
+              Schedule Demo
             </Button>
           </div>
         </div>
-      )}
-    </header>
+        )}
+      </header>
+
+      {/* Features Overlay */}
+      <FeaturesOverlay isOpen={featuresOpen} onClose={() => setFeaturesOpen(false)} />
+
+      <style jsx global>{`
+        .glassmorphic-header {
+          background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.7) 100%);
+          backdrop-filter: blur(15px) saturate(150%);
+          -webkit-backdrop-filter: blur(15px) saturate(150%);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.05),
+            inset 0 1px 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .glassmorphic-nav-item {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .glassmorphic-nav-item:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.25);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .glassmorphic-primary-button {
+          background: linear-gradient(135deg,
+            rgba(59, 130, 246, 0.1) 0%,
+            rgba(147, 51, 234, 0.1) 100%);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(59, 130, 246, 0.2);
+          color: #1e40af;
+          box-shadow:
+            0 4px 12px rgba(59, 130, 246, 0.1),
+            inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .glassmorphic-primary-button:hover {
+          background: linear-gradient(135deg,
+            rgba(59, 130, 246, 0.15) 0%,
+            rgba(147, 51, 234, 0.15) 100%);
+          transform: translateY(-1px) scale(1.02);
+          box-shadow:
+            0 6px 20px rgba(59, 130, 246, 0.15),
+            inset 0 1px 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .glassmorphic-mobile-menu {
+          background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 255, 255, 0.9) 100%);
+          backdrop-filter: blur(20px) saturate(150%);
+          -webkit-backdrop-filter: blur(20px) saturate(150%);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          box-shadow:
+            0 10px 40px rgba(0, 0, 0, 0.08),
+            inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+      `}</style>
+    </>
   );
 };
 

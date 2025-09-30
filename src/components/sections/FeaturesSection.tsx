@@ -120,46 +120,6 @@ export function FeaturesSection({ industry, features, color }: FeaturesSectionPr
             );
           })}
         </div>
-
-        {/* Additional capabilities */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="mt-20 text-center"
-        >
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl p-12">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              And Much More...
-            </h3>
-            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-              Our platform offers dozens of additional features tailored specifically for your industry needs, 
-              from advanced automation to comprehensive reporting.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              {[
-                'API Integration',
-                'Custom Workflows',
-                'Real-time Monitoring',
-                'Multi-tenant Support',
-                'Advanced Security',
-                'Mobile Apps'
-              ].map((capability, index) => (
-                <motion.span
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: 0.6 + (index * 0.1) }}
-                  viewport={{ once: true }}
-                  className="px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm"
-                >
-                  {capability}
-                </motion.span>
-              ))}
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
