@@ -78,7 +78,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
   const [isInteracting, setIsInteracting] = useState(false);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden flex flex-col items-center bg-[#F0F2F5]">
+    <section className="relative min-h-screen w-full overflow-hidden flex flex-col items-center bg-[#F0F2F5]">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,_transparent_40%,_rgba(0,0,0,0.1))]"></div>
 
       {/* Background Orbs */}
@@ -95,12 +95,12 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
       <LiquidOrb size={35} initialX={-600} duration={46} className="morphing-orb" color={color} />
       <LiquidOrb size={45} initialX={-50} duration={39} className="morphing-orb" color={color} />
 
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-20 pb-8">
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 pb-4 md:pt-20 md:pb-8">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight  pt-20 "
+          className="text-2xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight"
         >
           {/* class="jsx-160e1da9fc16ccc text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight" */}
           AI Agents Built for{' '}
@@ -114,15 +114,15 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
+          className="text-base md:text-xl text-gray-600 mb-4 md:mb-8 max-w-3xl mx-auto leading-relaxed"
         >
           {description}
         </motion.p>
 
         {/* Central Liquid Orb */}
-        <div className="relative w-full h-80 flex items-center justify-center mb-8">
+        <div className="relative w-full h-64 md:h-80 flex items-center justify-center mb-4 md:mb-8">
           <motion.div
-            className="relative w-64 h-64 z-10 cursor-pointer"
+            className="relative w-48 h-48 md:w-64 md:h-64 z-10 cursor-pointer"
             onClick={() => setIsInteracting(!isInteracting)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -136,7 +136,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
               }}
             >
               <div className="absolute inset-0 flex items-center justify-center z-20">
-                <span className="text-white text-2xl font-bold tracking-wide uppercase drop-shadow-lg">
+                <span className="text-white text-xl md:text-2xl font-bold tracking-wide uppercase drop-shadow-lg">
                   Try Agent
                 </span>
               </div>
@@ -207,12 +207,12 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
           <div className="text-gray-500 text-sm font-medium">
             Trusted by leading {industry} companies
           </div>
-          <div className="flex items-center gap-8 opacity-60">
+          {/* <div className="flex items-center gap-8 opacity-60">
             <p className="font-bold text-xl">excel</p>
             <p className="font-bold text-xl">SG Benefit</p>
             <p className="font-bold text-xl">bamboo</p>
             <p className="font-bold text-xl">Highview</p>
-          </div>
+          </div> */}
         </div>
       </div>
 

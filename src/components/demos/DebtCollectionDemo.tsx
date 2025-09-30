@@ -11,13 +11,13 @@ interface DebtCollectionDemoProps {
 
 export default function DebtCollectionDemo({ onSwitchDemo, onSwitchToPromptBuilder, onSwitchToDermaClinic }: DebtCollectionDemoProps) {
   return (
-    <section className="py-16 bg-gradient-to-b from-muted/30 to-background">
+    <section className="pt-8 pb-16 bg-gradient-to-b from-muted/30 to-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8"
+          className="text-center mb-6"
         >
           <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full mb-4">
             <DollarSign className="w-4 h-4 text-green-600" />

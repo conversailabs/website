@@ -23,10 +23,10 @@ const AgentCard = ({ title, description, features, image, index, cardRef }: Agen
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: 0.4 + index * 0.15 }}
-      className="group relative bg-gray-50/80 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-200/50 p-6"
+      className="group relative bg-gray-50/80 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-200/50 p-5"
     >
       {/* Top Content - Title and Description */}
-      <div className="mb-6 text-center">
+      <div className="mb-4 text-center">
         <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
           {title}
         </h3>
@@ -34,7 +34,7 @@ const AgentCard = ({ title, description, features, image, index, cardRef }: Agen
       </div>
 
       {/* Image Container with Features */}
-      <div className="relative rounded-2xl overflow-hidden mb-6">
+      <div className="relative rounded-2xl overflow-hidden mb-4">
         <div className="aspect-[4/3] w-full relative">
           <Image
             src={image}
@@ -69,7 +69,7 @@ const AgentCard = ({ title, description, features, image, index, cardRef }: Agen
       {/* Button */}
       <Button
         variant="outline"
-        className="w-full bg-blue-600 text-white border-0 hover:bg-blue-700 transition-all duration-300 py-5 text-sm font-semibold rounded-xl shadow-sm"
+        className="w-full bg-blue-600 text-white border-0 hover:bg-blue-700 transition-all duration-300 py-4 text-sm font-semibold rounded-xl shadow-sm"
       >
         Learn More
       </Button>
@@ -172,7 +172,7 @@ const AIAgents = () => {
   }, []);
 
   return (
-    <section className="relative pt-0 pb-24 bg-white overflow-visible">
+    <section className="relative pt-8 pb-8 bg-white overflow-visible">
       <div className="container mx-auto px-4 sm:px-6 relative">
         {/* Logo Circle - Positioned at top center, overlapping previous section */}
         <motion.div
@@ -198,7 +198,7 @@ const AIAgents = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative bg-white pt-24 pb-16 px-8 md:px-16 mt-20"
+          className="relative bg-white pt-16 pb-12 px-8 md:px-16 mt-16"
         >
           {/* Connecting Lines SVG */}
           <svg
@@ -237,14 +237,14 @@ const AIAgents = () => {
           </svg>
 
           {/* Heading Area */}
-          <div className="text-center mb-16 relative z-20">
+          <div className="text-center mb-12 relative z-20">
             {/* Main Heading */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
+              className="text-4xl md:text-6xl font-bold text-gray-900 mb-4"
             >
               Meet ConversAI&apos;s AI Agents
             </motion.h2>
@@ -262,7 +262,7 @@ const AIAgents = () => {
           </div>
 
           {/* Card Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 max-w-7xl mx-auto relative z-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto relative z-20">
             <AgentCard {...agents[0]} index={0} cardRef={card1Ref} />
             <AgentCard {...agents[1]} index={1} cardRef={card2Ref} />
             <AgentCard {...agents[2]} index={2} cardRef={card3Ref} />

@@ -150,27 +150,27 @@ const Header = () => {
             >
               Features
             </button>
-            <Link
+            {/* <Link
               href="/call-iq"
               className="text-gray-800 hover:text-blue-600 font-medium py-2"
               onClick={() => setMobileOpen(false)}
             >
               Call IQ
-            </Link>
-            <Link
+            </Link> */}
+            {/* <Link
               href={pathname === "/smartdesk" ? "#pricing" : "/pricing"}
               onClick={ pathname === "/smartdesk" ? (e) => handleNavClick(e, "pricing") : () => setMobileOpen(false) }
               className="text-gray-800 hover:text-blue-600 font-medium py-2"
             >
               Pricing
-            </Link>
-            <Link
+            </Link> */}
+            {/* <Link
               href="/about"
               className="text-gray-800 hover:text-blue-600 font-medium py-2"
               onClick={() => setMobileOpen(false)}
             >
               About
-            </Link>
+            </Link> */}
 
             {pathname !== "/smartdesk" && (
               <div className="py-2">

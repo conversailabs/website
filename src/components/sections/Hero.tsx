@@ -141,7 +141,7 @@ const VoiceHero = () => {
   };
 
   return (
-    <div className="relative h-screen w-full overflow-hidden flex flex-col items-center bg-[#F0F2F5]">
+    <div className="relative min-h-screen w-full overflow-hidden flex flex-col items-center bg-[#F0F2F5]">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,_transparent_40%,_rgba(0,0,0,0.1))]"></div>
 
       {/* Background Orbs */}
@@ -158,7 +158,7 @@ const VoiceHero = () => {
       <LiquidOrb size={35} initialX={-600} duration={46} className="morphing-orb" />
       <LiquidOrb size={45} initialX={-50} duration={39} className="morphing-orb" />
 
-      <div className="relative z-10 flex flex-col items-center justify-start text-center px-4 pt-20 md:pt-24 pb-12 min-h-screen">
+      <div className="relative z-10 flex flex-col items-center justify-start text-center px-4 pt-20 md:pt-24 pb-4 md:pb-12">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 leading-tight">
           Insurance Voice AI workers from Sales to Service
         </h1>
