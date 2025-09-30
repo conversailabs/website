@@ -158,7 +158,7 @@ const VoiceHero = () => {
       <LiquidOrb size={35} initialX={-600} duration={46} className="morphing-orb" />
       <LiquidOrb size={45} initialX={-50} duration={39} className="morphing-orb" />
 
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 md:pt-20 pb-8 h-full">
+      <div className="relative z-10 flex flex-col items-center justify-start text-center px-4 pt-28 md:pt-24 pb-12 min-h-screen">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
           Insurance Voice AI workers from Sales to Service
         </h1>
