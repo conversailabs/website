@@ -249,7 +249,7 @@ const AIAgents = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
             >
-              Meet ConversAI's AI Agents
+              Meet ConversAI&apos;s AI Agents
             </motion.h2>
 
             {/* Subtitle */}
