@@ -12,7 +12,7 @@ type AgentCardProps = {
   features: string[];
   image: string;
   index: number;
-  cardRef: React.RefObject<HTMLDivElement>;
+  cardRef: React.RefObject<HTMLDivElement | null>;
 };
 
 const AgentCard = ({ title, description, features, image, index, cardRef }: AgentCardProps) => {
