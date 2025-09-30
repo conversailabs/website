@@ -158,7 +158,7 @@ const VoiceHero = () => {
       <LiquidOrb size={35} initialX={-600} duration={46} className="morphing-orb" />
       <LiquidOrb size={45} initialX={-50} duration={39} className="morphing-orb" />
 
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-20 pb-8 h-full">
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-32 md:pt-20 pb-8 h-full">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
           Insurance Voice AI workers from Sales to Service
         </h1>
@@ -203,17 +203,9 @@ const VoiceHero = () => {
         <p className="text-gray-500 text-sm mb-6">
           Go live in a day, increase quote intake by 74%
         </p>
-        <div className="flex flex-col items-center gap-4">
-          <div className="text-gray-500 text-sm font-medium">
+         <div className="text-gray-500 text-sm font-medium">
             Trusted by MGAs and Agencies across the US
           </div>
-          <div className="flex items-center gap-8 opacity-60">
-            <p className="font-bold text-xl">excel</p>
-            <p className="font-bold text-xl">SG Benefit</p>
-            <p className="font-bold text-xl">bamboo</p>
-            <p className="font-bold text-xl">Highview</p>
-          </div>
-        </div>
       </div>
 
       {/* Email Input Dialog */}
