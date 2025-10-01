@@ -195,14 +195,14 @@ const VoiceHero = () => {
 
         <Button
           onClick={() => window.open('/schedule-demo', '_self')}
-          className="bg-gray-800 hover:bg-black text-white px-8 py-3 text-md rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mb-2 font-semibold"
+          className="bg-gray-800 hover:bg-black text-white px-8 py-3 text-md rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mb-3 font-semibold"
         >
           Book a demo
         </Button>
-        <p className="text-gray-500 text-sm mb-6">
+        <p className="text-gray-500 text-sm mb-2">
           Go live in a day, increase quote intake by 74%
         </p>
-         <div className="text-gray-500 text-sm font-medium mb-4">
+         <div className="text-gray-500 text-sm font-medium">
             Trusted by MGAs and Agencies across the US
           </div>
       </div>

@@ -2,7 +2,6 @@
 
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -367,21 +366,6 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
             )}
           </motion.div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-        >
-          <Button
-            onClick={() => window.open('https://dashboard.conversailabs.com/', '_blank')}
-            className="bg-gray-800 hover:bg-black text-white px-8 py-3 text-md rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
-          >
-            Build Custom Agent
-            <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
-        </motion.div>
 
         {/* Stats section */}
         {/* <motion.div
