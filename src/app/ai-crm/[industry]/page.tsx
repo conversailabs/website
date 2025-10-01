@@ -456,11 +456,10 @@ export default function IndustryPage() {
       </section>
       <Footer />
       
-      <ContactModal 
+      <ContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
         industry={industry.slug}
-        title={`Get Started with ${industry.name} AI CRM`}
       />
     </div>
   )

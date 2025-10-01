@@ -1,28 +1,176 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface ContactModalProps {
-  isOpen: boolean
-  onClose: () => void
-  industry?: string
-  title?: string
+  isOpen: boolean;
+  onClose: () => void;
+  industry?: string;
 }
 
-export default function ContactModal({ 
-  isOpen, 
-  onClose, 
-  industry,
-  title 
+export default function ContactModal({
+  isOpen,
+  onClose,
+  industry
 }: ContactModalProps) {
-  useEffect(() => {
-    if (isOpen) {
-      const phoneNumber = '918076018082'
-      const message = encodeURIComponent(`Hi, I'm interested in ${title || 'AI CRM'}${industry ? ` for ${industry}` : ''}`)
-      window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank')
-      onClose()
-    }
-  }, [isOpen, onClose, industry, title])
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    phone: '',
+    email: ''
+  });
+  const [errors, setErrors] = useState({
+    name: '',
+    company: '',
+    phone: '',
+    email: ''
+  });
 
-  return null
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phone.replace(/\D/g, ''));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newErrors = {
+      name: '',
+      company: '',
+      phone: '',
+      email: ''
+    };
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    if (!formData.company.trim()) {
+      newErrors.company = 'Company name is required';
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!validatePhone(formData.phone)) {
+      newErrors.phone = 'Please enter a valid 10-digit phone number';
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    setErrors(newErrors);
+
+    if (!Object.values(newErrors).some(error => error)) {
+      // Form is valid, submit it
+      console.log('Form submitted:', formData);
+      // Here you can add API call to submit the form
+
+      // Reset form and close modal
+      setFormData({ name: '', company: '', phone: '', email: '' });
+      onClose();
+    }
+  };
+
+  const handleChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    setErrors(prev => ({ ...prev, [field]: '' }));
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-lg border-0 shadow-2xl">
+        <DialogHeader className="space-y-3 pb-2">
+          <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Contact Sales
+          </DialogTitle>
+          <DialogDescription className="text-base text-gray-600">
+            {industry ? `Get started with AI agents for ${industry}` : 'Get started with our AI agent solutions'}
+          </DialogDescription>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-5 mt-2">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700 block">Your Name</label>
+            <Input
+              type="text"
+              placeholder="name"
+              value={formData.name}
+              onChange={(e) => handleChange('name', e.target.value)}
+              className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.name ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
+            />
+            {errors.name && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
+              <span className="text-xs">⚠</span> {errors.name}
+            </p>}
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700 block">Company Name</label>
+            <Input
+              type="text"
+              placeholder="company name"
+              value={formData.company}
+              onChange={(e) => handleChange('company', e.target.value)}
+              className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.company ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
+            />
+            {errors.company && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
+              <span className="text-xs">⚠</span> {errors.company}
+            </p>}
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700 block">Phone Number</label>
+            <Input
+              type="tel"
+              placeholder="phone number"
+              value={formData.phone}
+              onChange={(e) => handleChange('phone', e.target.value)}
+              className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
+            />
+            {errors.phone && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
+              <span className="text-xs">⚠</span> {errors.phone}
+            </p>}
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700 block">Email Address</label>
+            <Input
+              type="email"
+              placeholder="email"
+              value={formData.email}
+              onChange={(e) => handleChange('email', e.target.value)}
+              className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
+            />
+            {errors.email && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
+              <span className="text-xs">⚠</span> {errors.email}
+            </p>}
+          </div>
+
+          <div className="flex gap-3 justify-end mt-8 pt-4 border-t border-gray-200">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              className="px-8 py-3 h-12 rounded-xl font-semibold border-2 hover:bg-gray-50 transition-all"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="px-8 py-3 h-12 rounded-xl font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-200 hover:shadow-xl hover:shadow-blue-300 transition-all"
+            >
+              Submit
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
 }

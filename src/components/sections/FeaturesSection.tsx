@@ -1,10 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import ContactModal from '@/components/forms/ContactModal';
 
 interface FeaturesSectionProps {
   industry: string;
@@ -27,9 +28,10 @@ type FeatureCardProps = {
     image: string;
     features: string[];
   };
+  onContactClick: () => void;
 };
 
-const FeatureCard = ({ feature }: FeatureCardProps) => {
+const FeatureCard = ({ feature, onContactClick }: FeatureCardProps) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
   return (
@@ -98,6 +100,7 @@ const FeatureCard = ({ feature }: FeatureCardProps) => {
       {/* Button */}
       <Button
         variant="outline"
+        onClick={onContactClick}
         className="w-full bg-blue-600 text-white border-0 hover:bg-blue-700 transition-all duration-300 py-4 text-sm font-semibold rounded-xl shadow-sm"
       >
         Contact Sales
@@ -107,6 +110,8 @@ const FeatureCard = ({ feature }: FeatureCardProps) => {
 };
 
 export function FeaturesSection({ industry, features }: FeaturesSectionProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const allFeatures = [
     {
       title: features[0] || 'Security First',
@@ -129,6 +134,7 @@ export function FeaturesSection({ industry, features }: FeaturesSectionProps) {
   ];
 
   return (
+    <>
     <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#FAFBFC]">
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -151,10 +157,17 @@ export function FeaturesSection({ industry, features }: FeaturesSectionProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {allFeatures.map((feature, index) => (
-            <FeatureCard key={index} feature={feature} />
+            <FeatureCard key={index} feature={feature} onContactClick={() => setIsModalOpen(true)} />
           ))}
         </div>
       </div>
     </section>
+
+    <ContactModal
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      industry={industry}
+    />
+    </>
   );
 }

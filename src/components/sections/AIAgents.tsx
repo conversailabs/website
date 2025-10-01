@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import ContactModal from "@/components/forms/ContactModal";
 
 type AgentCardProps = {
   title: string;
@@ -13,9 +14,10 @@ type AgentCardProps = {
   image: string;
   index: number;
   cardRef: React.RefObject<HTMLDivElement | null>;
+  onContactClick: () => void;
 };
 
-const AgentCard = ({ title, description, features, image, cardRef }: AgentCardProps) => {
+const AgentCard = ({ title, description, features, image, cardRef, onContactClick }: AgentCardProps) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
   return (
@@ -85,6 +87,7 @@ const AgentCard = ({ title, description, features, image, cardRef }: AgentCardPr
       {/* Button */}
       <Button
         variant="outline"
+        onClick={onContactClick}
         className="w-full bg-blue-600 text-white border-0 hover:bg-blue-700 transition-all duration-300 py-4 text-sm font-semibold rounded-xl shadow-sm"
       >
         Contact Sales
@@ -100,6 +103,7 @@ const AIAgents = () => {
   const card3Ref = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [paths, setPaths] = useState<{ d: string; gradient: string }[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const agents = [
     {
@@ -279,12 +283,17 @@ const AIAgents = () => {
 
           {/* Card Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto relative z-20">
-            <AgentCard {...agents[0]} index={0} cardRef={card1Ref} />
-            <AgentCard {...agents[1]} index={1} cardRef={card2Ref} />
-            <AgentCard {...agents[2]} index={2} cardRef={card3Ref} />
+            <AgentCard {...agents[0]} index={0} cardRef={card1Ref} onContactClick={() => setIsModalOpen(true)} />
+            <AgentCard {...agents[1]} index={1} cardRef={card2Ref} onContactClick={() => setIsModalOpen(true)} />
+            <AgentCard {...agents[2]} index={2} cardRef={card3Ref} onContactClick={() => setIsModalOpen(true)} />
           </div>
         </motion.div>
       </div>
+
+      <ContactModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };

@@ -314,10 +314,9 @@ const PricingPage: React.FC = () => {
       </div>
       <Footer />
       
-      <ContactModal 
+      <ContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        title="Get Started with AI Agents"
       />
     </div>
   );

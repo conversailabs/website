@@ -120,10 +120,9 @@ const Footer = () => {
         </div>
       </div>
       
-      <ContactModal 
+      <ContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        title="Contact Us"
       />
     </footer>
   );
