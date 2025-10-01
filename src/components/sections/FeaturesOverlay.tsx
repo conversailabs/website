@@ -260,19 +260,19 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="glassmorphic-nav-button absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex"
+                  className="glassmorphic-nav-button absolute -left-6 top-1/2 -translate-y-1/2 z-10 hidden lg:flex w-14 h-14"
                   onClick={scrollPrev}
                 >
-                  <ChevronLeft className="w-5 h-5" />
+                  <ChevronLeft className="w-6 h-6" />
                 </Button>
 
                 <Button
                   variant="outline"
                   size="icon"
-                  className="glassmorphic-nav-button absolute right-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex"
+                  className="glassmorphic-nav-button absolute -right-6 top-1/2 -translate-y-1/2 z-10 hidden lg:flex w-14 h-14"
                   onClick={scrollNext}
                 >
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-6 h-6" />
                 </Button>
 
                 {/* Navigation Dots */}
@@ -347,21 +347,34 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
             }
 
             .glassmorphic-nav-button {
-              background: rgba(255, 255, 255, 0.9);
-              backdrop-filter: blur(10px);
-              -webkit-backdrop-filter: blur(10px);
-              border: 1px solid rgba(255, 255, 255, 0.3);
-              width: 48px;
-              height: 48px;
+              background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.85) 100%);
+              backdrop-filter: blur(20px) saturate(150%);
+              -webkit-backdrop-filter: blur(20px) saturate(150%);
+              border: 1.5px solid rgba(59, 130, 246, 0.2);
               border-radius: 50%;
               box-shadow:
-                0 4px 12px rgba(0, 0, 0, 0.05),
-                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+                0 8px 24px rgba(59, 130, 246, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.08),
+                inset 0 1px 2px rgba(255, 255, 255, 0.4);
+              transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
             .glassmorphic-nav-button:hover {
-              background: rgba(255, 255, 255, 0.95);
-              transform: scale(1.05);
+              background: linear-gradient(135deg,
+                rgba(59, 130, 246, 0.15) 0%,
+                rgba(147, 51, 234, 0.1) 100%);
+              border-color: rgba(59, 130, 246, 0.4);
+              transform: scale(1.1) translateY(-2px);
+              box-shadow:
+                0 12px 32px rgba(59, 130, 246, 0.25),
+                0 6px 16px rgba(0, 0, 0, 0.12),
+                inset 0 1px 2px rgba(255, 255, 255, 0.5);
+            }
+
+            .glassmorphic-nav-button:active {
+              transform: scale(1.05) translateY(0);
             }
 
             .glassmorphic-dot {
