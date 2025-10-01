@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button";
 import FeaturesOverlay from "@/components/sections/FeaturesOverlay";
 
 const industries = [
-  "Healthcare & Wellness",
-  "Education",
-  "Finance & Legal",
-  "Real Estate & Housing",
+  { name: "Healthcare", slug: "healthcare-and-wellness" },
+  { name: "Education", slug: "education" },
+  { name: "Finance", slug: "finance-and-legal" },
+  { name: "Real Estate", slug: "real-estate-and-housing" },
 ];
 
 const Header = () => {
@@ -70,14 +70,11 @@ const Header = () => {
 
             {pathname !== "/smartdesk" && industries.map((industry) => (
               <Link
-                key={industry}
-                href={`/industries/${industry
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")
-                  .replace("&", "and")}`}
+                key={industry.slug}
+                href={`/industries/${industry.slug}`}
                 className={navItemClasses}
               >
-                {industry}
+                {industry.name}
               </Link>
             ))}
 
@@ -119,15 +116,12 @@ const Header = () => {
 
             {pathname !== "/smartdesk" && industries.map((industry) => (
               <Link
-                key={industry}
-                href={`/industries/${industry
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")
-                  .replace("&", "and")}`}
+                key={industry.slug}
+                href={`/industries/${industry.slug}`}
                 className="text-gray-800 hover:text-blue-600 font-medium py-2"
                 onClick={() => setMobileOpen(false)}
               >
-                {industry}
+                {industry.name}
               </Link>
             ))}
 

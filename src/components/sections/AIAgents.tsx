@@ -71,7 +71,7 @@ const AgentCard = ({ title, description, features, image, index, cardRef }: Agen
         variant="outline"
         className="w-full bg-blue-600 text-white border-0 hover:bg-blue-700 transition-all duration-300 py-4 text-sm font-semibold rounded-xl shadow-sm"
       >
-        Learn More
+        Contact Sales
       </Button>
     </motion.div>
   );
