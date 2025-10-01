@@ -145,14 +145,15 @@ const Header = () => {
       <style jsx global>{`
         .glassmorphic-header {
           background: linear-gradient(135deg,
-            rgba(255, 255, 255, 0.8) 0%,
-            rgba(255, 255, 255, 0.7) 100%);
-          backdrop-filter: blur(15px) saturate(150%);
-          -webkit-backdrop-filter: blur(15px) saturate(150%);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            rgba(255, 255, 255, 0.25) 0%,
+            rgba(255, 255, 255, 0.2) 100%);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
           box-shadow:
-            0 4px 12px rgba(0, 0, 0, 0.05),
-            inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            0 4px 16px rgba(0, 0, 0, 0.03),
+            0 2px 8px rgba(0, 0, 0, 0.02),
+            inset 0 1px 1px rgba(255, 255, 255, 0.5);
         }
 
         .glassmorphic-nav-item {

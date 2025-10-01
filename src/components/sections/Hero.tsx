@@ -158,7 +158,7 @@ const VoiceHero = () => {
 
       <div className="relative z-10 flex flex-col items-center justify-start text-center px-4 pt-28 md:pt-36 pb-4 md:pb-12">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 leading-tight">
-          Insurance Voice AI workers from Sales to Service
+             Voice AI workers from Sales to Service
         </h1>
         <p className="text-lg text-gray-600 mb-4 max-w-2xl">
           AI phone to automate quote intake, endorsements, FNOL, and renewals
