@@ -142,9 +142,13 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
             exit={{ y: -100, opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="relative h-full flex flex-col"
+            onClick={(e) => {
+              console.log("Content container clicked", e.target);
+              onClose();
+            }}
           >
             {/* Header */}
-            <div className="relative z-10 p-6">
+            <div className="relative z-10 p-6" onClick={(e) => e.stopPropagation()}>
               <div className="glassmorphic-overlay-header max-w-7xl mx-auto rounded-2xl p-6 flex items-center justify-between">
                 <div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-2">
@@ -166,7 +170,7 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
 
             {/* Carousel Container */}
             <div className="flex-1 flex items-center justify-center px-6 pb-6">
-              <div className="relative max-w-7xl w-full mx-auto">
+              <div className="relative max-w-7xl w-full mx-auto" onClick={(e) => e.stopPropagation()}>
                 <Carousel
                   setApi={setApi}
                   className="w-full"

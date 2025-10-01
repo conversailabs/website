@@ -4,6 +4,14 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 
 interface HeroSectionProps {
   industry: string;
@@ -76,6 +84,109 @@ const LiquidOrb = ({
 export function HeroSection({ industry, description, color }: HeroSectionProps) {
   const gradientClass = colorMap[color as keyof typeof colorMap] || colorMap.blue;
   const [isInteracting, setIsInteracting] = useState(false);
+  const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
+  const [savedEmails, setSavedEmails] = useState<string[]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('savedEmails');
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+
+  const getEmailSuggestions = () => {
+    if (!email) return savedEmails.slice(0, 5);
+
+    return savedEmails
+      .filter(savedEmail =>
+        savedEmail.toLowerCase().includes(email.toLowerCase())
+      )
+      .slice(0, 5);
+  };
+
+  const emailSuggestions = getEmailSuggestions();
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleTryAgentClick = () => {
+    console.log("Try Agent clicked!");
+    // Check if email exists in localStorage
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('savedEmails');
+      const emails = saved ? JSON.parse(saved) : [];
+      console.log("Saved emails:", emails);
+      if (emails.length > 0) {
+        // Email exists, directly start interaction
+        console.log("Email exists, starting interaction");
+        setIsInteracting(!isInteracting);
+      } else {
+        // No email, show dialog
+        console.log("No email, showing dialog");
+        setShowEmailDialog(true);
+        setEmail("");
+        setEmailError("");
+        setShowSuggestions(false);
+        setSelectedSuggestionIndex(-1);
+      }
+    }
+  };
+
+  const handleEmailSubmit = () => {
+    if (!email) {
+      setEmailError("Please enter your email address");
+      return;
+    }
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    if (!savedEmails.includes(email)) {
+      const updatedEmails = [email, ...savedEmails].slice(0, 10);
+      setSavedEmails(updatedEmails);
+      localStorage.setItem('savedEmails', JSON.stringify(updatedEmails));
+    }
+
+    setEmailError("");
+    setShowEmailDialog(false);
+    setIsInteracting(!isInteracting);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (selectedSuggestionIndex >= 0 && emailSuggestions[selectedSuggestionIndex]) {
+        e.preventDefault();
+        setEmail(emailSuggestions[selectedSuggestionIndex]);
+        setShowSuggestions(false);
+        setSelectedSuggestionIndex(-1);
+      } else {
+        handleEmailSubmit();
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (emailSuggestions.length > 0) {
+        setSelectedSuggestionIndex(prev =>
+          prev < emailSuggestions.length - 1 ? prev + 1 : prev
+        );
+        setShowSuggestions(true);
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (emailSuggestions.length > 0) {
+        setSelectedSuggestionIndex(prev => prev > 0 ? prev - 1 : -1);
+        setShowSuggestions(true);
+      }
+    } else if (e.key === "Escape") {
+      setShowSuggestions(false);
+      setSelectedSuggestionIndex(-1);
+    }
+  };
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden flex flex-col items-center bg-[#F0F2F5]">
@@ -123,7 +234,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
         <div className="relative w-full h-64 md:h-80 flex items-center justify-center mb-4 md:mb-8">
           <motion.div
             className="relative w-48 h-48 md:w-64 md:h-64 z-10 cursor-pointer"
-            onClick={() => setIsInteracting(!isInteracting)}
+            onClick={handleTryAgentClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -215,6 +326,91 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
           </div> */}
         </div>
       </div>
+
+      {/* Email Input Dialog */}
+      <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-gray-900">Enter Your Email</DialogTitle>
+            <DialogDescription className="text-sm text-gray-600 mt-1">
+              Please provide your email to try the agent
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3 mt-4">
+            <div className="relative">
+              <Input
+                type="email"
+                placeholder="your.email@example.com"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailError("");
+                  setSelectedSuggestionIndex(-1);
+                  if (savedEmails.length > 0) {
+                    setShowSuggestions(true);
+                  }
+                }}
+                onKeyDown={handleKeyDown}
+                onFocus={() => {
+                  if (savedEmails.length > 0) {
+                    setShowSuggestions(true);
+                  }
+                }}
+                onBlur={() => {
+                  setTimeout(() => setShowSuggestions(false), 200);
+                }}
+                className="w-full h-12 text-lg font-medium text-gray-900 px-4 border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 placeholder:text-gray-400"
+                style={{ fontSize: "16px" }}
+                autoComplete="off"
+              />
+              {showSuggestions && emailSuggestions.length > 0 && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-auto">
+                  {emailSuggestions.map((suggestion, index) => (
+                    <button
+                      key={suggestion}
+                      type="button"
+                      className={`w-full px-4 py-2 text-left text-sm hover:bg-blue-50 focus:bg-blue-50 focus:outline-none transition-colors ${
+                        index === selectedSuggestionIndex ? "bg-blue-50 text-blue-700" : "text-gray-700"
+                      }`}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setEmail(suggestion);
+                        setShowSuggestions(false);
+                        setSelectedSuggestionIndex(-1);
+                      }}
+                      onMouseEnter={() => setSelectedSuggestionIndex(index)}
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            {emailError && (
+              <p className="text-xs text-red-500 -mt-2">{emailError}</p>
+            )}
+            <div className="flex gap-3 justify-end mt-2">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowEmailDialog(false);
+                  setEmail("");
+                  setEmailError("");
+                }}
+                className="px-6 py-2 bg-white hover:bg-gray-50 text-gray-700 border-gray-300 font-medium transition-all duration-200 hover:shadow-md"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleEmailSubmit}
+                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+              >
+                Continue
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <style jsx global>{`
         .liquid-orb {

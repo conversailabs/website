@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import Hero from '@/components/sections/Hero';
 import AIAgents from '@/components/sections/AIAgents';
-import DemoSection from '@/components/demos/DemoSection';
 import Footer from '@/components/layout/Footer';
 import { updateSEO } from '@/utils/seo';
 import { addStructuredData, createOrganizationStructuredData, createWebsiteStructuredData } from '@/utils/structuredData';
@@ -27,7 +26,7 @@ const Index = () => {
       <Header />
       <Hero />
       <AIAgents />
-      <DemoSection />
+      {/* <DemoSection /> */}
       {/* <ProblemSolution />
       <TechnicalFeatures />
       <AgentTemplates /> */}

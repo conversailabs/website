@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Sparkles, MousePointer, DollarSign, Heart } from 'lucide-react'
+import { MousePointer, DollarSign, Heart } from 'lucide-react'
 
 interface PromptBuilderDemoProps {
   onSwitchDemo?: () => void
@@ -19,10 +19,10 @@ export default function PromptBuilderDemo({ onSwitchDemo, onSwitchToDebtCollecti
           transition={{ duration: 0.6 }}
           className="text-center mb-6"
         >
-          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full mb-4">
+          {/* <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full mb-4">
             <Sparkles className="w-4 h-4 text-blue-600" />
             <span className="text-sm font-medium">See It In Action</span>
-          </div>
+          </div> */}
 
           <h2 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900">
             Build Your AI Agent in{' '}
@@ -30,7 +30,7 @@ export default function PromptBuilderDemo({ onSwitchDemo, onSwitchToDebtCollecti
               Just Minutes
             </span>
           </h2>
-          
+
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Watch how easily you can create a professional voice agent using our intuitive prompt builder.
           </p>

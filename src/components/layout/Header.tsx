@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageSquare, ChevronDown, Menu, X } from "lucide-react";
+import { MessageSquare, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 // import { scrollToElement } from "@/utils/scrollToElement";
@@ -17,7 +17,6 @@ const industries = [
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileIndustryOpen, setMobileIndustryOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const pathname = usePathname();
 
@@ -61,7 +60,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-4">
+          <nav className="hidden lg:flex items-center space-x-4 lg:pr-0">
             <button
               onClick={() => setFeaturesOpen(true)}
               className={navItemClasses}
@@ -69,52 +68,19 @@ const Header = () => {
               Features
             </button>
 
-            {pathname !== "/smartdesk" && (
-              <div className="relative group">
-                <div
-                  className={`${navItemClasses} flex items-center space-x-1 cursor-pointer`}
-                >
-                  <span>Industries</span>
-                  <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
-                </div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 w-72 bg-white rounded-lg shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-40">
-                  <div className="py-2">
-                    <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                      Industries We Serve
-                    </div>
-                    {industries.map((industry) => (
-                      <Link
-                        key={industry}
-                        href={`/industries/${industry
-                          .toLowerCase()
-                          .replace(/\s+/g, "-")
-                          .replace("&", "and")}`}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600"
-                      >
-                        {industry}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+            {pathname !== "/smartdesk" && industries.map((industry) => (
+              <Link
+                key={industry}
+                href={`/industries/${industry
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")
+                  .replace("&", "and")}`}
+                className={navItemClasses}
+              >
+                {industry}
+              </Link>
+            ))}
 
-            {/* <Link href="/call-iq" className={navItemClasses}>
-              Call IQ
-            </Link> */}
-
-            {/* <Link
-              href={pathname === "/smartdesk" ? "#pricing" : "/pricing"}
-              onClick={ pathname === "/smartdesk" ? (e) => handleNavClick(e, "pricing") : undefined }
-              className={navItemClasses}
-            >
-              Pricing
-            </Link> */}
-{/* 
-            <Link href="/about" className={navItemClasses}>
-              About
-            </Link> */}
-            
             <Button
               onClick={() => window.open('/schedule-demo', '_self')}
               className="glassmorphic-primary-button px-5 py-2 text-sm rounded-md font-medium"
@@ -150,61 +116,20 @@ const Header = () => {
             >
               Features
             </button>
-            {/* <Link
-              href="/call-iq"
-              className="text-gray-800 hover:text-blue-600 font-medium py-2"
-              onClick={() => setMobileOpen(false)}
-            >
-              Call IQ
-            </Link> */}
-            {/* <Link
-              href={pathname === "/smartdesk" ? "#pricing" : "/pricing"}
-              onClick={ pathname === "/smartdesk" ? (e) => handleNavClick(e, "pricing") : () => setMobileOpen(false) }
-              className="text-gray-800 hover:text-blue-600 font-medium py-2"
-            >
-              Pricing
-            </Link> */}
-            {/* <Link
-              href="/about"
-              className="text-gray-800 hover:text-blue-600 font-medium py-2"
-              onClick={() => setMobileOpen(false)}
-            >
-              About
-            </Link> */}
 
-            {pathname !== "/smartdesk" && (
-              <div className="py-2">
-                <button
-                  className="flex items-center justify-between w-full text-gray-800 font-medium hover:text-blue-600"
-                  onClick={() => setMobileIndustryOpen(!mobileIndustryOpen)}
-                >
-                  <span>Industries</span>
-                  <ChevronDown
-                    className={`w-4 h-4 transform transition-transform duration-200 ${
-                      mobileIndustryOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {mobileIndustryOpen && (
-                  <ul className="mt-2 pl-4 border-l border-gray-200 space-y-2">
-                    {industries.map((industry) => (
-                      <li key={industry}>
-                        <Link
-                          href={`/industries/${industry
-                            .toLowerCase()
-                            .replace(/\s+/g, "-")
-                            .replace("&", "and")}`}
-                          className="block text-sm text-gray-700 hover:text-blue-700"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {industry}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            )}
+            {pathname !== "/smartdesk" && industries.map((industry) => (
+              <Link
+                key={industry}
+                href={`/industries/${industry
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")
+                  .replace("&", "and")}`}
+                className="text-gray-800 hover:text-blue-600 font-medium py-2"
+                onClick={() => setMobileOpen(false)}
+              >
+                {industry}
+              </Link>
+            ))}
 
             <Button
               onClick={() => {
