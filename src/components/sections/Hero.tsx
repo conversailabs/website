@@ -160,7 +160,7 @@ const VoiceHero = () => {
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 leading-tight">
              VoiceAI Platform for Customer Conversations
         </h1>
-        <p className="text-lg text-gray-600 mb-4 max-w-3xl leading-relaxed">
+        <p className="text-md text-gray-500 mb-4 max-w-3xl leading-relaxed">
           Automate phone calls, empower reps in real-time, and unlock insights
           <br className="hidden md:block" />
           from every interaction to increase revenue, reduce costs,

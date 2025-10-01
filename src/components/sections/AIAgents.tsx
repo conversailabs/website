@@ -198,7 +198,7 @@ const AIAgents = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative bg-white pt-16 pb-12 px-8 md:px-16 mt-16"
+          className="relative bg-[#FAFBFC] pt-16 pb-12 px-8 md:px-16 mt-16"
         >
           {/* Connecting Lines SVG */}
           <svg
