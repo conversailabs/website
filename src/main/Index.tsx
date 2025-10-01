@@ -22,7 +22,7 @@ const Index = () => {
     addStructuredData(createWebsiteStructuredData());
   }, []);
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full overflow-x-hidden bg-[#FAFBFC]">
       <Header />
       <Hero />
       <AIAgents />

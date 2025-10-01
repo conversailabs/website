@@ -55,7 +55,7 @@ const AgentCard = ({ title, description, features, image, index, cardRef }: Agen
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.6 + idx * 0.1 }}
-              className="flex items-center space-x-2 bg-white/95 backdrop-blur-sm rounded-full px-3 py-2 shadow-md"
+              className="flex items-center space-x-1 bg-white/30 backdrop-blur-md border border-white/50 rounded-full px-2 py-1 shadow-md w-fit max-w-[90%]"
             >
               <div className="flex-shrink-0 w-5 h-5 bg-gray-900 rounded-full flex items-center justify-center">
                 <Check className="w-3 h-3 text-white" strokeWidth={3} />
@@ -111,7 +111,7 @@ const AIAgents = () => {
       description: "Analyses 100% of customer conversations.",
       image: "/card3.jpg",
       features: [
-        "100% QA",
+        // "100% QA",
         "27% Higher Sales",
         "37% Higher CSAT",
         "100% Compliance Monitoring",
@@ -172,7 +172,7 @@ const AIAgents = () => {
   }, []);
 
   return (
-    <section className="relative pt-8 pb-8 bg-white overflow-visible">
+    <section className="relative pt-8 pb-8 bg-transparent overflow-visible">
       <div className="container mx-auto px-4 sm:px-6 relative">
         {/* Logo Circle - Positioned at top center, overlapping previous section */}
         <motion.div
@@ -181,13 +181,13 @@ const AIAgents = () => {
           whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
-          className="absolute -top-16 left-1/2 -translate-x-1/2 z-30 w-32 h-32 rounded-full shadow-2xl overflow-hidden bg-white flex items-center justify-center"
+          className="absolute -top-12 left-1/2 -translate-x-1/2 z-30 w-24 h-24 rounded-full shadow-2xl overflow-hidden bg-white flex items-center justify-center"
         >
           <Image
             src="/favicon.png"
             alt="ConversAI Logo"
-            width={128}
-            height={128}
+            width={96}
+            height={96}
             className="w-full h-full object-cover"
           />
         </motion.div>
@@ -244,7 +244,7 @@ const AIAgents = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-4xl md:text-6xl font-bold text-gray-900 mb-4"
+              className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
             >
               Meet ConversAI&apos;s AI Agents
             </motion.h2>
