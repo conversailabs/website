@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,14 @@ interface HeroSectionProps {
   description: string;
   color: string;
 }
+
+// Industry to Agent ID mapping
+const industryAgentMap: Record<string, string> = {
+  'Education': 'agent_8132d8f06109249fdec5bdd917',
+  'Healthcare & Wellness': 'agent_f7664b8912fa2a5c8106f20668',
+  'Real Estate & Housing': 'agent_df19e049ff7975f2559836d74e',
+  'Finance & Legal': 'agent_38efe8dc909c95c045d6827754',
+};
 
 const colorMap = {
   blue: 'from-blue-600 to-blue-800',
@@ -97,6 +105,12 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
     return [];
   });
 
+  // Retell AI state
+  const [isCallActive, setIsCallActive] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const retellClientRef = useRef<any>(null);
+
   const getEmailSuggestions = () => {
     if (!email) return savedEmails.slice(0, 5);
 
@@ -114,17 +128,102 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
     return emailRegex.test(email);
   };
 
+  const startRetellCall = async () => {
+    const agentId = industryAgentMap[industry];
+
+    if (!agentId) {
+      console.error(`No agent ID found for industry: ${industry}`);
+      return;
+    }
+
+    try {
+      setIsConnecting(true);
+      console.log(`Starting call with agent: ${agentId}`);
+
+      // Call API to create web call
+      const response = await fetch("/api/createWebCall", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ agentId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create web call");
+      }
+
+      const { access_token } = await response.json();
+      console.log("Access token received");
+
+      // Dynamically import Retell SDK
+      const { RetellWebClient } = await import("retell-client-js-sdk");
+      const retell = new RetellWebClient();
+      retellClientRef.current = retell;
+
+      // Register event listeners
+      retell.on("call_started", () => {
+        console.log("Call started");
+        setIsCallActive(true);
+        setIsConnecting(false);
+        setIsInteracting(true);
+      });
+
+      retell.on("agent_start_talking", () => {
+        console.log("Agent started talking");
+      });
+
+      retell.on("agent_stop_talking", () => {
+        console.log("Agent stopped talking");
+      });
+
+      retell.on("call_ended", () => {
+        console.log("Call ended");
+        setIsCallActive(false);
+        setIsConnecting(false);
+        setIsInteracting(false);
+      });
+
+      retell.on("error", (error) => {
+        console.error("Retell error:", error);
+        setIsCallActive(false);
+        setIsConnecting(false);
+        setIsInteracting(false);
+      });
+
+      // Start the call
+      await retell.startCall({ accessToken: access_token });
+    } catch (error) {
+      console.error("Error starting call:", error);
+      setIsConnecting(false);
+      setIsInteracting(false);
+    }
+  };
+
+  const stopRetellCall = () => {
+    if (retellClientRef.current) {
+      console.log("Stopping call");
+      retellClientRef.current.stopCall();
+      retellClientRef.current = null;
+    }
+  };
+
   const handleTryAgentClick = () => {
     console.log("Try Agent clicked!");
+
+    // If call is active, stop it
+    if (isCallActive) {
+      stopRetellCall();
+      return;
+    }
+
     // Check if email exists in localStorage
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('savedEmails');
       const emails = saved ? JSON.parse(saved) : [];
       console.log("Saved emails:", emails);
       if (emails.length > 0) {
-        // Email exists, directly start interaction
-        console.log("Email exists, starting interaction");
-        setIsInteracting(!isInteracting);
+        // Email exists, start call
+        console.log("Email exists, starting call");
+        startRetellCall();
       } else {
         // No email, show dialog
         console.log("No email, showing dialog");
@@ -155,7 +254,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
 
     setEmailError("");
     setShowEmailDialog(false);
-    setIsInteracting(!isInteracting);
+    startRetellCall();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -247,11 +346,11 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
             >
               <div className="absolute inset-0 flex items-center justify-center z-20">
                 <span className="text-white text-xl md:text-2xl font-bold tracking-wide uppercase drop-shadow-lg">
-                  Tap to talk
+                  {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Tap to talk'}
                 </span>
               </div>
             </div>
-            {isInteracting && (
+            {(isInteracting || isCallActive) && (
               <>
                 <div className="absolute inset-0 rounded-full border-2 border-cyan-300/70 animate-ping" />
                 <div

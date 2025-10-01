@@ -7,6 +7,69 @@
       "icon": "🏥"
     },
     "agents": {
+      "health-clinic-receptionist": {
+        "name": "Sarah - Health Clinic Receptionist",
+        "agentId": "agent_f7664b8912fa2a5c8106f20668",
+        "role": "Health Clinics",
+        "description": "A professional and caring receptionist that handles appointments, emergencies, and patient inquiries with empathy and efficiency.",
+        "functionality": {
+          "primary_functions": [
+            "Appointment scheduling",
+            "Emergency triage",
+            "New patient intake",
+            "Prescription refill requests",
+            "Insurance verification",
+            "Medical records requests"
+          ],
+          "communication_workflow": [
+            "WELCOMING GREETING: Create supportive environment",
+            "INQUIRY IDENTIFICATION: Determine patient needs",
+            "INFORMATION GATHERING: Collect required details",
+            "SERVICE PROVISION: Schedule or triage appropriately",
+            "CONFIRMATION: Verify appointment details",
+            "PROFESSIONAL CLOSURE: Provide next steps"
+          ],
+          "conversation_requirements": [
+            "Maintain professional and warm tone",
+            "Show empathy for health concerns",
+            "Never provide medical advice",
+            "Verify patient information accurately",
+            "Triage emergencies appropriately",
+            "Respect HIPAA compliance"
+          ]
+        },
+        "use_cases": [
+          {
+            "title": "Appointment Scheduling",
+            "description": "Efficiently schedule patient appointments for various services",
+            "impact": "85% successful scheduling rate",
+            "workflow": "Greeting → Service type → Availability → Scheduling → Confirmation"
+          },
+          {
+            "title": "Emergency Triage",
+            "description": "Assess urgency and route to appropriate care",
+            "impact": "95% accurate triage",
+            "workflow": "Symptom assessment → Urgency evaluation → Routing → Immediate action"
+          },
+          {
+            "title": "New Patient Intake",
+            "description": "Collect information and onboard new patients",
+            "impact": "80% complete intake",
+            "workflow": "Welcome → Information collection → Insurance → Scheduling → Preparation guidance"
+          }
+        ],
+        "sample_conversation": "Thank you for calling Empower Clinic, this is Sarah. How may I help you today?",
+        "boosted_keywords": [
+          "appointment",
+          "doctor",
+          "clinic",
+          "health",
+          "patient",
+          "medical",
+          "emergency",
+          "scheduling"
+        ]
+      },
       "medical-receptionist": {
         "name": "CareBot - Medical Receptionist",
         "agentId": "agent_2bde36f24f50182325f9dfd908",
@@ -213,6 +276,70 @@
       "icon": "🏘️"
     },
     "agents": {
+      "property-rental-assistant": {
+        "name": "Amelia - Property Rental Assistant",
+        "agentId": "agent_df19e049ff7975f2559836d74e",
+        "role": "Property Rentals",
+        "description": "A warm and professional assistant that helps tenants find ideal rental properties through efficient qualification and viewing arrangement.",
+        "functionality": {
+          "primary_functions": [
+            "Rental inquiry handling",
+            "Property matching and qualification",
+            "Viewing arrangement",
+            "Contact information collection",
+            "Budget assessment",
+            "Area preference identification"
+          ],
+          "communication_workflow": [
+            "HELPFUL GREETING: Welcome and confirm inquiry",
+            "AREA INTEREST: Identify rental location preferences",
+            "PROPERTY TYPE: Determine house or flat preference",
+            "BUDGET ASSESSMENT: Understand rental budget",
+            "BEDROOM REQUIREMENTS: Capture space needs",
+            "PROPERTY MATCHING: Present available options",
+            "VIEWING ARRANGEMENT: Schedule property viewings"
+          ],
+          "conversation_requirements": [
+            "Maintain warm and patient tone",
+            "Professional and trustworthy communication",
+            "Concise responses (2-3 sentences max)",
+            "Use everyday language, avoid jargon",
+            "Never repeat introduction unnecessarily",
+            "Confirm unclear information before proceeding"
+          ]
+        },
+        "use_cases": [
+          {
+            "title": "Tenant Qualification",
+            "description": "Efficiently qualify tenant requirements for property matching",
+            "impact": "85% successful property matches",
+            "workflow": "Inquiry → Area → Type → Budget → Bedrooms → Matching"
+          },
+          {
+            "title": "Viewing Coordination",
+            "description": "Schedule property viewings with tenant availability",
+            "impact": "75% viewing completion rate",
+            "workflow": "Property selection → Contact collection → Availability check → Scheduling"
+          },
+          {
+            "title": "Budget Consultation",
+            "description": "Help tenants understand rental options within budget",
+            "impact": "70% budget-appropriate matches",
+            "workflow": "Budget inquiry → Market analysis → Options presentation → Alternative suggestions"
+          }
+        ],
+        "sample_conversation": "Hello, this is Amelia from Urban Living Properties. I'm here to help you with your rental inquiry. Which area are you interested in renting?",
+        "boosted_keywords": [
+          "rental",
+          "property",
+          "tenant",
+          "lease",
+          "viewing",
+          "apartment",
+          "flat",
+          "house"
+        ]
+      },
       "real-estate-agent": {
         "name": "RealtyAssist - Real Estate Agent",
         "agentId": "agent_b292315b093c06e42c7ef3dc41",
@@ -692,6 +819,68 @@
           "strategy"
         ]
       },
+      "emi-payment-assistant": {
+        "name": "Priya - EMI Payment Assistant",
+        "agentId": "agent_38efe8dc909c95c045d6827754",
+        "role": "Loan Servicing & Collections",
+        "description": "A professional and helpful AI assistant that assists customers with EMI payments, provides payment options, and maintains respectful communication.",
+        "functionality": {
+          "primary_functions": [
+            "EMI payment assistance",
+            "Payment date tracking",
+            "Partial payment options",
+            "Payment link distribution",
+            "Customer query resolution",
+            "Late fee information"
+          ],
+          "communication_workflow": [
+            "HELPFUL GREETING: Establish supportive tone from the start",
+            "PAYMENT STATUS CHECK: Verify EMI payment status and due dates",
+            "PAYMENT OPTIONS: Provide UPI, bank transfer, and branch visit options",
+            "COMMITMENT TRACKING: Document payment commitments and dates",
+            "PROFESSIONAL SUPPORT: Handle queries with empathy and professionalism"
+          ],
+          "conversation_requirements": [
+            "Maintain helpful and professional tone throughout",
+            "Never use harsh or demanding language",
+            "Provide clear payment options and methods",
+            "Document all payment commitments accurately",
+            "Show understanding of customer's situation",
+            "Respect customer rights for callbacks and escalation"
+          ]
+        },
+        "use_cases": [
+          {
+            "title": "Payment Assistance",
+            "description": "Help customers understand payment options and facilitate EMI payments",
+            "impact": "85% payment commitment rate",
+            "workflow": "Greeting → Status check → Payment options → Commitment → Confirmation"
+          },
+          {
+            "title": "Partial Payment Handling",
+            "description": "Guide customers through partial payment options when full payment isn't possible",
+            "impact": "70% partial payment success",
+            "workflow": "Payment difficulty → Partial options → Minimum calculation → Link distribution"
+          },
+          {
+            "title": "Query Resolution",
+            "description": "Address customer queries about loan details, payment methods, and receipts",
+            "impact": "90% query resolution rate",
+            "workflow": "Query identification → Information provision → Follow-up scheduling"
+          }
+        ],
+        "sample_conversation": "Hello, this is Priya from Prosper Financial Services. I'm here to help you with your EMI payment. Your EMI payment is due soon. Can you make the payment before the due date?",
+        "boosted_keywords": [
+          "EMI",
+          "payment",
+          "loan",
+          "installment",
+          "due date",
+          "financial",
+          "assistance",
+          "support"
+        ]
+      },
       "bank-representative": {
         "name": "BankBot - Bank Representative",
         "agentId": "agent_717803f7ef48111d61bd7a3b1d",
@@ -977,6 +1166,72 @@
       "icon": "🎓"
     },
     "agents": {
+      "admission-counsellor": {
+        "name": "AdmitBot - Admission Counsellor",
+        "agentId": "agent_8132d8f06109249fdec5bdd917",
+        "role": "College Admissions",
+        "description": "A professional counsellor that verifies admission status, collects student information, and guides prospective students through the admission process with empathy and efficiency.",
+        "functionality": {
+          "primary_functions": [
+            "Admission status verification",
+            "Student information collection",
+            "Application/Registration number verification",
+            "Contact details confirmation",
+            "Drop year student identification",
+            "Alternative college tracking",
+            "Follow-up scheduling"
+          ],
+          "communication_workflow": [
+            "IDENTITY VERIFICATION: Confirm speaking to the right person",
+            "INTRODUCTION: Professional greeting from the institution",
+            "STATUS CHECK: Verify if student has taken admission",
+            "DATA COLLECTION: Gather application/registration details",
+            "CONTACT VERIFICATION: Confirm phone and email",
+            "QUERY HANDLING: Address admission questions",
+            "PROFESSIONAL CLOSURE: Clear next steps and callbacks"
+          ],
+          "conversation_requirements": [
+            "Maintain professional and empathetic tone",
+            "Never use student's name during conversation",
+            "Validate all information with confirmation",
+            "Handle drop year students with encouragement",
+            "Track students admitted elsewhere respectfully",
+            "Detect uncooperative callers politely",
+            "Use only English for consistency"
+          ]
+        },
+        "use_cases": [
+          {
+            "title": "Admission Verification",
+            "description": "Verify admission status and collect student registration details",
+            "impact": "90% data accuracy in records",
+            "workflow": "Identity → Status check → Registration collection → Contact validation → Confirmation"
+          },
+          {
+            "title": "Drop Year Detection",
+            "description": "Identify gap year students and wish them well",
+            "impact": "85% accurate categorization",
+            "workflow": "Status inquiry → Detection → Encouragement → Update → Closure"
+          },
+          {
+            "title": "Interest Follow-up",
+            "description": "Schedule counsellor callbacks for guidance",
+            "impact": "75% conversion rate",
+            "workflow": "Interest assessment → Documentation → Scheduling → Confirmation → Logging"
+          }
+        ],
+        "sample_conversation": "Am I speaking to the right person regarding admission inquiry? Hello, I'm from Horizon College of Arts and Science. You had shown interest in admission in our college. Have you taken admission yet?",
+        "boosted_keywords": [
+          "admission",
+          "college",
+          "application",
+          "registration",
+          "enrollment",
+          "student",
+          "counsellor",
+          "guidance"
+        ]
+      },
       "university-assistant": {
         "name": "UniBot - University Assistant",
         "agentId": "agent_58c9421372fe2f39fd03adda0b",
