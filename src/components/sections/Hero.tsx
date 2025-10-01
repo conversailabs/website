@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,9 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+
+// Landing page agent ID
+const LANDING_PAGE_AGENT_ID = "agent_fdb605cbf88227c104786cd227";
 
 type LiquidOrbProps = {
   size: number;
@@ -64,6 +67,12 @@ const VoiceHero = () => {
     return [];
   });
 
+  // Retell AI state
+  const [isCallActive, setIsCallActive] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const retellClientRef = useRef<any>(null);
+
   const getEmailSuggestions = () => {
     if (!email) return savedEmails.slice(0, 5);
 
@@ -81,12 +90,110 @@ const VoiceHero = () => {
     return emailRegex.test(email);
   };
 
+  const startRetellCall = async () => {
+    try {
+      setIsConnecting(true);
+      console.log(`Starting call with agent: ${LANDING_PAGE_AGENT_ID}`);
+
+      // Call API to create web call
+      const response = await fetch("/api/createWebCall", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ agentId: LANDING_PAGE_AGENT_ID }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Failed to create web call" }));
+        console.error("API error:", errorData);
+        throw new Error(errorData.error || `Server error: ${response.status}`);
+      }
+
+      const { access_token } = await response.json();
+      console.log("Access token received");
+
+      // Dynamically import Retell SDK
+      const { RetellWebClient } = await import("retell-client-js-sdk");
+      const retell = new RetellWebClient();
+      retellClientRef.current = retell;
+
+      // Register event listeners
+      retell.on("call_started", () => {
+        console.log("Call started");
+        setIsCallActive(true);
+        setIsConnecting(false);
+        setIsRecording(true);
+      });
+
+      retell.on("agent_start_talking", () => {
+        console.log("Agent started talking");
+      });
+
+      retell.on("agent_stop_talking", () => {
+        console.log("Agent stopped talking");
+      });
+
+      retell.on("call_ended", () => {
+        console.log("Call ended");
+        setIsCallActive(false);
+        setIsConnecting(false);
+        setIsRecording(false);
+      });
+
+      retell.on("error", (error) => {
+        console.error("Retell error:", error);
+        alert("Call error: " + (error?.message || "Unknown error occurred"));
+        setIsCallActive(false);
+        setIsConnecting(false);
+        setIsRecording(false);
+      });
+
+      // Start the call
+      await retell.startCall({ accessToken: access_token });
+    } catch (error) {
+      console.error("Error starting call:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to start call";
+      alert(`Unable to start call: ${errorMessage}\n\nPlease try again or contact support.`);
+      setIsConnecting(false);
+      setIsRecording(false);
+    }
+  };
+
+  const stopRetellCall = () => {
+    if (retellClientRef.current) {
+      console.log("Stopping call");
+      retellClientRef.current.stopCall();
+      retellClientRef.current = null;
+    }
+  };
+
   const handleTalkClick = () => {
-    setShowEmailDialog(true);
-    setEmail("");
-    setEmailError("");
-    setShowSuggestions(false);
-    setSelectedSuggestionIndex(-1);
+    console.log("Tap to talk clicked!");
+
+    // If call is active, stop it
+    if (isCallActive) {
+      stopRetellCall();
+      return;
+    }
+
+    // Check if email exists in localStorage
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('savedEmails');
+      const emails = saved ? JSON.parse(saved) : [];
+      console.log("Saved emails:", emails);
+      if (emails.length > 0) {
+        // Email exists, start call
+        console.log("Email exists, starting call");
+        startRetellCall();
+      } else {
+        // No email, show dialog
+        console.log("No email, showing dialog");
+        setShowEmailDialog(true);
+        setEmail("");
+        setEmailError("");
+        setShowSuggestions(false);
+        setSelectedSuggestionIndex(-1);
+      }
+    }
   };
 
   const handleEmailSubmit = () => {
@@ -107,7 +214,7 @@ const VoiceHero = () => {
 
     setEmailError("");
     setShowEmailDialog(false);
-    setIsRecording(!isRecording);
+    startRetellCall();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -178,10 +285,10 @@ const VoiceHero = () => {
           >
             <div className="w-full h-full liquid-orb morphing-orb">
               <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-semibold z-20">
-                Tap to talk
+                {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Tap to talk'}
               </div>
             </div>
-            {isRecording && (
+            {(isRecording || isCallActive) && (
               <>
                 <div className="absolute inset-0 rounded-full border-2 border-cyan-300/70 animate-ping" />
                 <div
