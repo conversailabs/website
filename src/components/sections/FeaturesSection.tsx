@@ -53,11 +53,11 @@ const FeatureCard = ({ feature, onContactClick }: FeatureCardProps) => {
           ? { type: "spring", stiffness: 300, damping: 20 }
           : { duration: 0.1 }
       }}
-      className="group relative bg-gray-50/80 rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-100 overflow-hidden border border-gray-200/50 p-5"
+      className="group relative h-full flex flex-col bg-gray-50/80 rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-100 overflow-hidden border border-gray-200/50 p-5"
       style={{ transformStyle: 'preserve-3d' }}
     >
       {/* Top Content - Title and Description */}
-      <div className="mb-4 text-center">
+      <div className="mb-4 text-center flex-shrink-0">
         <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
           {feature.title}
         </h3>
@@ -65,7 +65,7 @@ const FeatureCard = ({ feature, onContactClick }: FeatureCardProps) => {
       </div>
 
       {/* Image Container with Features */}
-      <div className="relative rounded-2xl overflow-hidden mb-4">
+      <div className="relative rounded-2xl overflow-hidden mb-4 flex-grow">
         <div className="aspect-[4/3] w-full relative">
           <Image
             src={feature.image}
@@ -98,13 +98,15 @@ const FeatureCard = ({ feature, onContactClick }: FeatureCardProps) => {
       </div>
 
       {/* Button */}
-      <Button
-        variant="outline"
-        onClick={onContactClick}
-        className="w-full bg-blue-600 text-white border-0 hover:bg-blue-700 transition-all duration-300 py-4 text-sm font-semibold rounded-xl shadow-sm"
-      >
-        Contact Sales
-      </Button>
+      <div className="flex-shrink-0">
+        <Button
+          variant="outline"
+          onClick={onContactClick}
+          className="w-full bg-blue-600 text-white border-0 hover:bg-blue-700 transition-all duration-300 py-4 text-sm font-semibold rounded-xl shadow-sm"
+        >
+          Contact Sales
+        </Button>
+      </div>
     </motion.div>
   );
 };
@@ -155,7 +157,7 @@ export function FeaturesSection({ industry, features }: FeaturesSectionProps) {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           {allFeatures.map((feature, index) => (
             <FeatureCard key={index} feature={feature} onContactClick={() => setIsModalOpen(true)} />
           ))}
