@@ -55,7 +55,7 @@ const AgentCard = ({ title, description, features, image, index, cardRef }: Agen
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.6 + idx * 0.1 }}
-              className="flex items-center space-x-1 bg-white/30 backdrop-blur-md border border-white/50 rounded-full px-2 py-1 shadow-md w-fit max-w-[90%]"
+              className="flex items-center space-x-1 bg-white backdrop-blur-md border border-gray-200 rounded-full px-2 py-1 shadow-md w-fit max-w-[90%]"
             >
               <div className="flex-shrink-0 w-5 h-5 bg-gray-900 rounded-full flex items-center justify-center">
                 <Check className="w-3 h-3 text-white" strokeWidth={3} />
