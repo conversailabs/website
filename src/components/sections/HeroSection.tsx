@@ -133,6 +133,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
 
     if (!agentId) {
       console.error(`No agent ID found for industry: ${industry}`);
+      alert(`Sorry, no agent is configured for ${industry}. Please contact support.`);
       return;
     }
 
@@ -148,7 +149,9 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create web call");
+        const errorData = await response.json().catch(() => ({ error: "Failed to create web call" }));
+        console.error("API error:", errorData);
+        throw new Error(errorData.error || `Server error: ${response.status}`);
       }
 
       const { access_token } = await response.json();
@@ -184,6 +187,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
 
       retell.on("error", (error) => {
         console.error("Retell error:", error);
+        alert("Call error: " + (error?.message || "Unknown error occurred"));
         setIsCallActive(false);
         setIsConnecting(false);
         setIsInteracting(false);
@@ -193,6 +197,8 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
       await retell.startCall({ accessToken: access_token });
     } catch (error) {
       console.error("Error starting call:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to start call";
+      alert(`Unable to start call: ${errorMessage}\n\nPlease try again or contact support.`);
       setIsConnecting(false);
       setIsInteracting(false);
     }
