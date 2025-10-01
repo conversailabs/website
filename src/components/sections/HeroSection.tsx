@@ -189,8 +189,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
   };
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden flex flex-col items-center bg-[#F0F2F5]">
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,_transparent_40%,_rgba(0,0,0,0.1))]"></div>
+    <section className="relative min-h-screen w-full overflow-hidden flex flex-col items-center bg-transparent">
 
       {/* Background Orbs */}
       <LiquidOrb size={80} initialX={-500} duration={35} className="morphing-orb" color={color} />
@@ -276,13 +275,6 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
           >
             Build Custom Agent
             <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => window.open('/schedule-demo', '_self')}
-            className="px-8 py-3 text-md rounded-lg font-semibold border-2 border-gray-700 text-gray-700 hover:bg-gray-700 hover:text-white transition-all duration-300"
-          >
-            Schedule Demo
           </Button>
         </motion.div>
 

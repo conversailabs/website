@@ -79,7 +79,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
   return (
     <>
       <Header />
-      <main className="min-h-screen">
+      <main className="min-h-screen bg-[#FAFBFC]">
         <HeroSection
           industry={industry.name}
           description={industry.description}

@@ -15,15 +15,31 @@ type AgentCardProps = {
   cardRef: React.RefObject<HTMLDivElement | null>;
 };
 
-const AgentCard = ({ title, description, features, image, index, cardRef }: AgentCardProps) => {
+const AgentCard = ({ title, description, features, image, cardRef }: AgentCardProps) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+
   return (
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: 0.4 + index * 0.15 }}
-      className="group relative bg-gray-50/80 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-200/50 p-5"
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      animate={{
+        scale: isHovered ? 1.05 : 1,
+        z: isHovered ? 50 : 0,
+      }}
+      transition={{
+        scale: isHovered
+          ? { type: "spring", stiffness: 300, damping: 20 }
+          : { duration: 0.1 },
+        z: isHovered
+          ? { type: "spring", stiffness: 300, damping: 20 }
+          : { duration: 0.1 }
+      }}
+      className="group relative bg-gray-50/80 rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-100 overflow-hidden border border-gray-200/50 p-5"
+      style={{ transformStyle: 'preserve-3d' }}
     >
       {/* Top Content - Title and Description */}
       <div className="mb-4 text-center">
