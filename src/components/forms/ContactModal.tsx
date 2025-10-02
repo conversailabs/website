@@ -5,7 +5,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import StatusModal from '@/components/ui/StatusModal';
-import { submitContact } from '@/lib/contact-api';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -85,15 +84,26 @@ export default function ContactModal({
       setIsSubmitting(true);
 
       try {
-        const result = await submitContact({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          company: formData.company,
-          message: industry ? `Interested in ${industry}` : 'Contact modal submission',
-          source: industry ? `industries/${industry}` : 'contact_modal',
+        // Submit to Next.js API route (which proxies to backend)
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            company: formData.company,
+            message: industry ? `Interested in ${industry}` : 'Contact modal submission',
+            source: industry ? `industries/${industry}` : 'contact_modal',
+          }),
         });
 
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to submit form');
+        }
+
+        const result = await response.json();
         console.log('✅ Form submitted successfully:', result);
 
         // Close contact form
