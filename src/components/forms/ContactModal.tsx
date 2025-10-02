@@ -117,22 +117,14 @@ export default function ContactModal({
         } else {
           console.error('❌ API error:', result);
 
-          // Show error modal
-          setStatusModal({
-            isOpen: true,
-            type: 'error',
-            message: result.error || "We're Sorry! Something went wrong, and we were unable to complete your request."
-          });
+          // Show simple alert for errors instead of modal
+          alert(result.error || 'Something went wrong. Please try again.');
         }
       } catch (error) {
         console.error('❌ Network error:', error);
 
-        // Show error modal
-        setStatusModal({
-          isOpen: true,
-          type: 'error',
-          message: "We're Sorry! Unable to connect. Please check your internet and try again."
-        });
+        // Show simple alert for network errors
+        alert('Unable to submit. Please check your internet connection and try again.');
       } finally {
         setIsSubmitting(false);
       }
