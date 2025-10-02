@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import StatusModal from '@/components/ui/StatusModal';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -28,6 +29,16 @@ export default function ContactModal({
     phone: '',
     email: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusModal, setStatusModal] = useState<{
+    isOpen: boolean;
+    type: 'success' | 'error';
+    message: string;
+  }>({
+    isOpen: false,
+    type: 'success',
+    message: ''
+  });
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,7 +50,7 @@ export default function ContactModal({
     return phoneRegex.test(phone.replace(/\D/g, ''));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors = {
@@ -69,13 +80,62 @@ export default function ContactModal({
     setErrors(newErrors);
 
     if (!Object.values(newErrors).some(error => error)) {
-      // Form is valid, submit it
-      console.log('Form submitted:', formData);
-      // Here you can add API call to submit the form
+      // Form is valid, submit to API
+      setIsSubmitting(true);
 
-      // Reset form and close modal
-      setFormData({ name: '', company: '', phone: '', email: '' });
-      onClose();
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            company: formData.company,
+            message: industry ? `Interested in ${industry}` : 'Contact modal submission',
+            source: industry ? `industries/${industry}` : 'contact_modal',
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          console.log('✅ Form submitted successfully:', result);
+
+          // Close contact form
+          onClose();
+
+          // Show success modal
+          setStatusModal({
+            isOpen: true,
+            type: 'success',
+            message: "We've confirmed your submission. We'll reach out to you within 24 hours!"
+          });
+
+          // Reset form
+          setFormData({ name: '', company: '', phone: '', email: '' });
+        } else {
+          console.error('❌ API error:', result);
+
+          // Show error modal
+          setStatusModal({
+            isOpen: true,
+            type: 'error',
+            message: result.error || "We're Sorry! Something went wrong, and we were unable to complete your request."
+          });
+        }
+      } catch (error) {
+        console.error('❌ Network error:', error);
+
+        // Show error modal
+        setStatusModal({
+          isOpen: true,
+          type: 'error',
+          message: "We're Sorry! Unable to connect. Please check your internet and try again."
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -85,92 +145,103 @@ export default function ContactModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-lg border-0 shadow-2xl">
-        <DialogHeader className="space-y-3 pb-2">
+    <div>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-lg border-0 shadow-2xl">
+          <DialogHeader className="space-y-3 pb-2">
           <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Contact Sales
           </DialogTitle>
-          <DialogDescription className="text-base text-gray-600">
-            {industry ? `Get started with AI agents for ${industry}` : 'Get started with our AI agent solutions'}
-          </DialogDescription>
-        </DialogHeader>
+            <DialogDescription className="text-base text-gray-600">
+              {industry ? `Get started with AI agents for ${industry}` : 'Get started with our AI agent solutions'}
+            </DialogDescription>
+          </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-5 mt-2">
-          <div className="space-y-2">
-            <label className="text-sm font-semibold text-gray-700 block">Your Name</label>
-            <Input
-              type="text"
-              placeholder="name"
-              value={formData.name}
-              onChange={(e) => handleChange('name', e.target.value)}
-              className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.name ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
-            />
-            {errors.name && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
-              <span className="text-xs">⚠</span> {errors.name}
-            </p>}
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-5 mt-2">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 block">Your Name</label>
+              <Input
+                type="text"
+                placeholder="name"
+                value={formData.name}
+                onChange={(e) => handleChange('name', e.target.value)}
+                className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.name ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
+              />
+              {errors.name && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
+                <span className="text-xs">⚠</span> {errors.name}
+              </p>}
+            </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-semibold text-gray-700 block">Company Name</label>
-            <Input
-              type="text"
-              placeholder="company name"
-              value={formData.company}
-              onChange={(e) => handleChange('company', e.target.value)}
-              className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.company ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
-            />
-            {errors.company && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
-              <span className="text-xs">⚠</span> {errors.company}
-            </p>}
-          </div>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 block">Company Name</label>
+              <Input
+                type="text"
+                placeholder="company name"
+                value={formData.company}
+                onChange={(e) => handleChange('company', e.target.value)}
+                className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.company ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
+              />
+              {errors.company && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
+                <span className="text-xs">⚠</span> {errors.company}
+              </p>}
+            </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-semibold text-gray-700 block">Phone Number</label>
-            <Input
-              type="tel"
-              placeholder="phone number"
-              value={formData.phone}
-              onChange={(e) => handleChange('phone', e.target.value)}
-              className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
-            />
-            {errors.phone && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
-              <span className="text-xs">⚠</span> {errors.phone}
-            </p>}
-          </div>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 block">Phone Number</label>
+              <Input
+                type="tel"
+                placeholder="phone number"
+                value={formData.phone}
+                onChange={(e) => handleChange('phone', e.target.value)}
+                className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
+              />
+              {errors.phone && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
+                <span className="text-xs">⚠</span> {errors.phone}
+              </p>}
+            </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-semibold text-gray-700 block">Email Address</label>
-            <Input
-              type="email"
-              placeholder="email"
-              value={formData.email}
-              onChange={(e) => handleChange('email', e.target.value)}
-              className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
-            />
-            {errors.email && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
-              <span className="text-xs">⚠</span> {errors.email}
-            </p>}
-          </div>
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 block">Email Address</label>
+              <Input
+                type="email"
+                placeholder="email"
+                value={formData.email}
+                onChange={(e) => handleChange('email', e.target.value)}
+                className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
+              />
+              {errors.email && <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
+                <span className="text-xs">⚠</span> {errors.email}
+              </p>}
+            </div>
 
-          <div className="flex gap-3 justify-end mt-8 pt-4 border-t border-gray-200">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-              className="px-8 py-3 h-12 rounded-xl font-semibold border-2 hover:bg-gray-50 transition-all"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              className="px-8 py-3 h-12 rounded-xl font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-200 hover:shadow-xl hover:shadow-blue-300 transition-all"
-            >
-              Submit
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
+            <div className="flex gap-3 justify-end mt-8 pt-4 border-t border-gray-200">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onClose}
+                className="px-8 py-3 h-12 rounded-xl font-semibold border-2 hover:bg-gray-50 transition-all"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-8 py-3 h-12 rounded-xl font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-200 hover:shadow-xl hover:shadow-blue-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Status Modal */}
+      <StatusModal
+        isOpen={statusModal.isOpen}
+        onClose={() => setStatusModal({ ...statusModal, isOpen: false })}
+        type={statusModal.type}
+        message={statusModal.message}
+      />
+    </div>
   );
 }
