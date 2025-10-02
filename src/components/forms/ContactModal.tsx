@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import StatusModal from '@/components/ui/StatusModal';
+import { submitContact } from '@/lib/contact-api';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -84,47 +85,35 @@ export default function ContactModal({
       setIsSubmitting(true);
 
       try {
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            company: formData.company,
-            message: industry ? `Interested in ${industry}` : 'Contact modal submission',
-            source: industry ? `industries/${industry}` : 'contact_modal',
-          }),
+        const result = await submitContact({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          message: industry ? `Interested in ${industry}` : 'Contact modal submission',
+          source: industry ? `industries/${industry}` : 'contact_modal',
         });
 
-        const result = await response.json();
+        console.log('✅ Form submitted successfully:', result);
 
-        if (response.ok) {
-          console.log('✅ Form submitted successfully:', result);
+        // Close contact form
+        onClose();
 
-          // Close contact form
-          onClose();
+        // Show success modal
+        setStatusModal({
+          isOpen: true,
+          type: 'success',
+          message: result.message || "We've confirmed your submission. We'll reach out to you within 24 hours!"
+        });
 
-          // Show success modal
-          setStatusModal({
-            isOpen: true,
-            type: 'success',
-            message: "We've confirmed your submission. We'll reach out to you within 24 hours!"
-          });
-
-          // Reset form
-          setFormData({ name: '', company: '', phone: '', email: '' });
-        } else {
-          console.error('❌ API error:', result);
-
-          // Show simple alert for errors instead of modal
-          alert(result.error || 'Something went wrong. Please try again.');
-        }
+        // Reset form
+        setFormData({ name: '', company: '', phone: '', email: '' });
       } catch (error) {
-        console.error('❌ Network error:', error);
+        console.error('❌ Submission error:', error);
 
-        // Show simple alert for network errors
-        alert('Unable to submit. Please check your internet connection and try again.');
+        // Show simple alert for errors
+        const errorMessage = error instanceof Error ? error.message : 'Something went wrong. Please try again.';
+        alert(errorMessage);
       } finally {
         setIsSubmitting(false);
       }
