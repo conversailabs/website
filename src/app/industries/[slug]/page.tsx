@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { FeaturesSection } from '@/components/sections/FeaturesSection';
-import FAQSection from '@/components/sections/FAQSection';
 import { CTABanner } from '@/components/sections/CTABanner';
 
 import industriesData from '@/data/industriesfinal.json';
@@ -90,7 +89,6 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
           features={industry.features}
           color={industry.color}
         />
-        <FAQSection industry={industry.name} faqs={industry.faqs} />
         <CTABanner industry={industry.name} color={industry.color} />
       </main>
     </>

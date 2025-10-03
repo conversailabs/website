@@ -325,9 +325,8 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-2xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight"
+          className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight"
         >
-          {/* class="jsx-160e1da9fc16ccc text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight" */}
           AI Agents Built for{' '}
           <span className={`bg-gradient-to-r ${gradientClass} bg-clip-text text-transparent`}>
             {industry}

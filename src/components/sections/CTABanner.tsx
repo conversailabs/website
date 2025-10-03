@@ -61,7 +61,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 leading-tight tracking-tight"
+            className="text-3xl md:text-4xl font-bold mb-4 leading-tight tracking-tight"
           >
             Ready to Transform Your {industry} Operations?
           </motion.h2>
