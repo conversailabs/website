@@ -102,7 +102,7 @@ export default function ContactModal({
       setStatusModal({
         isOpen: true,
         type: 'error',
-        message: "You have already submitted an enquiry with this email. We'll contact you within 24 hours!"
+        message: "You have already submitted an enquiry with this email. We&apos;ll contact you within 24 hours!"
       });
       onClose();
       return;
@@ -171,7 +171,7 @@ export default function ContactModal({
         setStatusModal({
           isOpen: true,
           type: 'success',
-          message: result.message || "We've confirmed your submission. We'll reach out to you within 24 hours!"
+          message: result.message || "We&apos;ve confirmed your submission. We&apos;ll reach out to you within 24 hours!"
         });
 
         // Reset form
@@ -263,7 +263,7 @@ export default function ContactModal({
               </p>}
               {alreadySubmitted && !errors.email && (
                 <p className="text-sm text-orange-600 mt-1.5 flex items-center gap-1 font-medium">
-                  <span className="text-xs">ℹ️</span> This email has already been submitted. We'll contact you soon!
+                  <span className="text-xs">ℹ️</span> This email has already been submitted. We&apos;ll contact you soon!
                 </p>
               )}
             </div>
