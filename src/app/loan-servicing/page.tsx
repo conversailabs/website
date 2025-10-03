@@ -2,7 +2,6 @@
 
 import IndustryHeader from '@/components/layout/IndustryHeader'
 import Footer from '@/components/layout/Footer'
-import TapToTalkButton from '@/components/shared/TapToTalkButton'
 import LoanServicingHero from '@/components/loan-servicing/Hero'
 import CoreFeatures from '@/components/loan-servicing/CoreFeatures'
 import Integration from '@/components/loan-servicing/Integration'
@@ -25,10 +24,6 @@ export default function LoanServicingPage() {
         <CTASection />
       </main>
       <Footer />
-      <TapToTalkButton
-        source="loan_servicing_page_tap_to_talk"
-        agentId="agent_fdb605cbf88227c104786cd227"
-      />
     </>
   )
 }

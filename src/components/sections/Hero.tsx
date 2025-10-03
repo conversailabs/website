@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -72,6 +72,17 @@ const VoiceHero = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const retellClientRef = useRef<any>(null);
+
+  // Cleanup: Auto-end call when component unmounts (user navigates away)
+  useEffect(() => {
+    return () => {
+      if (isCallActive && retellClientRef.current) {
+        console.log('Page navigation detected - ending call automatically');
+        retellClientRef.current.stopCall();
+        retellClientRef.current = null;
+      }
+    };
+  }, [isCallActive]);
 
   const getEmailSuggestions = () => {
     if (!email) return savedEmails.slice(0, 5);

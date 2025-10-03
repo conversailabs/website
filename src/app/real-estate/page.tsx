@@ -2,7 +2,6 @@
 
 import IndustryHeader from '@/components/layout/IndustryHeader'
 import Footer from '@/components/layout/Footer'
-import TapToTalkButton from '@/components/shared/TapToTalkButton'
 import RealEstateHero from '@/components/real-estate/Hero'
 import CoreFeatures from '@/components/real-estate/CoreFeatures'
 import Integration from '@/components/real-estate/Integration'
@@ -25,10 +24,6 @@ export default function RealEstatePage() {
         <CTASection />
       </main>
       <Footer />
-      <TapToTalkButton
-        source="real_estate_page_tap_to_talk"
-        agentId="agent_fdb605cbf88227c104786cd227"
-      />
     </>
   )
 }

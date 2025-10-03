@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,6 +40,17 @@ const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) =>
   const [isConnecting, setIsConnecting] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const retellClientRef = useRef<any>(null);
+
+  // Auto-end call on component unmount (page navigation)
+  useEffect(() => {
+    return () => {
+      if (isCallActive && retellClientRef.current) {
+        console.log('Page navigation detected - ending call automatically');
+        retellClientRef.current.stopCall();
+        retellClientRef.current = null;
+      }
+    };
+  }, [isCallActive]);
 
   // Rate limiting and enquiry tracking
   const checkAndResetDailyLimit = () => {
