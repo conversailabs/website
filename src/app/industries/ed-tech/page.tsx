@@ -2,6 +2,7 @@
 
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import TapToTalkButton from '@/components/shared/TapToTalkButton';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Users, Clock, DollarSign, Brain, Zap, Shield, CheckCircle, MessageSquare, BookOpen } from 'lucide-react';
 import Link from 'next/link';
@@ -450,6 +451,10 @@ export default function EdTechPage() {
         </section>
       </main>
       <Footer />
+      <TapToTalkButton
+        source="education_page_tap_to_talk"
+        agentId="agent_fdb605cbf88227c104786cd227"
+      />
     </>
   );
 }

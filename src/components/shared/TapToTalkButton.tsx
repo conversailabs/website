@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
@@ -11,49 +11,17 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 
-// Landing page agent ID
-const LANDING_PAGE_AGENT_ID = "agent_fdb605cbf88227c104786cd227";
+interface TapToTalkButtonProps {
+  source: string;
+  agentId: string;
+}
 
-type LiquidOrbProps = {
-  size: number;
-  initialX: number;
-  duration?: number;
-  className?: string;
-};
+const DAILY_CALL_LIMIT = 10;
 
-const LiquidOrb = ({
-  size,
-  initialX,
-  duration = 20,
-  className = "",
-}: LiquidOrbProps) => {
-  const [randomDelay] = useState(() => -(Math.random() * duration));
-
-  return (
-    <motion.div
-      className="absolute"
-      style={{ width: size, height: size }}
-      initial={{ y: "110vh", x: initialX, opacity: 0 }}
-      animate={{
-        y: ["110vh", "-25vh"],
-        x: initialX,
-        opacity: 1,
-        transition: {
-          duration,
-          delay: randomDelay,
-          repeat: Infinity,
-          ease: "linear",
-        },
-      }}
-    >
-      <div className={`relative w-full h-full liquid-orb ${className}`}></div>
-    </motion.div>
-  );
-};
-
-const VoiceHero = () => {
-  const [isRecording, setIsRecording] = useState(false);
+const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) => {
+  const { toast } = useToast();
   const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -73,6 +41,52 @@ const VoiceHero = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const retellClientRef = useRef<any>(null);
 
+  // Rate limiting and enquiry tracking
+  const checkAndResetDailyLimit = () => {
+    if (typeof window === 'undefined') return { count: 0, canCall: true };
+
+    const today = new Date().toISOString().split('T')[0];
+    const stored = localStorage.getItem('tapToTalkLimits');
+
+    if (!stored) {
+      return { count: 0, canCall: true };
+    }
+
+    const data = JSON.parse(stored);
+
+    // Reset if new day
+    if (data.date !== today) {
+      localStorage.setItem('tapToTalkLimits', JSON.stringify({ date: today, count: 0 }));
+      return { count: 0, canCall: true };
+    }
+
+    return { count: data.count, canCall: data.count < DAILY_CALL_LIMIT };
+  };
+
+  const incrementCallCount = () => {
+    if (typeof window === 'undefined') return;
+
+    const today = new Date().toISOString().split('T')[0];
+    const { count } = checkAndResetDailyLimit();
+
+    localStorage.setItem('tapToTalkLimits', JSON.stringify({
+      date: today,
+      count: count + 1
+    }));
+  };
+
+  const isEnquirySubmitted = () => {
+    if (typeof window === 'undefined') return false;
+
+    const stored = localStorage.getItem('tapToTalkEnquiry');
+    return stored === 'true';
+  };
+
+  const markEnquirySubmitted = () => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('tapToTalkEnquiry', 'true');
+  };
+
   const getEmailSuggestions = () => {
     if (!email) return savedEmails.slice(0, 5);
 
@@ -91,15 +105,34 @@ const VoiceHero = () => {
   };
 
   const startRetellCall = async () => {
+    // Check rate limit
+    const { count, canCall } = checkAndResetDailyLimit();
+
+    if (!canCall) {
+      toast({
+        title: "Daily Limit Reached",
+        description: `You've reached the maximum of ${DAILY_CALL_LIMIT} calls per day. Please try again tomorrow.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Show info toast if enquiry already submitted
+    if (isEnquirySubmitted()) {
+      toast({
+        title: "Your data is already saved",
+        description: `Starting call... (${count + 1}/${DAILY_CALL_LIMIT} calls today)`,
+      });
+    }
+
     try {
       setIsConnecting(true);
-      console.log(`Starting call with agent: ${LANDING_PAGE_AGENT_ID}`);
+      console.log(`Starting call with agent: ${agentId}`);
 
-      // Call API to create web call
       const response = await fetch("/api/createWebCall", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentId: LANDING_PAGE_AGENT_ID }),
+        body: JSON.stringify({ agentId }),
       });
 
       if (!response.ok) {
@@ -111,32 +144,22 @@ const VoiceHero = () => {
       const { access_token } = await response.json();
       console.log("Access token received");
 
-      // Dynamically import Retell SDK
       const { RetellWebClient } = await import("retell-client-js-sdk");
       const retell = new RetellWebClient();
       retellClientRef.current = retell;
 
-      // Register event listeners
       retell.on("call_started", () => {
         console.log("Call started");
         setIsCallActive(true);
         setIsConnecting(false);
-        setIsRecording(true);
-      });
-
-      retell.on("agent_start_talking", () => {
-        console.log("Agent started talking");
-      });
-
-      retell.on("agent_stop_talking", () => {
-        console.log("Agent stopped talking");
+        // Increment call count when call actually starts
+        incrementCallCount();
       });
 
       retell.on("call_ended", () => {
         console.log("Call ended");
         setIsCallActive(false);
         setIsConnecting(false);
-        setIsRecording(false);
       });
 
       retell.on("error", (error) => {
@@ -144,17 +167,14 @@ const VoiceHero = () => {
         alert("Call error: " + (error?.message || "Unknown error occurred"));
         setIsCallActive(false);
         setIsConnecting(false);
-        setIsRecording(false);
       });
 
-      // Start the call
       await retell.startCall({ accessToken: access_token });
     } catch (error) {
       console.error("Error starting call:", error);
       const errorMessage = error instanceof Error ? error.message : "Failed to start call";
       alert(`Unable to start call: ${errorMessage}\n\nPlease try again or contact support.`);
       setIsConnecting(false);
-      setIsRecording(false);
     }
   };
 
@@ -167,26 +187,17 @@ const VoiceHero = () => {
   };
 
   const handleTalkClick = () => {
-    console.log("Tap to talk clicked!");
-
-    // If call is active, stop it
     if (isCallActive) {
       stopRetellCall();
       return;
     }
 
-    // Check if email exists in localStorage
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('savedEmails');
       const emails = saved ? JSON.parse(saved) : [];
-      console.log("Saved emails:", emails);
       if (emails.length > 0) {
-        // Email exists, start call
-        console.log("Email exists, starting call");
         startRetellCall();
       } else {
-        // No email, show dialog
-        console.log("No email, showing dialog");
         setShowEmailDialog(true);
         setEmail("");
         setEmailError("");
@@ -206,32 +217,28 @@ const VoiceHero = () => {
       return;
     }
 
-    // Save to localStorage
     if (!savedEmails.includes(email)) {
       const updatedEmails = [email, ...savedEmails].slice(0, 10);
       setSavedEmails(updatedEmails);
       localStorage.setItem('savedEmails', JSON.stringify(updatedEmails));
     }
 
-    // Save to database via existing backend API (non-blocking - silent failure)
-    try {
-      await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          name: 'Tap to Talk User',
-          message: 'Tap to talk call request',
-          source: 'home_page_tap_to_talk',
-        }),
-      });
-      console.log('Email saved to database successfully');
-    } catch (error) {
-      // Silent failure - don't interrupt user experience
-      console.error('Failed to save email to database:', error);
-    }
+    // Mark enquiry as submitted
+    markEnquirySubmitted();
+
+    // Save to database via existing backend API
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        name: 'Tap to Talk User',
+        message: 'Tap to talk call request',
+        source: source,
+      }),
+    }).catch(error => console.error('DB save failed:', error));
 
     setEmailError("");
     setShowEmailDialog(false);
@@ -269,73 +276,31 @@ const VoiceHero = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden flex flex-col items-center bg-transparent">
-      {/* Background Orbs */}
-      <LiquidOrb size={80} initialX={-500} duration={35} className="morphing-orb" />
-      <LiquidOrb size={50} initialX={-200} duration={40} className="morphing-orb" />
-      <LiquidOrb size={90} initialX={480} duration={30} className="morphing-orb" />
-      <LiquidOrb size={60} initialX={200} duration={45} className="morphing-orb" />
-      <LiquidOrb size={65} initialX={-400} duration={38} className="morphing-orb" />
-      <LiquidOrb size={55} initialX={350} duration={42} className="morphing-orb" />
-      <LiquidOrb size={70} initialX={-100} duration={33} className="morphing-orb" />
-      <LiquidOrb size={30} initialX={-300} duration={50} className="morphing-orb" />
-      <LiquidOrb size={40} initialX={100} duration={48} className="morphing-orb" />
-      <LiquidOrb size={25} initialX={550} duration={55} className="morphing-orb" />
-      <LiquidOrb size={35} initialX={-600} duration={46} className="morphing-orb" />
-      <LiquidOrb size={45} initialX={-50} duration={39} className="morphing-orb" />
+    <>
+      {/* Floating Tap to Talk Button */}
+      <button
+        onClick={handleTalkClick}
+        disabled={isConnecting}
+        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label={isCallActive ? "End call" : "Tap to talk"}
+      >
+        <Phone className={`w-7 h-7 text-white ${isCallActive ? 'animate-pulse' : ''}`} />
 
-      <div className="relative z-10 flex flex-col items-center justify-start text-center px-4 pt-28 md:pt-36 pb-4 md:pb-12">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 leading-tight">
-             VoiceAI Platform for Customer Conversations
-        </h1>
-        <p className="text-md text-gray-500 mb-4 max-w-3xl leading-relaxed">
-          Automate phone calls, empower reps in real-time, and unlock insights
-          <br className="hidden md:block" />
-          from every interaction to increase revenue, reduce costs,
-          <br className="hidden md:block" />
-          and improve customer experience
-        </p>
+        {/* Ripple effect when active */}
+        {isCallActive && (
+          <>
+            <span className="absolute inset-0 rounded-full border-2 border-cyan-300 animate-ping" />
+            <span className="absolute inset-0 rounded-full border border-cyan-300 animate-ping" style={{ animationDelay: '300ms' }} />
+          </>
+        )}
 
-        <div className="relative w-full h-48 md:h-80 flex items-center justify-center mb-4">
-          <motion.div
-            className="relative w-40 h-40 md:w-64 md:h-64 z-10 cursor-pointer"
-            onClick={handleTalkClick}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >
-            <div className="w-full h-full liquid-orb morphing-orb">
-              <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-semibold z-20">
-                {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Tap to talk'}
-              </div>
-            </div>
-            {(isRecording || isCallActive) && (
-              <>
-                <div className="absolute inset-0 rounded-full border-2 border-cyan-300/70 animate-ping" />
-                <div
-                  className="absolute -inset-4 rounded-full border border-cyan-300/50 animate-ping"
-                  style={{ animationDelay: "300ms" }}
-                />
-              </>
-            )}
-          </motion.div>
-        </div>
+        {/* Tooltip */}
+        <span className="absolute right-full mr-3 px-3 py-1.5 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+          {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Tap to Talk'}
+        </span>
+      </button>
 
-        <Button
-          onClick={() => window.open('/schedule-demo', '_self')}
-          className="bg-gray-800 hover:bg-black text-white px-8 py-3 text-md rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mb-3 font-semibold"
-        >
-          Book a demo
-        </Button>
-        <p className="text-gray-500 text-sm mb-2">
-          Go live in a day, increase quote intake by 74%
-        </p>
-         <div className="text-gray-500 text-sm font-medium">
-            Trusted by MGAs and Agencies across the US
-          </div>
-      </div>
-
-      {/* Email Input Dialog */}
+      {/* Email Dialog */}
       <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
@@ -419,104 +384,8 @@ const VoiceHero = () => {
           </div>
         </DialogContent>
       </Dialog>
-
-      <style jsx global>{`
-        .liquid-orb {
-          border-radius: 50%;
-          position: relative;
-          overflow: hidden;
-          background: linear-gradient(45deg, #2193b0, #6dd5ed);
-          box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.4),
-            0 10px 40px rgba(33, 147, 176, 0.5),
-            0 0 0 10px rgba(255, 255, 255, 0.1);
-        }
-
-        .liquid-orb::before {
-          content: "";
-          position: absolute;
-          top: -20%;
-          left: -20%;
-          width: 140%;
-          height: 140%;
-          background: radial-gradient(
-              circle at 30% 30%,
-              rgba(255, 255, 255, 0.8),
-              transparent 50%
-            ),
-            radial-gradient(
-              circle at 70% 80%,
-              rgba(220, 240, 255, 0.9),
-              transparent 40%
-            );
-          filter: blur(30px);
-          animation: rotateTexture 20s linear infinite;
-        }
-
-        .liquid-orb::after {
-          content: "";
-          position: absolute;
-          top: 5%;
-          left: 10%;
-          width: 80%;
-          height: 40%;
-          background: linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.6),
-            transparent
-          );
-          border-radius: 50% / 100%;
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
-          transform: rotate(-15deg);
-        }
-
-        @keyframes rotateTexture {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        @keyframes rotateTexture {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-
-        @keyframes morphAnimation {
-          0%,
-          100% {
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            transform: scale(1) rotate(0deg);
-          }
-          25% {
-            border-radius: 30% 70% 70% 30% / 30% 40% 60% 70%;
-            transform: scale(1.02) rotate(5deg);
-          }
-          50% {
-            border-radius: 70% 30% 60% 40% / 70% 60% 40% 30%;
-            transform: scale(0.98) rotate(-5deg);
-          }
-          75% {
-            border-radius: 40% 60% 30% 70% / 60% 70% 30% 40%;
-            transform: scale(1.01) rotate(2deg);
-          }
-        }
-
-        .morphing-orb {
-          animation: morphAnimation 12s ease-in-out infinite;
-        }
-
-
-      `}</style>
-    </div>
+    </>
   );
 };
 
-export default VoiceHero;
+export default TapToTalkButton;

@@ -6,6 +6,7 @@ import { HeroSection } from '@/components/sections/HeroSection';
 import { FeaturesSection } from '@/components/sections/FeaturesSection';
 import FAQSection from '@/components/sections/FAQSection';
 import { CTABanner } from '@/components/sections/CTABanner';
+import IndustryPageClient from '@/components/shared/IndustryPageClient';
 
 import industriesData from '@/data/industriesfinal.json';
 
@@ -93,6 +94,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         <FAQSection industry={industry.name} faqs={industry.faqs} />
         <CTABanner industry={industry.name} color={industry.color} />
       </main>
+      <IndustryPageClient slug={slug} />
     </>
   );
 }
