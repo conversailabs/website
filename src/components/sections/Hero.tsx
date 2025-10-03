@@ -305,8 +305,8 @@ const VoiceHero = () => {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <div className="w-full h-full liquid-orb morphing-orb">
-              <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-semibold z-20">
-                {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Tap to talk'}
+              <div className="absolute inset-0 flex items-center justify-center text-white text-xl font-semibold select-none z-20">
+                {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Tap to Talk'}
               </div>
             </div>
             {(isRecording || isCallActive) && (

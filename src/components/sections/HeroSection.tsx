@@ -350,8 +350,8 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
               }}
             >
               <div className="absolute inset-0 flex items-center justify-center z-20">
-                <span className="text-white text-xl md:text-2xl font-bold tracking-wide uppercase drop-shadow-lg">
-                  {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Tap to talk'}
+                <span className="text-white text-xl md:text-2xl font-bold tracking-wide select-none drop-shadow-lg">
+                  {isConnecting ? 'Connecting...' : isCallActive ? 'End Call' : 'Tap to Talk'}
                 </span>
               </div>
             </div>
