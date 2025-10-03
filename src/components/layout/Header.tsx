@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 // import { scrollToElement } from "@/utils/scrollToElement";
 import { Button } from "@/components/ui/button";
 import FeaturesOverlay from "@/components/sections/FeaturesOverlay";
+import FAQOverlay from "@/components/sections/FAQOverlay";
 
 const industries = [
   { name: "Healthcare", slug: "healthcare-and-wellness" },
@@ -19,6 +20,7 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileIndustryOpen, setMobileIndustryOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
+  const [faqOpen, setFaqOpen] = useState(false);
   const pathname = usePathname();
 
   // const handleNavClick = (
@@ -67,6 +69,13 @@ const Header = () => {
               className={navItemClasses}
             >
               Features
+            </button>
+
+            <button
+              onClick={() => setFaqOpen(true)}
+              className={navItemClasses}
+            >
+              FAQ
             </button>
 
             {pathname !== "/smartdesk" && (
@@ -129,6 +138,16 @@ const Header = () => {
               Features
             </button>
 
+            <button
+              onClick={() => {
+                setFaqOpen(true);
+                setMobileOpen(false);
+              }}
+              className="text-gray-800 hover:text-blue-600 font-medium py-2 text-left"
+            >
+              FAQ
+            </button>
+
             {pathname !== "/smartdesk" && (
               <div className="py-2">
                 <button
@@ -176,6 +195,9 @@ const Header = () => {
 
       {/* Features Overlay */}
       <FeaturesOverlay isOpen={featuresOpen} onClose={() => setFeaturesOpen(false)} />
+
+      {/* FAQ Overlay */}
+      <FAQOverlay isOpen={faqOpen} onClose={() => setFaqOpen(false)} />
 
       <style jsx global>{`
         .glassmorphic-header {
