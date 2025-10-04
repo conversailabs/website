@@ -166,13 +166,8 @@ const Features = () => {
                         {feature.shortDescription}
                       </p>
 
-                      {/* Points - Only visible on active card */}
-                      <div className={cn(
-                        "space-y-2 transition-all duration-500",
-                        current === index
-                          ? "opacity-100 max-h-40"
-                          : "opacity-0 max-h-0 overflow-hidden"
-                      )}>
+                      {/* Points */}
+                      <div className="space-y-2">
                         {feature.points.map((point, pointIndex) => (
                           <div key={pointIndex} className="flex items-start">
                             <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 mt-1.5 mr-2 flex-shrink-0" />

@@ -227,12 +227,7 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
                               </p>
 
                               {/* Points */}
-                              <div className={cn(
-                                "space-y-3 transition-all duration-500",
-                                current === index
-                                  ? "opacity-100 max-h-40"
-                                  : "opacity-0 max-h-0 overflow-hidden"
-                              )}>
+                              <div className="space-y-3">
                                 {feature.points.map((point, pointIndex) => (
                                   <div key={pointIndex} className="flex items-start">
                                     <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 mt-1.5 mr-3 flex-shrink-0" />
