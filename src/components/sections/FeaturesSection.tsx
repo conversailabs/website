@@ -133,6 +133,16 @@ export function FeaturesSection({ industry, features }: FeaturesSectionProps) {
       image: cardImages[2],
       features: features.slice(0, 3),
     },
+    {
+      title: 'Build Your Custom Agent',
+      description: 'Create AI agents tailored to your unique business needs.',
+      image: cardImages[0],
+      features: [
+        'No-code drag & drop builder',
+        'Custom workflows & logic',
+        'Personalized brand experience'
+      ],
+    },
   ];
 
   return (
@@ -157,7 +167,7 @@ export function FeaturesSection({ industry, features }: FeaturesSectionProps) {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
           {allFeatures.map((feature, index) => (
             <FeatureCard key={index} feature={feature} onContactClick={() => setIsModalOpen(true)} />
           ))}
