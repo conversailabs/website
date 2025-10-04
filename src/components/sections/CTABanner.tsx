@@ -18,6 +18,8 @@ const colorMap = {
   orange: 'from-orange-100 to-orange-200',
   red: 'from-red-600 to-red-800',
   '#FFB380': 'from-orange-50 to-orange-100',
+  '#10B981': 'from-emerald-50 to-emerald-100',
+  '#34656D': 'from-teal-50 to-teal-100',
 };
 
 export function CTABanner({ industry, color }: CTABannerProps) {

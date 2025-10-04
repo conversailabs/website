@@ -15,6 +15,8 @@ const industries = [
   { name: "Finance", slug: "finance-and-legal" },
   { name: "Real Estate", slug: "real-estate-and-housing" },
   { name: "Hinglish", slug: "hinglish" },
+  { name: "E-commerce", slug: "e-commerce" },
+  { name: "Automotive", slug: "automotive" },
 ];
 
 const Header = () => {

@@ -177,6 +177,90 @@
       }
     ]
   },
+  "e-commerce": {
+    "name": "E-commerce",
+    "description": "Transform online shopping experiences with AI voice bots that handle customer inquiries, process orders, and provide personalized product recommendations 24/7.",
+    "color": "#10B981",
+    "icon": "🛒",
+    "features": [
+      "Order Processing & Tracking",
+      "Product Recommendations",
+      "Cart Abandonment Recovery",
+      "Customer Support Automation",
+      "Returns & Refunds Management",
+      "Inventory Inquiries"
+    ],
+    "useCases": [
+      {
+        "title": "ShopAssist - E-commerce Support",
+        "description": "Handle product queries, order tracking, and customer support across all channels",
+        "impact": "80% reduction in support tickets"
+      },
+      {
+        "title": "CartSaver - Abandonment Recovery Bot",
+        "description": "Recover abandoned carts with personalized follow-ups and special offers",
+        "impact": "65% cart recovery rate increase"
+      }
+    ],
+    "stats": [
+      { "number": "85%", "label": "Order Automation" },
+      { "number": "24/7", "label": "Customer Support" },
+      { "number": "70%", "label": "Cart Recovery" },
+      { "number": "92%", "label": "Customer Satisfaction" }
+    ],
+    "faqs": [
+      {
+        "question": "Can voice bots handle complex product inquiries and recommendations?",
+        "answer": "Yes, our AI voice bots can understand customer preferences, suggest relevant products, compare features, and provide detailed product information to help customers make informed purchase decisions."
+      },
+      {
+        "question": "How do voice bots integrate with e-commerce platforms?",
+        "answer": "Our voice bots seamlessly integrate with major e-commerce platforms like Shopify, WooCommerce, Magento, and custom solutions through APIs to access real-time inventory, order status, and customer data."
+      }
+    ]
+  },
+  "automotive": {
+    "name": "Automotive",
+    "description": "Streamline vehicle services and automotive operations with AI voice bots that handle service scheduling, customer inquiries, and provide expert vehicle support 24/7.",
+    "color": "#34656D",
+    "icon": "🚗",
+    "features": [
+      "Service Appointment Scheduling",
+      "Vehicle Diagnostics Support",
+      "Parts & Inventory Inquiries",
+      "Test Drive Booking",
+      "Maintenance Reminders",
+      "Roadside Assistance Coordination"
+    ],
+    "useCases": [
+      {
+        "title": "AutoServe - Service Scheduler",
+        "description": "Automate service appointments and maintenance reminders for dealerships",
+        "impact": "75% faster booking process"
+      },
+      {
+        "title": "DriveAssist - Customer Support Bot",
+        "description": "Handle vehicle inquiries, parts requests, and technical support instantly",
+        "impact": "80% reduction in wait times"
+      }
+    ],
+    "stats": [
+      { "number": "78%", "label": "Service Efficiency" },
+      { "number": "24/7", "label": "Customer Support" },
+      { "number": "65%", "label": "Customer Retention" },
+      { "number": "90%", "label": "Booking Accuracy" }
+    ],
+    "faqs": [
+      {
+        "question": "Can voice bots handle complex automotive technical questions?",
+        "answer": "Yes, our AI voice bots are trained on automotive terminology and common vehicle issues. They can provide basic diagnostics, suggest maintenance schedules, and route complex technical issues to specialists when needed."
+      },
+      {
+        "question": "How do voice bots integrate with dealership management systems?",
+        "answer": "Our voice bots integrate seamlessly with popular DMS platforms to access inventory, service history, and customer data in real-time, ensuring accurate information and smooth operations."
+      }
+    ]
+  },
   "finance-and-legal": {
     "name": "Finance & Legal",
     "description": "Secure financial and legal consultations with AI voice bots that handle client inquiries, appointment scheduling, and compliance-ready documentation.",
