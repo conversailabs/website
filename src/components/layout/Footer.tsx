@@ -104,7 +104,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-3 pt-2 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
           <p className="text-gray-400 text-xs text-center md:text-left">
-            © 2024 ConversAI Labs. All rights reserved.
+            © 2025 ConversAI Labs. All rights reserved.
           </p>
           <div className="text-gray-400 text-xs text-center md:text-right">
             Built with ❤️ for businesses everywhere

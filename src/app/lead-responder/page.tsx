@@ -783,7 +783,7 @@ export default function LeadResponderPage() {
               viewport={{ once: true }}
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
-                Two Types of Agents in 2024
+                Two Types of Agents in 2025
               </h2>
               
               <div className="grid md:grid-cols-2 gap-6 mb-8">
