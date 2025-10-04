@@ -32,6 +32,7 @@ const colorMap = {
   purple: 'from-purple-600 to-purple-800',
   orange: 'from-orange-600 to-orange-800',
   red: 'from-red-600 to-red-800',
+  '#FFB380': 'from-orange-400 to-orange-500',
 };
 
 // Color gradient mapping for orbs
@@ -41,6 +42,7 @@ const orbColorMap = {
   purple: { primary: '#9333EA', secondary: '#6B21A8' },
   orange: { primary: '#FB923C', secondary: '#EA580C' },
   red: { primary: '#EF4444', secondary: '#B91C1C' },
+  '#FFB380': { primary: '#FFB380', secondary: '#FF8C42' },
 };
 
 // Liquid Orb Component for Background

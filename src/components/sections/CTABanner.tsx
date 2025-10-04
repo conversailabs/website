@@ -17,6 +17,7 @@ const colorMap = {
   purple: 'from-purple-100 to-purple-200',
   orange: 'from-orange-100 to-orange-200',
   red: 'from-red-600 to-red-800',
+  '#FFB380': 'from-orange-50 to-orange-100',
 };
 
 export function CTABanner({ industry, color }: CTABannerProps) {

@@ -135,6 +135,48 @@
       }
     ]
   },
+  "hinglish": {
+    "name": "Hinglish",
+    "description": "Connect with Indian customers naturally using AI voice bots that understand and speak Hinglish (Hindi-English mix), enabling culturally relevant conversations for better engagement and conversions.",
+    "color": "#FFB380",
+    "icon": "🇮🇳",
+    "features": [
+      "Natural Hinglish Conversations",
+      "Code-Switching Support",
+      "Regional Accent Recognition",
+      "Cultural Context Understanding",
+      "Multi-language Flexibility",
+      "Indian Market Optimization"
+    ],
+    "useCases": [
+      {
+        "title": "DesiConnect - Customer Support Bot",
+        "description": "Handle customer inquiries in natural Hinglish with seamless language switching",
+        "impact": "85% customer comfort level and engagement"
+      },
+      {
+        "title": "BharatBot - Sales Assistant",
+        "description": "Qualify leads and close deals using culturally familiar Hinglish communication",
+        "impact": "70% higher conversion rates in Indian markets"
+      }
+    ],
+    "stats": [
+      { "number": "90%", "label": "Language Understanding" },
+      { "number": "75%", "label": "User Preference" },
+      { "number": "60%", "label": "Engagement Increase" },
+      { "number": "88%", "label": "Customer Satisfaction" }
+    ],
+    "faqs": [
+      {
+        "question": "What is Hinglish and why is it important for Indian businesses?",
+        "answer": "Hinglish is the natural mix of Hindi and English commonly spoken in India. Voice bots with Hinglish support connect better with Indian customers who prefer this conversational style over pure Hindi or English."
+      },
+      {
+        "question": "Can voice bots understand different regional accents in Hinglish?",
+        "answer": "Yes, our voice bots are trained on diverse Indian accents and regional variations of Hinglish to ensure accurate understanding across different parts of India."
+      }
+    ]
+  },
   "finance-and-legal": {
     "name": "Finance & Legal",
     "description": "Secure financial and legal consultations with AI voice bots that handle client inquiries, appointment scheduling, and compliance-ready documentation.",

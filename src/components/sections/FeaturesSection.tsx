@@ -78,7 +78,7 @@ const FeatureCard = ({ feature, onContactClick }: FeatureCardProps) => {
         </div>
 
         {/* Feature List Overlay */}
-        <div className="absolute bottom-3 left-3 right-3 space-y-2">
+        <div className="absolute bottom-2 left-2 right-2 space-y-1.5">
           {feature.features.map((feat, idx) => (
             <motion.div
               key={idx}
@@ -86,12 +86,12 @@ const FeatureCard = ({ feature, onContactClick }: FeatureCardProps) => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.6 + idx * 0.1 }}
-              className="flex items-center space-x-1 bg-white backdrop-blur-md border border-gray-200 rounded-full px-2 py-1 shadow-md w-fit max-w-[90%]"
+              className="flex items-center space-x-0.5 bg-white backdrop-blur-md border border-gray-200 rounded-full px-1.5 py-0.5 shadow-md w-fit max-w-[90%]"
             >
-              <div className="flex-shrink-0 w-5 h-5 bg-gray-900 rounded-full flex items-center justify-center">
-                <Check className="w-3 h-3 text-white" strokeWidth={3} />
+              <div className="flex-shrink-0 w-4 h-4 bg-gray-900 rounded-full flex items-center justify-center">
+                <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
               </div>
-              <span className="text-gray-900 text-xs font-medium">{feat}</span>
+              <span className="text-gray-900 text-[10px] font-medium">{feat}</span>
             </motion.div>
           ))}
         </div>
