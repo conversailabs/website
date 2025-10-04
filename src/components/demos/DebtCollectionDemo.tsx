@@ -11,13 +11,13 @@ interface DebtCollectionDemoProps {
 
 export default function DebtCollectionDemo({ onSwitchDemo, onSwitchToPromptBuilder, onSwitchToDermaClinic }: DebtCollectionDemoProps) {
   return (
-    <section className="py-16 bg-gradient-to-b from-muted/30 to-background">
+    <section className="pt-8 pb-16 bg-gradient-to-b from-muted/30 to-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8"
+          className="text-center mb-6"
         >
           <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full mb-4">
             <DollarSign className="w-4 h-4 text-green-600" />
@@ -109,14 +109,14 @@ export default function DebtCollectionDemo({ onSwitchDemo, onSwitchToPromptBuild
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex-shrink-0 space-y-4"
+            className="flex-shrink-0 space-y-4 w-full lg:w-auto"
           >
             {/* Demo Switch Buttons */}
             <div className="flex flex-col items-start space-y-3">
               {(onSwitchDemo || onSwitchToPromptBuilder) && (
                 <button
                   onClick={onSwitchDemo || onSwitchToPromptBuilder}
-                  className="group w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
+                  className="group w-full lg:w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
@@ -133,7 +133,7 @@ export default function DebtCollectionDemo({ onSwitchDemo, onSwitchToPromptBuild
               {onSwitchToDermaClinic && (
                 <button
                   onClick={onSwitchToDermaClinic}
-                  className="group w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-pink-400 hover:bg-pink-50 transition-all duration-200"
+                  className="group w-full lg:w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-pink-400 hover:bg-pink-50 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-pink-100 flex items-center justify-center transition-colors">

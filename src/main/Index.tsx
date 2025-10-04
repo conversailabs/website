@@ -2,12 +2,7 @@
 import React, { useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import Hero from '@/components/sections/Hero';
-import DemoSection from '@/components/demos/DemoSection';
-import ProblemSolution from '@/components/sections/ProblemSolution';
-import TechnicalFeatures from '@/components/sections/TechnicalFeatures';
-import AgentTemplates from '@/components/sections/AgentTemplates';
-import Features from '@/components/sections/Features';
-import CTA from '@/components/sections/CTA';
+import AIAgents from '@/components/sections/AIAgents';
 import Footer from '@/components/layout/Footer';
 import { updateSEO } from '@/utils/seo';
 import { addStructuredData, createOrganizationStructuredData, createWebsiteStructuredData } from '@/utils/structuredData';
@@ -27,15 +22,16 @@ const Index = () => {
     addStructuredData(createWebsiteStructuredData());
   }, []);
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full overflow-x-hidden bg-[#FAFBFC]">
       <Header />
       <Hero />
-      <DemoSection />
-      <ProblemSolution />
+      <AIAgents />
+      {/* <DemoSection /> */}
+      {/* <ProblemSolution />
       <TechnicalFeatures />
-      <AgentTemplates />
-      <Features />
-      <CTA />
+      <AgentTemplates /> */}
+      {/* <Features /> */}
+      {/* <CTA /> */}
       <Footer />
     </div>
   );

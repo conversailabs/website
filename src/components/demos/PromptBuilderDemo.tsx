@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Sparkles, MousePointer, DollarSign, Heart } from 'lucide-react'
+import { MousePointer, DollarSign, Heart } from 'lucide-react'
 
 interface PromptBuilderDemoProps {
   onSwitchDemo?: () => void
@@ -11,26 +11,26 @@ interface PromptBuilderDemoProps {
 
 export default function PromptBuilderDemo({ onSwitchDemo, onSwitchToDebtCollection, onSwitchToDermaClinic }: PromptBuilderDemoProps) {
   return (
-    <section className="py-12 bg-gradient-to-b from-background to-muted/30">
+    <section className="pt-4 pb-12 bg-gradient-to-b from-background to-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8"
+          className="text-center mb-6"
         >
-          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full mb-4">
+          {/* <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full mb-4">
             <Sparkles className="w-4 h-4 text-blue-600" />
             <span className="text-sm font-medium">See It In Action</span>
-          </div>
-          
-          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-gray-900">
+          </div> */}
+
+          <h2 className="text-3xl md:text-4xl font-bold mb-2 text-gray-900">
             Build Your AI Agent in{' '}
             <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
               Just Minutes
             </span>
           </h2>
-          
+
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Watch how easily you can create a professional voice agent using our intuitive prompt builder.
           </p>
@@ -67,7 +67,7 @@ export default function PromptBuilderDemo({ onSwitchDemo, onSwitchToDebtCollecti
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative flex-1 max-w-5xl"
+            className="relative flex-1 max-w-2xl"
           >
             <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 blur-3xl opacity-40" />
             
@@ -109,14 +109,14 @@ export default function PromptBuilderDemo({ onSwitchDemo, onSwitchToDebtCollecti
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex-shrink-0 space-y-4"
+            className="flex-shrink-0 space-y-4 w-full lg:w-auto"
           >
             {/* Demo Switch Buttons */}
             <div className="flex flex-col items-start space-y-3">
               {(onSwitchDemo || onSwitchToDebtCollection) && (
                 <button
                   onClick={onSwitchDemo || onSwitchToDebtCollection}
-                  className="group w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-green-400 hover:bg-green-50 transition-all duration-200"
+                  className="group w-full lg:w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-green-400 hover:bg-green-50 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-green-100 flex items-center justify-center transition-colors">
@@ -133,7 +133,7 @@ export default function PromptBuilderDemo({ onSwitchDemo, onSwitchToDebtCollecti
               {onSwitchToDermaClinic && (
                 <button
                   onClick={onSwitchToDermaClinic}
-                  className="group w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-pink-400 hover:bg-pink-50 transition-all duration-200"
+                  className="group w-full lg:w-60 px-4 py-3 rounded-xl border-2 border-gray-300 hover:border-pink-400 hover:bg-pink-50 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-pink-100 flex items-center justify-center transition-colors">

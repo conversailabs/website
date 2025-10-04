@@ -4,6 +4,15 @@ import { createServerSupabaseClient, type LeadData } from '@/lib/supabase'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+
+    // Check if Supabase is configured
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json(
+        { message: 'Database service is not configured. Lead submission is currently unavailable.' },
+        { status: 503 }
+      )
+    }
+
     const supabase = createServerSupabaseClient()
 
     // Extract UTM parameters from headers or body

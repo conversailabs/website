@@ -25,7 +25,7 @@ const CTA = () => {
     <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
       <div className="container mx-auto px-6">
         <div className="text-center text-white">
-          <h2 className="text-4xl font-bold mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Transform Your Business?
           </h2>
           <p className="text-xl mb-12 opacity-90 max-w-2xl mx-auto">
@@ -69,10 +69,9 @@ const CTA = () => {
         </div>
       </div>
       
-      <ContactModal 
+      <ContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        title="Get Started with AI Agents"
       />
     </section>
   );

@@ -430,10 +430,9 @@ export default function AICRMPage() {
       </section>
       <Footer />
       
-      <ContactModal 
+      <ContactModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        title="Get Started with AI CRM"
       />
     </div>
   )

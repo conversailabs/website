@@ -4,9 +4,6 @@ import { notFound } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import { HeroSection } from '@/components/sections/HeroSection';
 import { FeaturesSection } from '@/components/sections/FeaturesSection';
-import UseCaseSection from '@/components/sections/UseCaseSection';
-import StatsSection from '@/components/sections/StatsSection';
-import FAQSection from '@/components/sections/FAQSection';
 import { CTABanner } from '@/components/sections/CTABanner';
 
 import industriesData from '@/data/industriesfinal.json';
@@ -38,7 +35,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!industry) return {};
 
   return {
-    // metadataBase: new URL('https://conversai.vercel.app'),
+    metadataBase: new URL(process.env.NODE_ENV === 'production'
+      ? 'https://conversailabs.com'
+      : 'http://localhost:3002'),
     title: `${industry.name} Voice Bot Solutions | ConversAI Labs`,
     description: `Transform your ${industry.name.toLowerCase()} business with AI-powered voice bots. ${industry.description}`,
     keywords: [
@@ -79,7 +78,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
   return (
     <>
       <Header />
-      <main className="min-h-screen">
+      <main className="min-h-screen bg-[#FAFBFC]">
         <HeroSection
           industry={industry.name}
           description={industry.description}
@@ -90,21 +89,6 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
           features={industry.features}
           color={industry.color}
         />
-        {slug !== 'education' && slug !== 'ed-tech' && (
-          <UseCaseSection
-            industry={industry.name}
-            useCases={industry.useCases}
-          />
-        )}
-        <StatsSection
-          industry={industry.name}
-          color={industry.color as 'blue' | 'purple' | 'green' | 'indigo' | 'orange' | 'default'}
-          stats={industry.stats.map((stat) => ({
-            label: stat.label,
-            value: stat.number,
-          }))}
-        />
-        <FAQSection industry={industry.name} faqs={industry.faqs} />
         <CTABanner industry={industry.name} color={industry.color} />
       </main>
     </>
