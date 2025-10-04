@@ -10,20 +10,11 @@ const Footer = () => {
   
   const footerSections = [
     {
-      title: "Product",
-      links: [
-        { name: "Features", path: "/#features" },
-        { name: "Pricing", path: "/pricing" },
-        { name: "Industries", path: "/industries" },
-        { name: "Schedule Demo", path: "/schedule-demo" },
-        { name: "Admin Panel", path: "https://dashboard.conversailabs.com/" },
-      ],
-    },
-    {
       title: "Company",
       links: [
+        { name: "Admin Panel", path: "https://dashboard.conversailabs.com/" },
         { name: "About Us", path: "/about" },
-        { name: "Contact Us", path: "#", onClick: () => setIsContactModalOpen(true) },
+        { name: "Contact Sales", path: "#", onClick: () => setIsContactModalOpen(true) },
         { name: "Privacy Policy", path: "/policy" },
         { name: "Terms & Conditions", path: "/terms" },
       ],
@@ -41,32 +32,33 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-4">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           {/* Brand */}
-          <div className="lg:col-span-1 flex flex-col items-start">
-            <div className="flex items-center space-x-2 mb-1">
-              <MessageSquare className="w-6 h-6 text-blue-400" />
-              <span className="text-xl font-bold">ConversAI Labs</span>
+          <div className="md:col-span-2 flex flex-col items-start pb-2 md:pb-0">
+            <div className="flex items-center space-x-2 mb-1.5">
+              <MessageSquare className="w-5 h-5 text-blue-400" />
+              <span className="text-base md:text-lg font-bold">ConversAI Labs</span>
             </div>
-            <p className="text-gray-400 mb-1 text-xs">
-              No-code AI agent builder. Create intelligent voice bots that qualify leads 24/7 across voice, WhatsApp, and email.
+            <p className="text-gray-400 mb-1.5 text-xs leading-relaxed">
+              No-code AI agent builder. Create intelligent voice bots that<br /> qualify leads 24/7 across voice,
+             WhatsApp,and  <br />email.
             </p>
             <p className="text-gray-400 mb-2 text-xs">
               Email: connect@conversailabs.com
             </p>
-            <div className="flex space-x-3 mb-0">
+            <div className="flex space-x-2">
               <a
                 href="https://www.linkedin.com/company/conversailabs/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
+                className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
               >
                 <span className="text-xs font-semibold">Li</span>
               </a>
-              <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
+              <div className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
                 <span className="text-xs font-semibold">Tw</span>
               </div>
-              <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
+              <div className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
                 <span className="text-xs font-semibold">Yt</span>
               </div>
             </div>
@@ -74,15 +66,15 @@ const Footer = () => {
 
           {/* Links */}
           {footerSections.map((section, index) => (
-            <div key={index} className="mt-3 sm:mt-0">
-              <h3 className="text-sm font-semibold mb-1">{section.title}</h3>
-              <ul className="space-y-0.5">
+            <div key={index}>
+              <h3 className="text-sm font-semibold mb-2 text-white">{section.title}</h3>
+              <ul className="space-y-1.5">
                 {(section.links as { name: string; path: string; onClick?: () => void }[]).map((linkObj, i) => (
                   <li key={i}>
                     {linkObj.onClick ? (
                       <button
                         onClick={linkObj.onClick}
-                        className="text-gray-400 hover:text-white transition-colors text-xs"
+                        className="text-gray-400 hover:text-white transition-colors text-xs block"
                       >
                         {linkObj.name}
                       </button>
@@ -91,14 +83,14 @@ const Footer = () => {
                         href={linkObj.path}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-white transition-colors text-xs"
+                        className="text-gray-400 hover:text-white transition-colors text-xs block"
                       >
                         {linkObj.name}
                       </a>
                     ) : (
                       <Link
                         href={linkObj.path}
-                        className="text-gray-400 hover:text-white transition-colors text-xs"
+                        className="text-gray-400 hover:text-white transition-colors text-xs block"
                       >
                         {linkObj.name}
                       </Link>

@@ -211,7 +211,7 @@ export default function ContactModal({
               <label className="text-sm font-semibold text-gray-700 block">Your Name</label>
               <Input
                 type="text"
-                placeholder="name"
+                placeholder="Name"
                 value={formData.name}
                 onChange={(e) => handleChange('name', e.target.value)}
                 className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.name ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
@@ -225,7 +225,7 @@ export default function ContactModal({
               <label className="text-sm font-semibold text-gray-700 block">Company Name</label>
               <Input
                 type="text"
-                placeholder="company name"
+                placeholder="company Name"
                 value={formData.company}
                 onChange={(e) => handleChange('company', e.target.value)}
                 className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.company ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
@@ -239,7 +239,7 @@ export default function ContactModal({
               <label className="text-sm font-semibold text-gray-700 block">Phone Number</label>
               <Input
                 type="tel"
-                placeholder="phone number"
+                placeholder="Phone Number"
                 value={formData.phone}
                 onChange={(e) => handleChange('phone', e.target.value)}
                 className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''}`}
@@ -253,7 +253,7 @@ export default function ContactModal({
               <label className="text-sm font-semibold text-gray-700 block">Email Address</label>
               <Input
                 type="email"
-                placeholder="email"
+                placeholder="Email"
                 value={formData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
                 className={`w-full h-12 px-4 rounded-xl border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-gray-900 font-medium ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-200' : ''} ${alreadySubmitted ? 'border-orange-400 focus:border-orange-500 focus:ring-orange-200' : ''}`}
