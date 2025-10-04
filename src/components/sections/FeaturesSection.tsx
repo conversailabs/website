@@ -58,10 +58,10 @@ const FeatureCard = ({ feature, onContactClick }: FeatureCardProps) => {
     >
       {/* Top Content - Title and Description */}
       <div className="mb-4 text-center flex-shrink-0">
-        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300 min-h-[3.5rem] flex items-center justify-center">
           {feature.title}
         </h3>
-        <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
+        <p className="text-gray-600 text-sm leading-relaxed min-h-[4rem]">{feature.description}</p>
       </div>
 
       {/* Image Container with Features */}
@@ -133,6 +133,16 @@ export function FeaturesSection({ industry, features }: FeaturesSectionProps) {
       image: cardImages[2],
       features: features.slice(0, 3),
     },
+    {
+      title: 'Build Your Custom Agent',
+      description: 'Create AI agents tailored to your unique business needs.',
+      image: cardImages[0],
+      features: [
+        'No-code drag & drop builder',
+        'Custom workflows & logic',
+        'Personalized brand experience'
+      ],
+    },
   ];
 
   return (
@@ -157,7 +167,7 @@ export function FeaturesSection({ industry, features }: FeaturesSectionProps) {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
           {allFeatures.map((feature, index) => (
             <FeatureCard key={index} feature={feature} onContactClick={() => setIsModalOpen(true)} />
           ))}
