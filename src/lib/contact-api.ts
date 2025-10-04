@@ -31,7 +31,7 @@ export interface ContactSubmissionError {
 }
 
 /**
- * Submit contact form to FastAPI backend
+ * Submit contact form via Next.js API route
  *
  * @param data Contact form data
  * @returns Promise with submission response
@@ -40,34 +40,20 @@ export interface ContactSubmissionError {
 export async function submitContact(
   data: ContactFormData
 ): Promise<ContactSubmissionResponse> {
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-  const apiKey = process.env.NEXT_PUBLIC_CONTACT_API_KEY;
-
-  if (!backendUrl) {
-    throw new Error('Backend API URL not configured. Please set NEXT_PUBLIC_BACKEND_API_URL environment variable.');
-  }
-
-  if (!apiKey) {
-    throw new Error('Contact API key not configured. Please set NEXT_PUBLIC_CONTACT_API_KEY environment variable.');
-  }
-
   try {
-    const response = await fetch(`${backendUrl}/api/v1/contact-submissions`, {
+    const response = await fetch('/api/contact', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-Key': apiKey,
       },
       body: JSON.stringify({
         name: data.name,
         email: data.email,
         phone: data.phone,
         company: data.company,
-        company_size: data.companySize,
+        companySize: data.companySize,
         message: data.message,
-        source_page: data.source || 'contact_page',
-        form_type: 'contact_form',
-        interest_level: 'medium',
+        source: data.source || 'contact_page',
         utm_source: data.utm_source,
         utm_campaign: data.utm_campaign,
         utm_medium: data.utm_medium,

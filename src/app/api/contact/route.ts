@@ -25,9 +25,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get backend API credentials from environment
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-    const apiKey = process.env.NEXT_PUBLIC_CONTACT_API_KEY;
+    // Get backend API credentials from environment (server-side only)
+    const backendUrl = process.env.BACKEND_API_URL;
+    const apiKey = process.env.CONTACT_API_KEY;
 
     if (!backendUrl || !apiKey) {
       console.error('Backend API not configured');
