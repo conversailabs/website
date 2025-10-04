@@ -58,10 +58,10 @@ const FeatureCard = ({ feature, onContactClick }: FeatureCardProps) => {
     >
       {/* Top Content - Title and Description */}
       <div className="mb-4 text-center flex-shrink-0">
-        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300 min-h-[3.5rem] flex items-center justify-center">
           {feature.title}
         </h3>
-        <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
+        <p className="text-gray-600 text-sm leading-relaxed min-h-[4rem]">{feature.description}</p>
       </div>
 
       {/* Image Container with Features */}
