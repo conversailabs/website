@@ -40,19 +40,19 @@ const AgentCard = ({ title, description, features, image, cardRef, onContactClic
           ? { type: "spring", stiffness: 300, damping: 20 }
           : { duration: 0.1 }
       }}
-      className="group relative bg-gray-50/80 rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-100 overflow-hidden border border-gray-200/50 p-5"
+      className="group relative bg-gray-50/80 rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-100 overflow-hidden border border-gray-200/50 p-5 flex flex-col"
       style={{ transformStyle: 'preserve-3d' }}
     >
       {/* Top Content - Title and Description */}
       <div className="mb-4 text-center">
-        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300 min-h-[3.5rem] flex items-center justify-center">
           {title}
         </h3>
-        <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
+        <p className="text-gray-600 text-sm leading-relaxed min-h-[2.5rem]">{description}</p>
       </div>
 
       {/* Image Container with Features */}
-      <div className="relative rounded-2xl overflow-hidden mb-4">
+      <div className="relative rounded-2xl overflow-hidden mb-4 flex-1">
         <div className="aspect-[4/3] w-full relative">
           <Image
             src={image}
@@ -65,7 +65,7 @@ const AgentCard = ({ title, description, features, image, cardRef, onContactClic
         </div>
 
         {/* Feature List Overlay */}
-        <div className="absolute bottom-3 left-3 right-3 space-y-2">
+        <div className="absolute bottom-2 left-2 right-2 space-y-1.5">
           {features.map((feature, idx) => (
             <motion.div
               key={idx}
@@ -73,12 +73,12 @@ const AgentCard = ({ title, description, features, image, cardRef, onContactClic
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.6 + idx * 0.1 }}
-              className="flex items-center space-x-1 bg-white backdrop-blur-md border border-gray-200 rounded-full px-2 py-1 shadow-md w-fit max-w-[90%]"
+              className="flex items-center space-x-0.5 bg-white backdrop-blur-md border border-gray-200 rounded-full px-1.5 py-0.5 shadow-md w-fit max-w-[90%]"
             >
-              <div className="flex-shrink-0 w-5 h-5 bg-gray-900 rounded-full flex items-center justify-center">
-                <Check className="w-3 h-3 text-white" strokeWidth={3} />
+              <div className="flex-shrink-0 w-4 h-4 bg-gray-900 rounded-full flex items-center justify-center">
+                <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
               </div>
-              <span className="text-gray-900 text-xs font-medium">{feature}</span>
+              <span className="text-gray-900 text-[10px] font-medium">{feature}</span>
             </motion.div>
           ))}
         </div>
@@ -101,6 +101,7 @@ const AIAgents = () => {
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
+  const card4Ref = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [paths, setPaths] = useState<{ d: string; gradient: string }[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -137,6 +138,16 @@ const AIAgents = () => {
         "100% Compliance Monitoring",
       ],
     },
+    {
+      title: "Pre-Built Agent Templates",
+      description: "Ready-to-deploy AI agents for common use cases.",
+      image: "/card1.jpg",
+      features: [
+        "Launch in minutes, not weeks",
+        "Industry-specific templates",
+        "Fully customizable workflows",
+      ],
+    },
   ];
 
   useEffect(() => {
@@ -145,7 +156,7 @@ const AIAgents = () => {
 
       const logoRect = logoRef.current.getBoundingClientRect();
       const svgRect = svgRef.current.getBoundingClientRect();
-      const cardRefs = [card1Ref, card2Ref, card3Ref];
+      const cardRefs = [card1Ref, card2Ref, card3Ref, card4Ref];
 
       const newPaths = cardRefs.map((cardRef, index) => {
         if (!cardRef.current) return null;
@@ -168,7 +179,7 @@ const AIAgents = () => {
         // Use cubic bezier for smoother curves
         const d = `M ${startX} ${startY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${endX} ${endY}`;
 
-        const gradients = ['url(#gradient-blue)', 'url(#gradient-blue)', 'url(#gradient-blue)'];
+        const gradients = ['url(#gradient-blue)', 'url(#gradient-blue)', 'url(#gradient-blue)', 'url(#gradient-blue)'];
 
         return { d, gradient: gradients[index] };
       }).filter(Boolean) as { d: string; gradient: string }[];
@@ -282,10 +293,11 @@ const AIAgents = () => {
           </div>
 
           {/* Card Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto relative z-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto relative z-20 items-start">
             <AgentCard {...agents[0]} index={0} cardRef={card1Ref} onContactClick={() => setIsModalOpen(true)} />
             <AgentCard {...agents[1]} index={1} cardRef={card2Ref} onContactClick={() => setIsModalOpen(true)} />
             <AgentCard {...agents[2]} index={2} cardRef={card3Ref} onContactClick={() => setIsModalOpen(true)} />
+            <AgentCard {...agents[3]} index={3} cardRef={card4Ref} onContactClick={() => setIsModalOpen(true)} />
           </div>
         </motion.div>
       </div>
