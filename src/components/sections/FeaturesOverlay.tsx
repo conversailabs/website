@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Phone, MessageSquare, Users, FileText, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Phone, Users, FileText, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Carousel,
@@ -33,17 +33,6 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
         "Real-time call transcription"
       ],
       gradient: "from-blue-500/10 to-cyan-500/10"
-    },
-    {
-      icon: MessageSquare,
-      title: "Omnichannel Messaging",
-      shortDescription: "Unified AI conversations across all messaging platforms",
-      points: [
-        "WhatsApp, Email, SMS, Web Chat",
-        "Dynamic two-way conversations",
-        "Context-aware follow-ups"
-      ],
-      gradient: "from-purple-500/10 to-pink-500/10"
     },
     {
       icon: Users,

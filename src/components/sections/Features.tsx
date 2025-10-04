@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Phone, MessageSquare, Users, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Phone, Users, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
@@ -34,17 +34,6 @@ const Features = () => {
         "Real-time call transcription"
       ],
       gradient: "from-blue-600 to-cyan-500"
-    },
-    {
-      icon: MessageSquare,
-      title: "Omnichannel Messaging",
-      shortDescription: "Unified AI conversations across all messaging platforms",
-      points: [
-        "WhatsApp, Email, SMS, Web Chat",
-        "Dynamic two-way conversations",
-        "Context-aware follow-ups"
-      ],
-      gradient: "from-purple-600 to-pink-500"
     },
     {
       icon: Users,
