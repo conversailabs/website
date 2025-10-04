@@ -174,11 +174,14 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
                     {features.map((feature, index) => (
                       <CarouselItem
                         key={index}
-                        className="pl-4 basis-full md:basis-1/2 lg:basis-1/3"
+                        className="pl-4 basis-full md:basis-2/3 lg:basis-1/2"
                       >
                         <motion.div
                           className="p-1 cursor-pointer h-full"
-                          onClick={() => scrollTo(index)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            scrollTo(index);
+                          }}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
@@ -245,7 +248,10 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
                   variant="outline"
                   size="icon"
                   className="glassmorphic-nav-button absolute -left-6 top-1/2 -translate-y-1/2 z-10 hidden lg:flex w-14 h-14"
-                  onClick={scrollPrev}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    scrollPrev();
+                  }}
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </Button>
@@ -254,7 +260,10 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
                   variant="outline"
                   size="icon"
                   className="glassmorphic-nav-button absolute -right-6 top-1/2 -translate-y-1/2 z-10 hidden lg:flex w-14 h-14"
-                  onClick={scrollNext}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    scrollNext();
+                  }}
                 >
                   <ChevronRight className="w-6 h-6" />
                 </Button>
@@ -264,7 +273,10 @@ const FeaturesOverlay: React.FC<FeaturesOverlayProps> = ({ isOpen, onClose }) =>
                   {features.map((_, index) => (
                     <button
                       key={index}
-                      onClick={() => scrollTo(index)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        scrollTo(index);
+                      }}
                       className={cn(
                         "transition-all duration-300",
                         current === index
