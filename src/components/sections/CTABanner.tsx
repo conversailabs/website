@@ -32,7 +32,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
 
   return (
     <>
-      <section className="py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Background gradient */}
         <div className={`absolute inset-0 bg-gradient-to-br ${gradientClass}`} />
 
@@ -48,7 +48,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="mb-8"
+            className="mb-4"
           >
             {/* <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/20 text-white text-sm font-medium mb-8">
               <Sparkles className="w-4 h-4 mr-2" />
@@ -61,7 +61,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-4 leading-tight tracking-tight"
+            className="text-3xl md:text-4xl font-bold mb-3 leading-tight tracking-tight"
           >
             Ready to Transform Your {industry} Operations?
           </motion.h2>
@@ -71,7 +71,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-lg text-black/70 mb-6 max-w-xl mx-auto leading-relaxed"
+            className="text-lg text-black/70 mb-4 max-w-xl mx-auto leading-relaxed"
           >
             Join thousands of {industry.toLowerCase()} companies that have already revolutionized their operations with our cutting-edge solutions.
           </motion.p>
@@ -82,7 +82,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 max-w-4xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6 max-w-4xl mx-auto"
           >
             {benefits.map((benefit, index) => (
               <motion.div
@@ -91,10 +91,10 @@ export function CTABanner({ industry, color }: CTABannerProps) {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, delay: 0.4 + (index * 0.1) }}
                 viewport={{ once: true }}
-                className="flex items-center text-left bg-white/20 p-3 rounded-lg backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all duration-200"
+                className="flex items-center text-left bg-white/20 p-2 rounded-lg backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all duration-200"
               >
-                <CheckCircle className="w-5 h-5 mr-3 text-green-600 flex-shrink-0" />
-                <span className="text-black/80 text-sm font-medium">{benefit}</span>
+                <CheckCircle className="w-4 h-4 mr-2 text-green-600 flex-shrink-0" />
+                <span className="text-black/80 text-xs font-medium">{benefit}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -104,7 +104,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
-            className="flex flex-col gap-3 justify-center items-center"
+            className="flex flex-col gap-2 justify-center items-center"
           >
             <Button
               size="lg"

@@ -338,12 +338,6 @@ const VoiceHero = () => {
         >
           Book a demo
         </Button>
-        <p className="text-gray-500 text-sm mb-2">
-          Go live in a day, increase quote intake by 74%
-        </p>
-         <div className="text-gray-500 text-sm font-medium">
-            Trusted by MGAs and Agencies across the US
-          </div>
       </div>
 
       {/* Email Input Dialog */}
