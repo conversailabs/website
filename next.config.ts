@@ -5,6 +5,15 @@ const nextConfig: NextConfig = {
     // Allows for more detailed type checking during build
     tsconfigPath: './tsconfig.json',
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'eleven-public-cdn.elevenlabs.io',
+        pathname: '/**',
+      },
+    ],
+  },
   // Optional: Add any other specific configurations
 };
 

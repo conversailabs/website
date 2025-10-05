@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { agentId } = await req.json();
+    const { agentId, metadata } = await req.json();
 
     if (!agentId) {
       console.error("[createWebCall] No agent ID provided in request");
@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
 
     /* Create the web call directly without phone number update */
     console.log("[createWebCall] Creating web call with agent ID:", agentId);
+    console.log("[createWebCall] Metadata:", metadata);
     console.log("[createWebCall] API key present:", RETELL_API_KEY ? "YES" : "NO");
     console.log("[createWebCall] API key prefix:", RETELL_API_KEY?.substring(0, 10) + "...");
 
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         agent_id: agentId,
+        metadata: metadata,
       }),
     });
 

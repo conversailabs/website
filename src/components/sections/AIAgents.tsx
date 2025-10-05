@@ -130,7 +130,7 @@ const AIAgents = () => {
     {
       title: "Conversation Intelligence Agent",
       description: "Analyses 100% of customer conversations.",
-      image: "/card3.jpg",
+      image: "/education1.jpg",
       features: [
         // "100% QA",
         "27% Higher Sales",
@@ -141,7 +141,7 @@ const AIAgents = () => {
     {
       title: "Pre-Built Agent Templates",
       description: "Ready-to-deploy AI agents for common use cases.",
-      image: "/card1.jpg",
+      image: "/education3.jpg",
       features: [
         "Launch in minutes, not weeks",
         "Industry-specific templates",

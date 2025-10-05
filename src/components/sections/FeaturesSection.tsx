@@ -13,7 +13,7 @@ interface FeaturesSectionProps {
   color: string;
 }
 
-const cardImages = ['/card1.jpg', '/card2.webp', '/card3.jpg'];
+const cardImages = ['/card1.jpg', '/card2.webp', '/education1.jpg', '/education3.jpg'];
 
 const featureDescriptions = [
   'Enterprise-grade security measures to protect your sensitive data and ensure compliance with industry standards.',
@@ -136,7 +136,7 @@ export function FeaturesSection({ industry, features }: FeaturesSectionProps) {
     {
       title: 'Build Your Custom Agent',
       description: 'Create AI agents tailored to your unique business needs.',
-      image: cardImages[0],
+      image: cardImages[3],
       features: [
         'No-code drag & drop builder',
         'Custom workflows & logic',
