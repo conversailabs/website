@@ -33,19 +33,12 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-4">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-[0.57fr_auto_auto] gap-4 md:gap-8 lg:gap-12">
           {/* Brand */}
-          <div className="md:col-span-2 flex flex-col items-start pb-2 md:pb-0">
-            <div className="flex items-center space-x-3 mb-1.5">
+          <div className="flex flex-col items-start pb-2 md:pb-0">
+            <div className="flex items-center space-x-2 mb-1.5">
               <MessageSquare className="w-5 h-5 text-blue-400" />
               <span className="text-base md:text-lg font-bold">ConversAI Labs</span>
-              <Image
-                src="https://eleven-public-cdn.elevenlabs.io/payloadcms/cy7rxce8uki-IIElevenLabsGrants%201.webp"
-                alt="ElevenLabs"
-                width={140}
-                height={56}
-                className="object-contain"
-              />
             </div>
             <p className="text-gray-400 mb-1.5 text-xs leading-relaxed">
               No-code AI agent builder. Create intelligent voice bots that<br /> qualify leads 24/7 across voice,
@@ -110,10 +103,19 @@ const Footer = () => {
           ))}
         </div>
 
-        <div className="border-t border-gray-800 mt-3 pt-2 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+        <div className="border-t border-gray-800 mt-3 pt-2 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
           <p className="text-gray-400 text-xs text-center md:text-left">
             © 2024 ConversAI Labs. All rights reserved.
           </p>
+          <div className="flex items-center justify-center">
+            <Image
+              src="https://eleven-public-cdn.elevenlabs.io/payloadcms/cy7rxce8uki-IIElevenLabsGrants%201.webp"
+              alt="ElevenLabs"
+              width={120}
+              height={48}
+              className="object-contain"
+            />
+          </div>
           <div className="text-gray-400 text-xs text-center md:text-right">
             Built with ❤️ for businesses everywhere
           </div>
