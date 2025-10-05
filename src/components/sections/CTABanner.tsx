@@ -35,7 +35,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
 
   return (
     <>
-      <section className="py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="py-6 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Background gradient */}
         <div className={`absolute inset-0 bg-gradient-to-br ${gradientClass}`} />
 
@@ -43,7 +43,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
         <div className="absolute inset-0 opacity-10" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
         }} />
-        
+
 
         <div className="relative max-w-4xl mx-auto text-center text-black">
           <motion.div
@@ -51,7 +51,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="mb-4"
+            className="mb-2"
           >
             {/* <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/20 text-white text-sm font-medium mb-8">
               <Sparkles className="w-4 h-4 mr-2" />
@@ -64,7 +64,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-3 leading-tight tracking-tight"
+            className="text-2xl md:text-3xl font-bold mb-2 leading-tight tracking-tight"
           >
             Ready to Transform Your {industry} Operations?
           </motion.h2>
@@ -74,7 +74,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-lg text-black/70 mb-4 max-w-xl mx-auto leading-relaxed"
+            className="text-base text-black/70 mb-3 max-w-xl mx-auto leading-relaxed"
           >
             Join thousands of {industry.toLowerCase()} companies that have already revolutionized their operations with our cutting-edge solutions.
           </motion.p>
@@ -85,7 +85,7 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6 max-w-4xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4 max-w-4xl mx-auto"
           >
             {benefits.map((benefit, index) => (
               <motion.div
@@ -107,12 +107,12 @@ export function CTABanner({ industry, color }: CTABannerProps) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
-            className="flex flex-col gap-2 justify-center items-center"
+            className="flex flex-col gap-1.5 justify-center items-center"
           >
             <Button
               size="lg"
               onClick={() => setIsModalOpen(true)}
-              className="bg-white text-gray-900 cursor-pointer hover:bg-gray-50 px-6 py-3 rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 border border-gray-200 hover:border-gray-300"
+              className="bg-white text-gray-900 cursor-pointer hover:bg-gray-50 px-5 py-2.5 rounded-full font-semibold shadow-md hover:shadow-lg transition-all duration-200 border border-gray-200 hover:border-gray-300"
             >
               Get Started Now
               <ArrowRight className="ml-2 w-4 h-4" />
