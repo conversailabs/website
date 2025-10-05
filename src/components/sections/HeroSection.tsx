@@ -164,7 +164,14 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
       const response = await fetch("/api/createWebCall", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentId }),
+        body: JSON.stringify({
+          agentId,
+          metadata: {
+            industry: industry,
+            source: "website_tap_to_talk",
+            page: window.location.pathname
+          }
+        }),
       });
 
       if (!response.ok) {
