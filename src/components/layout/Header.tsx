@@ -14,7 +14,7 @@ const industries = [
   { name: "Education", slug: "education" },
   { name: "Finance", slug: "finance-and-legal" },
   { name: "Real Estate", slug: "real-estate-and-housing" },
-  { name: "Hinglish", slug: "hinglish" },
+  { name: "Hinglish Finance", slug: "hinglish" },
   { name: "E-commerce", slug: "e-commerce" },
   { name: "Automotive", slug: "automotive" },
 ];
