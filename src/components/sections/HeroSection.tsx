@@ -24,6 +24,9 @@ const industryAgentMap: Record<string, string> = {
   'Healthcare & Wellness': 'agent_f7664b8912fa2a5c8106f20668',
   'Real Estate & Housing': 'agent_df19e049ff7975f2559836d74e',
   'Finance & Legal': 'agent_38efe8dc909c95c045d6827754',
+  'E-commerce': 'agent_2eebba4db15628889d02b77d36',
+  'Automotive': 'agent_29a21fa98d3b5caa076f5cf0d8',
+  'Hinglish Finance': 'agent_f870e4ef195166cd20f5db3028',
 };
 
 const colorMap = {
