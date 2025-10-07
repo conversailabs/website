@@ -143,7 +143,13 @@ const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) =>
       const response = await fetch("/api/createWebCall", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentId }),
+        body: JSON.stringify({
+          agentId,
+          metadata: {
+            source: source,
+            page: typeof window !== 'undefined' ? window.location.pathname : 'unknown',
+          }
+        }),
       });
 
       if (!response.ok) {
@@ -247,7 +253,7 @@ const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) =>
         email: email,
         name: 'Tap to Talk User',
         message: 'Tap to talk call request',
-        source: source,
+        source: `${source} - ${typeof window !== 'undefined' ? window.location.pathname : 'unknown'}`,
       }),
     }).catch(error => console.error('DB save failed:', error));
 

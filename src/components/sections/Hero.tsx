@@ -110,7 +110,13 @@ const VoiceHero = () => {
       const response = await fetch("/api/createWebCall", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentId: LANDING_PAGE_AGENT_ID }),
+        body: JSON.stringify({
+          agentId: LANDING_PAGE_AGENT_ID,
+          metadata: {
+            source: "home_page_tap_to_talk",
+            page: typeof window !== 'undefined' ? window.location.pathname : 'unknown',
+          }
+        }),
       });
 
       if (!response.ok) {
@@ -235,7 +241,7 @@ const VoiceHero = () => {
           email: email,
           name: 'Tap to Talk User',
           message: 'Tap to talk call request',
-          source: 'home_page_tap_to_talk',
+          source: `home_page_tap_to_talk - ${typeof window !== 'undefined' ? window.location.pathname : 'unknown'}`,
         }),
       });
       console.log('Email saved to database successfully');
