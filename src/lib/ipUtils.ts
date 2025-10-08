@@ -56,12 +56,6 @@ export function getClientIp(request: NextRequest): string {
     return clientIp;
   }
 
-  // Fallback to request IP (direct connection)
-  const ip = request.ip;
-  if (ip) {
-    return ip;
-  }
-
   // If all else fails, return unknown
   return 'unknown';
 }
