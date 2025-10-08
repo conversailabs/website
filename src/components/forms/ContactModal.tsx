@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import StatusModal from '@/components/ui/StatusModal';
+import { validateBusinessEmail } from '@/lib/emailValidation';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -43,7 +44,8 @@ export default function ContactModal({
 
   // Check if email already submitted when email changes
   useEffect(() => {
-    if (formData.email && validateEmail(formData.email)) {
+    const { isValid } = validateBusinessEmail(formData.email);
+    if (formData.email && isValid) {
       setAlreadySubmitted(isEmailAlreadySubmitted(formData.email));
     } else {
       setAlreadySubmitted(false);
@@ -82,11 +84,6 @@ export default function ContactModal({
       submissions.push(email.toLowerCase());
       localStorage.setItem('contactFormSubmissions', JSON.stringify(submissions));
     }
-  };
-
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   };
 
   const validatePhone = (phone: string) => {
@@ -128,8 +125,11 @@ export default function ContactModal({
     }
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+    } else {
+      const { isValid, error } = validateBusinessEmail(formData.email);
+      if (!isValid && error) {
+        newErrors.email = error;
+      }
     }
 
     setErrors(newErrors);

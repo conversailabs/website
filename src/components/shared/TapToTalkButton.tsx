@@ -12,6 +12,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { validateBusinessEmail } from "@/lib/emailValidation";
 
 interface TapToTalkButtonProps {
   source: string;
@@ -109,11 +110,6 @@ const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) =>
   };
 
   const emailSuggestions = getEmailSuggestions();
-
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
   const startRetellCall = async () => {
     // Check rate limit
@@ -229,8 +225,10 @@ const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) =>
       setEmailError("Please enter your email address");
       return;
     }
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email address");
+
+    const { isValid, error } = validateBusinessEmail(email);
+    if (!isValid && error) {
+      setEmailError(error);
       return;
     }
 

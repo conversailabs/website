@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { validateBusinessEmail } from "@/lib/emailValidation";
 
 // Landing page agent ID
 const LANDING_PAGE_AGENT_ID = "agent_fdb605cbf88227c104786cd227";
@@ -95,11 +96,6 @@ const VoiceHero = () => {
   };
 
   const emailSuggestions = getEmailSuggestions();
-
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
   const startRetellCall = async () => {
     try {
@@ -218,8 +214,10 @@ const VoiceHero = () => {
       setEmailError("Please enter your email address");
       return;
     }
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email address");
+
+    const { isValid, error } = validateBusinessEmail(email);
+    if (!isValid && error) {
+      setEmailError(error);
       return;
     }
 
