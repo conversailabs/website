@@ -53,15 +53,28 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
+                aria-label="Follow us on LinkedIn"
               >
                 <span className="text-xs font-semibold">Li</span>
               </a>
-              <div className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
+              <a
+                href="https://twitter.com/conversailabs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
+                aria-label="Follow us on Twitter"
+              >
                 <span className="text-xs font-semibold">Tw</span>
-              </div>
-              <div className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
+              </a>
+              <a
+                href="https://www.youtube.com/@conversailabs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
+                aria-label="Subscribe to our YouTube channel"
+              >
                 <span className="text-xs font-semibold">Yt</span>
-              </div>
+              </a>
             </div>
           </div>
 
@@ -105,16 +118,22 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-3 pt-2 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
           <p className="text-gray-400 text-xs text-center md:text-left">
-            © 2024 ConversAI Labs. All rights reserved.
+            © 2025 ConversAI Labs. All rights reserved.
           </p>
           <div className="flex items-center justify-center">
-            <Image
-              src="https://eleven-public-cdn.elevenlabs.io/payloadcms/cy7rxce8uki-IIElevenLabsGrants%201.webp"
-              alt="ElevenLabs"
-              width={120}
-              height={48}
-              className="object-contain"
-            />
+            <a
+              href="https://elevenlabs.io/startup-grants"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="https://eleven-public-cdn.elevenlabs.io/payloadcms/cy7rxce8uki-IIElevenLabsGrants%201.webp"
+                alt="ElevenLabs"
+                width={120}
+                height={48}
+                className="object-contain"
+              />
+            </a>
           </div>
           <div className="text-gray-400 text-xs text-center md:text-right">
             Built with ❤️ for businesses everywhere

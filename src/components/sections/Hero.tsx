@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { validateBusinessEmail } from "@/lib/emailValidation";
 
 // Landing page agent ID
 const LANDING_PAGE_AGENT_ID = "agent_fdb605cbf88227c104786cd227";
@@ -96,11 +97,6 @@ const VoiceHero = () => {
 
   const emailSuggestions = getEmailSuggestions();
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   const startRetellCall = async () => {
     try {
       setIsConnecting(true);
@@ -110,7 +106,13 @@ const VoiceHero = () => {
       const response = await fetch("/api/createWebCall", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentId: LANDING_PAGE_AGENT_ID }),
+        body: JSON.stringify({
+          agentId: LANDING_PAGE_AGENT_ID,
+          metadata: {
+            source: "home_page_tap_to_talk",
+            page: typeof window !== 'undefined' ? window.location.pathname : 'unknown',
+          }
+        }),
       });
 
       if (!response.ok) {
@@ -212,8 +214,10 @@ const VoiceHero = () => {
       setEmailError("Please enter your email address");
       return;
     }
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email address");
+
+    const { isValid, error } = validateBusinessEmail(email);
+    if (!isValid && error) {
+      setEmailError(error);
       return;
     }
 
@@ -235,7 +239,7 @@ const VoiceHero = () => {
           email: email,
           name: 'Tap to Talk User',
           message: 'Tap to talk call request',
-          source: 'home_page_tap_to_talk',
+          source: `home_page_tap_to_talk - ${typeof window !== 'undefined' ? window.location.pathname : 'unknown'}`,
         }),
       });
       console.log('Email saved to database successfully');

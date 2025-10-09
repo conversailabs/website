@@ -33,4 +33,5 @@ export interface LeadData {
   utm_campaign?: string
   utm_medium?: string
   notes?: string
+  ip_address?: string
 }

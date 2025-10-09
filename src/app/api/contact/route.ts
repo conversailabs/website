@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getClientIp } from '@/lib/ipUtils';
 
 interface ContactFormData {
   name: string;
@@ -11,11 +12,16 @@ interface ContactFormData {
   utm_source?: string;
   utm_campaign?: string;
   utm_medium?: string;
+  ip_address?: string;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const data: ContactFormData = await req.json();
+
+    // Capture client IP address
+    const clientIp = getClientIp(req);
+    console.log('✅ Captured IP:', clientIp);
 
     // Validate required fields
     if (!data.name || !data.email || !data.message) {
@@ -57,6 +63,7 @@ export async function POST(req: NextRequest) {
         utm_source: data.utm_source,
         utm_campaign: data.utm_campaign,
         utm_medium: data.utm_medium,
+        ip_address: clientIp,
       }),
     });
 

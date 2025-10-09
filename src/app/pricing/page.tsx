@@ -6,6 +6,7 @@ import { Check, Star, MessageSquare, Phone, Zap, BarChart3, Shield } from 'lucid
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ContactModal from '@/components/forms/ContactModal';
+import { FAQSchema } from '@/components/seo/StructuredData';
 
 interface PricingPlan {
   name: string;
@@ -21,6 +22,25 @@ interface PricingPlan {
 const PricingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+  const faqs = [
+    {
+      question: "Can I change plans anytime?",
+      answer: "Yes, you can upgrade or downgrade your plan at any time. Changes take effect on your next billing cycle."
+    },
+    {
+      question: "What happens if I exceed my voice call limit?",
+      answer: "We'll notify you when you're approaching your limit. You can purchase additional voice calls or upgrade your plan."
+    },
+    {
+      question: "Is there a setup fee?",
+      answer: "No setup fees for Starter and Professional plans. Enterprise plans may include onboarding services."
+    },
+    {
+      question: "Do you offer refunds?",
+      answer: "We offer a 14-day free trial. Paid plans include a 30-day money-back guarantee."
+    }
+  ];
 
   const plans: PricingPlan[] = [
     {
@@ -113,6 +133,7 @@ const PricingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <FAQSchema faqs={faqs} />
       <Header />
       <div className="container mx-auto px-4 py-12 pt-24">
         <div className="max-w-7xl mx-auto">

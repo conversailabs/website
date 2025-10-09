@@ -12,6 +12,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { validateBusinessEmail } from "@/lib/emailValidation";
 
 interface TapToTalkButtonProps {
   source: string;
@@ -110,11 +111,6 @@ const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) =>
 
   const emailSuggestions = getEmailSuggestions();
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   const startRetellCall = async () => {
     // Check rate limit
     const { count, canCall } = checkAndResetDailyLimit();
@@ -143,7 +139,13 @@ const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) =>
       const response = await fetch("/api/createWebCall", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ agentId }),
+        body: JSON.stringify({
+          agentId,
+          metadata: {
+            source: source,
+            page: typeof window !== 'undefined' ? window.location.pathname : 'unknown',
+          }
+        }),
       });
 
       if (!response.ok) {
@@ -223,8 +225,10 @@ const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) =>
       setEmailError("Please enter your email address");
       return;
     }
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email address");
+
+    const { isValid, error } = validateBusinessEmail(email);
+    if (!isValid && error) {
+      setEmailError(error);
       return;
     }
 
@@ -247,7 +251,7 @@ const TapToTalkButton: React.FC<TapToTalkButtonProps> = ({ source, agentId }) =>
         email: email,
         name: 'Tap to Talk User',
         message: 'Tap to talk call request',
-        source: source,
+        source: `${source} - ${typeof window !== 'undefined' ? window.location.pathname : 'unknown'}`,
       }),
     }).catch(error => console.error('DB save failed:', error));
 

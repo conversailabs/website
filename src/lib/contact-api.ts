@@ -16,6 +16,7 @@ export interface ContactFormData {
   utm_source?: string;
   utm_campaign?: string;
   utm_medium?: string;
+  ip_address?: string;
 }
 
 export interface ContactSubmissionResponse {

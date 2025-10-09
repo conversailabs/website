@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabaseClient, type LeadData } from '@/lib/supabase'
+import { getClientIp } from '@/lib/ipUtils'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+
+    // Capture client IP address
+    const clientIp = getClientIp(request)
 
     // Check if Supabase is configured
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
@@ -38,7 +42,8 @@ export async function POST(request: NextRequest) {
       utm_source,
       utm_campaign,
       utm_medium,
-      notes: body.notes
+      notes: body.notes,
+      ip_address: clientIp
     }
 
     // Insert into Supabase
