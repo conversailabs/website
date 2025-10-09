@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
 
     // Capture client IP address
     const clientIp = getClientIp(req);
+    console.log('✅ Captured IP:', clientIp);
 
     // Validate required fields
     if (!data.name || !data.email || !data.message) {

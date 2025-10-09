@@ -53,15 +53,28 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
+                aria-label="Follow us on LinkedIn"
               >
                 <span className="text-xs font-semibold">Li</span>
               </a>
-              <div className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
+              <a
+                href="https://twitter.com/conversailabs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
+                aria-label="Follow us on Twitter"
+              >
                 <span className="text-xs font-semibold">Tw</span>
-              </div>
-              <div className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors">
+              </a>
+              <a
+                href="https://www.youtube.com/@conversailabs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors"
+                aria-label="Subscribe to our YouTube channel"
+              >
                 <span className="text-xs font-semibold">Yt</span>
-              </div>
+              </a>
             </div>
           </div>
 
