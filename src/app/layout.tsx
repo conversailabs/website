@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import ErrorBoundary from "@/components/utilities/ErrorBoundary";
 import ClientScripts from "@/components/tracking/ClientScripts";
+import Footer from "@/components/layout/Footer";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/StructuredData";
 
 const geistSans = Geist({
@@ -99,6 +100,7 @@ export default function RootLayout({
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
+        <Footer />
         <Toaster />
         <ClientScripts />
       </body>

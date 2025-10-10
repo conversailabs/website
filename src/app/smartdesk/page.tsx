@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Clock, MessageSquare, TrendingUp, Users, Zap, Bot, Shield, ChevronRight, Sparkles, Star, Play, Award } from 'lucide-react';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import CountdownTimer from '@/components/utilities/CountdownTimer';
 
 const SmartDeskPage = () => {
@@ -777,7 +776,7 @@ const SmartDeskPage = () => {
         </div>
       </section>
 
-      <Footer />
+      
 
       <style jsx>{`
         @keyframes float {

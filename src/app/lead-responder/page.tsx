@@ -7,7 +7,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { motion } from 'framer-motion';
-import Footer from '@/components/layout/Footer';
 import ContactModal from '@/components/forms/ContactModal';
 
 export default function LeadResponderPage() {
@@ -826,7 +825,7 @@ export default function LeadResponderPage() {
         </section>
       </main>
       
-      <Footer />
+      
       <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
     </>
   );

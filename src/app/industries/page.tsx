@@ -4,7 +4,6 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Users, Clock, TrendingUp, Shield } from 'lucide-react'
 
@@ -353,7 +352,7 @@ export default function IndustriesPage() {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   )
 }
