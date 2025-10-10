@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
+  // Fix workspace root detection for multiple package-lock.json files
+  output: 'standalone',
+  outputFileTracingRoot: path.join(__dirname, '../../'),
   typescript: {
     // Allows for more detailed type checking during build
     tsconfigPath: './tsconfig.json',
