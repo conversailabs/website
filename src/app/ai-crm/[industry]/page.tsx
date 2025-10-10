@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import AICRMHeader from '@/components/layout/AICRMHeader'
-import Footer from '@/components/layout/Footer'
 import ContactModal from '@/components/forms/ContactModal'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -454,7 +453,7 @@ export default function IndustryPage() {
           </div>
         </div>
       </section>
-      <Footer />
+
       
       <ContactModal
         isOpen={isContactModalOpen}

@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 
 interface ProductSchemaProps {
@@ -59,6 +57,7 @@ export const OrganizationSchema = () => {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      suppressHydrationWarning
     />
   );
 };
@@ -84,6 +83,7 @@ export const WebsiteSchema = () => {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      suppressHydrationWarning
     />
   );
 };
@@ -123,6 +123,7 @@ export const ProductSchema = ({ name, description, url, image, offers }: Product
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      suppressHydrationWarning
     />
   );
 };
@@ -145,6 +146,7 @@ export const FAQSchema = ({ faqs }: FAQSchemaProps) => {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      suppressHydrationWarning
     />
   );
 };
@@ -174,6 +176,7 @@ export const BreadcrumbSchema = ({ items }: BreadcrumbSchemaProps) => {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      suppressHydrationWarning
     />
   );
 };
@@ -217,6 +220,7 @@ export const LocalBusinessSchema = () => {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      suppressHydrationWarning
     />
   );
 };

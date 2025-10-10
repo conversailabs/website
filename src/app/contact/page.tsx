@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import { Phone, MapPin, Clock, MessageSquare } from 'lucide-react';
 
 const ContactPage: React.FC = () => {
@@ -136,7 +135,7 @@ const ContactPage: React.FC = () => {
         </div>
       </div>
       </div>
-      <Footer />
+      
     </div>
   );
 };

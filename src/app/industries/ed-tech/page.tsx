@@ -1,7 +1,6 @@
 'use client';
 
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Users, Clock, DollarSign, Brain, Zap, Shield, CheckCircle, MessageSquare, BookOpen } from 'lucide-react';
 import Link from 'next/link';
@@ -449,7 +448,7 @@ export default function EdTechPage() {
           </div>
         </section>
       </main>
-      <Footer />
+
     </>
   );
 }

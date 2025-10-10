@@ -9,11 +9,20 @@ export const metadata: Metadata = {
     description: 'Discover industry-specific AI voice agents for healthcare, education, real estate, finance, and more.',
     url: 'https://conversailabs.com/industries',
     type: 'website',
+    images: [
+      {
+        url: 'https://conversailabs.com/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ConversAI Labs - AI Voice Agents for Every Industry',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AI Solutions for Every Industry | ConversAI Labs',
     description: 'Discover industry-specific AI voice agents for healthcare, education, real estate, finance, and more.',
+    images: ['https://conversailabs.com/og-image.jpg'],
   },
   alternates: {
     canonical: 'https://conversailabs.com/industries',

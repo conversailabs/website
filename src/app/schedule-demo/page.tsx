@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import { Calendar, Clock, Users, CheckCircle, Phone, Video, MessageSquare } from 'lucide-react'
 
 const benefits = [
@@ -321,7 +320,7 @@ export default function ScheduleDemoPage() {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   )
 }

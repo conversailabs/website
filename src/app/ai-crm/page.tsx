@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import AICRMHeader from '@/components/layout/AICRMHeader'
-import Footer from '@/components/layout/Footer'
 import ContactModal from '@/components/forms/ContactModal'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -428,7 +427,7 @@ export default function AICRMPage() {
           </div>
         </div>
       </section>
-      <Footer />
+      
       
       <ContactModal
         isOpen={isContactModalOpen}

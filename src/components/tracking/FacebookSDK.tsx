@@ -11,12 +11,14 @@ export default function FacebookSDK() {
         dangerouslySetInnerHTML={{
           __html: `
             window.fbAsyncInit = function() {
-              FB.init({
-                appId      : '959200569594555',
-                xfbml      : true,
-                version    : 'v23.0'
-              });
-              FB.AppEvents.logPageView();
+              if (typeof FB !== 'undefined') {
+                FB.init({
+                  appId      : '959200569594555',
+                  xfbml      : true,
+                  version    : 'v23.0'
+                });
+                FB.AppEvents.logPageView();
+              }
             };
           `,
         }}
@@ -31,7 +33,9 @@ export default function FacebookSDK() {
               if (d.getElementById(id)) {return;}
               js = d.createElement(s); js.id = id;
               js.src = "https://connect.facebook.net/en_US/sdk.js";
-              fjs.parentNode.insertBefore(js, fjs);
+              if (fjs && fjs.parentNode) {
+                fjs.parentNode.insertBefore(js, fjs);
+              }
             }(document, 'script', 'facebook-jssdk'));
           `,
         }}

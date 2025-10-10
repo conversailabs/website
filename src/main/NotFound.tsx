@@ -1,10 +1,12 @@
-import { useLocation } from "react-router-dom";
+'use client';
+
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { updateSEO } from '@/utils/seo';
 import Link from "next/link";
 
 const NotFound = () => {
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     // Update SEO metadata for the 404 page
@@ -13,12 +15,12 @@ const NotFound = () => {
       description: 'The page you were looking for does not exist.',
       url: window.location.href,
     });
-    
+
     console.error(
       "404 Error: User attempted to access non-existent route:",
-      location.pathname
+      pathname
     );
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

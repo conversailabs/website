@@ -56,8 +56,16 @@ export function getClientIp(request: NextRequest): string {
     return clientIp;
   }
 
-  // If all else fails, return unknown
-  return 'unknown';
+  // Try to get IP from NextRequest.ip (available in some deployments)
+  // @ts-expect-error - ip property may not be in type definitions
+  if (request.ip) {
+    // @ts-expect-error - ip property may not be in type definitions
+    return request.ip;
+  }
+
+  // For local development, return localhost
+  // In production, this will be replaced by actual IPs from headers
+  return '127.0.0.1';
 }
 
 /**

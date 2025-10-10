@@ -26,6 +26,40 @@ const Header = () => {
   const [faqOpen, setFaqOpen] = useState(false);
   const pathname = usePathname();
 
+  // Dynamic button color based on page theme (glass morphism with subtle colors)
+  const getDashboardButtonStyle = () => {
+    // Home page - cyan/blue glass effect (matches liquid orbs)
+    if (pathname === '/') {
+      return 'bg-gradient-to-r from-cyan-200/70 to-blue-200/70 hover:from-cyan-300/80 hover:to-blue-300/80 backdrop-blur-md border border-cyan-300/30';
+    }
+
+    // Industry-specific glass colors (ultra light with transparency)
+    if (pathname.includes('/healthcare')) {
+      return 'bg-gradient-to-r from-blue-200/70 to-blue-300/70 hover:from-blue-300/80 hover:to-blue-400/80 backdrop-blur-md border border-blue-300/30';
+    }
+    if (pathname.includes('/education')) {
+      return 'bg-gradient-to-r from-purple-200/70 to-purple-300/70 hover:from-purple-300/80 hover:to-purple-400/80 backdrop-blur-md border border-purple-300/30';
+    }
+    if (pathname.includes('/finance')) {
+      return 'bg-gradient-to-r from-green-200/70 to-green-300/70 hover:from-green-300/80 hover:to-green-400/80 backdrop-blur-md border border-green-300/30';
+    }
+    if (pathname.includes('/real-estate')) {
+      return 'bg-gradient-to-r from-indigo-200/70 to-indigo-300/70 hover:from-indigo-300/80 hover:to-indigo-400/80 backdrop-blur-md border border-indigo-300/30';
+    }
+    if (pathname.includes('/hinglish')) {
+      return 'bg-gradient-to-r from-orange-200/70 to-orange-300/70 hover:from-orange-300/80 hover:to-orange-400/80 backdrop-blur-md border border-orange-300/30';
+    }
+    if (pathname.includes('/e-commerce')) {
+      return 'bg-gradient-to-r from-emerald-200/70 to-emerald-300/70 hover:from-emerald-300/80 hover:to-emerald-400/80 backdrop-blur-md border border-emerald-300/30';
+    }
+    if (pathname.includes('/automotive')) {
+      return 'bg-gradient-to-r from-slate-200/70 to-slate-300/70 hover:from-slate-300/80 hover:to-slate-400/80 backdrop-blur-md border border-slate-300/30';
+    }
+
+    // Default - light blue/cyan glass
+    return 'bg-gradient-to-r from-blue-200/70 to-cyan-200/70 hover:from-blue-300/80 hover:to-cyan-300/80 backdrop-blur-md border border-blue-300/30';
+  };
+
   // const handleNavClick = (
   //   e: React.MouseEvent<HTMLAnchorElement>,
   //   sectionId: string
@@ -111,6 +145,13 @@ const Header = () => {
             >
               Schedule Demo
             </Button>
+
+            <Button
+              onClick={() => window.open('https://dashboard.conversailabs.com/agents', '_blank')}
+              className={`${getDashboardButtonStyle()} text-gray-700 px-5 py-2 text-sm rounded-md font-semibold shadow-md hover:shadow-lg transition-all duration-300`}
+            >
+              Dashboard
+            </Button>
           </nav>
 
           {/* Mobile Hamburger Icon */}
@@ -190,6 +231,16 @@ const Header = () => {
               className="w-full mt-4 glassmorphic-primary-button"
             >
               Schedule Demo
+            </Button>
+
+            <Button
+              onClick={() => {
+                  window.open('https://dashboard.conversailabs.com/agents', '_blank');
+                  setMobileOpen(false);
+              }}
+              className={`w-full mt-2 ${getDashboardButtonStyle()} text-gray-700 font-semibold shadow-md`}
+            >
+              Dashboard
             </Button>
           </div>
         </div>
