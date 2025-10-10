@@ -49,23 +49,36 @@ const colorMap: Record<string, string> = {
   'teal': 'from-teal-500 to-teal-600'
 }
 
-const industries: Industry[] = Object.entries(industriesData as Record<string, IndustryData>).map(([slug, data]) => {
-  // Extract stats from the stats array
-  const statsObj = {
-    satisfaction: data.stats?.find((s) => s.label.includes('Satisfaction'))?.number || '90%',
-    support: data.stats?.find((s) => s.label.includes('Support'))?.number || '24/7',
-    savings: data.stats?.find((s) => s.label.includes('Savings') || s.label.includes('Cost'))?.number || '50%'
-  }
+// Define the 7 industries to display
+const allowedIndustries = [
+  'healthcare-and-wellness',
+  'education',
+  'finance-and-legal',
+  'real-estate-and-housing',
+  'hinglish',
+  'e-commerce',
+  'automotive'
+]
 
-  return {
-    slug,
-    name: data.name,
-    description: data.description,
-    icon: data.icon,
-    color: colorMap[data.color] || data.color || 'from-blue-500 to-blue-600',
-    stats: statsObj
-  }
-})
+const industries: Industry[] = Object.entries(industriesData as Record<string, IndustryData>)
+  .filter(([slug]) => allowedIndustries.includes(slug))
+  .map(([slug, data]) => {
+    // Extract stats from the stats array
+    const statsObj = {
+      satisfaction: data.stats?.find((s) => s.label.includes('Satisfaction'))?.number || '90%',
+      support: data.stats?.find((s) => s.label.includes('Support'))?.number || '24/7',
+      savings: data.stats?.find((s) => s.label.includes('Savings') || s.label.includes('Cost'))?.number || '50%'
+    }
+
+    return {
+      slug,
+      name: data.name,
+      description: data.description,
+      icon: data.icon,
+      color: colorMap[data.color] || data.color || 'from-blue-500 to-blue-600',
+      stats: statsObj
+    }
+  })
 
 const keyBenefits = [
   {
@@ -113,7 +126,7 @@ export default function IndustriesPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto"
             >
-              Discover how ConversAI Labs transforms business operations across {industries.length}+ industries with
+              Discover how ConversAI Labs transforms business operations across 7+ industries with
               intelligent voice agents designed for your specific sector&apos;s needs.
             </motion.p>
             <motion.div 
@@ -251,7 +264,7 @@ export default function IndustriesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                <div className="text-4xl font-bold mb-2">{industries.length}+</div>
+                <div className="text-4xl font-bold mb-2">7+</div>
                 <div className="text-lg opacity-90">Industries Served</div>
               </motion.div>
               <motion.div
