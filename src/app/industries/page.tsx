@@ -6,105 +6,66 @@ import Link from 'next/link'
 import Header from '@/components/layout/Header'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Users, Clock, TrendingUp, Shield } from 'lucide-react'
+import industriesData from '@/data/industriesfinal.json'
 
-const industries = [
-  {
-    slug: 'healthcare-and-wellness',
-    name: 'Healthcare & Wellness',
-    description: 'HIPAA-compliant AI agents for patient care, appointments, and medical support',
-    icon: '🏥',
-    color: 'from-blue-500 to-blue-600',
-    stats: { satisfaction: '95%', support: '24/7', savings: '60%' }
-  },
-  {
-    slug: 'education',
-    name: 'Education',
-    description: 'AI assistants for student support, admissions, and administrative tasks',
-    icon: '🎓',
-    color: 'from-purple-500 to-purple-600',
-    stats: { satisfaction: '88%', support: '24/7', savings: '40%' }
-  },
-  {
-    slug: 'home-services',
-    name: 'Home Services',
-    description: 'Emergency response, booking, and customer support for service businesses',
-    icon: '🏠',
-    color: 'from-orange-500 to-orange-600',
-    stats: { satisfaction: '92%', support: '24/7', savings: '55%' }
-  },
-  {
-    slug: 'finance-and-legal',
-    name: 'Finance & Legal',
-    description: 'Secure consultations and compliance-ready client management',
-    icon: '⚖️',
-    color: 'from-green-500 to-green-600',
-    stats: { satisfaction: '87%', support: '99.9%', savings: '45%' }
-  },
-  {
-    slug: 'real-estate-and-housing',
-    name: 'Real Estate & Housing',
-    description: 'Property inquiries, viewings, and tenant management automation',
-    icon: '🏘️',
-    color: 'from-indigo-500 to-indigo-600',
-    stats: { satisfaction: '91%', support: '24/7', savings: '55%' }
-  },
-  {
-    slug: 'travel-and-hospitality',
-    name: 'Travel & Hospitality',
-    description: 'Booking management, concierge services, and guest support',
-    icon: '✈️',
-    color: 'from-cyan-500 to-cyan-600',
-    stats: { satisfaction: '94%', support: '24/7', savings: '48%' }
-  },
-  {
-    slug: 'retail',
-    name: 'Retail',
-    description: 'Voice commerce, product support, and customer service automation',
-    icon: '🛍️',
-    color: 'from-pink-500 to-pink-600',
-    stats: { satisfaction: '89%', support: '24/7', savings: '52%' }
-  },
-  {
-    slug: 'technology',
-    name: 'Technology',
-    description: 'Technical support, onboarding, and user account management',
-    icon: '💻',
-    color: 'from-blue-500 to-blue-600',
-    stats: { satisfaction: '86%', support: '24/7', savings: '62%' }
-  },
-  {
-    slug: 'events-and-entertainment',
-    name: 'Events & Entertainment',
-    description: 'Event booking, venue information, and guest services',
-    icon: '🎭',
-    color: 'from-purple-500 to-purple-600',
-    stats: { satisfaction: '92%', support: '24/7', savings: '58%' }
-  },
-  {
-    slug: 'fitness-and-lifestyle',
-    name: 'Fitness & Lifestyle',
-    description: 'Class booking, wellness coaching, and membership management',
-    icon: '💪',
-    color: 'from-red-500 to-red-600',
-    stats: { satisfaction: '90%', support: '24/7', savings: '55%' }
-  },
-  {
-    slug: 'public-services',
-    name: 'Public Services',
-    description: 'Citizen services, government inquiries, and public information',
-    icon: '🏛️',
-    color: 'from-blue-500 to-blue-600',
-    stats: { satisfaction: '77%', support: '24/7', savings: '60%' }
-  },
-  {
-    slug: 'automotive-and-transport',
-    name: 'Automotive & Transport',
-    description: 'Vehicle services, roadside assistance, and logistics support',
-    icon: '🚗',
-    color: 'from-gray-500 to-gray-600',
-    stats: { satisfaction: '87%', support: '24/7', savings: '58%' }
+// Types for industry data
+interface IndustryStat {
+  number: string;
+  label: string;
+}
+
+interface IndustryData {
+  name: string;
+  description: string;
+  color: string;
+  icon: string;
+  stats?: IndustryStat[];
+}
+
+interface Industry {
+  slug: string;
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
+  stats: {
+    satisfaction: string;
+    support: string;
+    savings: string;
+  };
+}
+
+// Convert JSON object to array format with proper typing
+const colorMap: Record<string, string> = {
+  'blue': 'from-blue-500 to-blue-600',
+  'purple': 'from-purple-500 to-purple-600',
+  'orange': 'from-orange-500 to-orange-600',
+  'green': 'from-green-500 to-green-600',
+  'indigo': 'from-indigo-500 to-indigo-600',
+  'cyan': 'from-cyan-500 to-cyan-600',
+  'pink': 'from-pink-500 to-pink-600',
+  'red': 'from-red-500 to-red-600',
+  'gray': 'from-gray-500 to-gray-600',
+  'teal': 'from-teal-500 to-teal-600'
+}
+
+const industries: Industry[] = Object.entries(industriesData as Record<string, IndustryData>).map(([slug, data]) => {
+  // Extract stats from the stats array
+  const statsObj = {
+    satisfaction: data.stats?.find((s) => s.label.includes('Satisfaction'))?.number || '90%',
+    support: data.stats?.find((s) => s.label.includes('Support'))?.number || '24/7',
+    savings: data.stats?.find((s) => s.label.includes('Savings') || s.label.includes('Cost'))?.number || '50%'
   }
-]
+
+  return {
+    slug,
+    name: data.name,
+    description: data.description,
+    icon: data.icon,
+    color: colorMap[data.color] || data.color || 'from-blue-500 to-blue-600',
+    stats: statsObj
+  }
+})
 
 const keyBenefits = [
   {
@@ -152,7 +113,7 @@ export default function IndustriesPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto"
             >
-              Discover how ConversAI Labs transforms business operations across 12+ industries with 
+              Discover how ConversAI Labs transforms business operations across {industries.length}+ industries with
               intelligent voice agents designed for your specific sector&apos;s needs.
             </motion.p>
             <motion.div 
@@ -290,7 +251,7 @@ export default function IndustriesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                <div className="text-4xl font-bold mb-2">12+</div>
+                <div className="text-4xl font-bold mb-2">{industries.length}+</div>
                 <div className="text-lg opacity-90">Industries Served</div>
               </motion.div>
               <motion.div
