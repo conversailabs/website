@@ -3,9 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import ErrorBoundary from "@/components/utilities/ErrorBoundary";
-import GoogleAnalytics from "@/components/tracking/GoogleAnalytics";
-import MicrosoftClarity from "@/components/tracking/MicrosoftClarity";
-import FacebookSDK from "@/components/tracking/FacebookSDK";
+import ClientScripts from "@/components/tracking/ClientScripts";
 import { OrganizationSchema, WebsiteSchema } from "@/components/seo/StructuredData";
 
 const geistSans = Geist({
@@ -91,23 +89,18 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <OrganizationSchema />
+        <WebsiteSchema />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
-        <OrganizationSchema />
-        <WebsiteSchema />
-        <FacebookSDK />
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-        )}
-        {process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID && (
-          <MicrosoftClarity projectId={process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID} />
-        )}
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
         <Toaster />
+        <ClientScripts />
       </body>
     </html>
   );
