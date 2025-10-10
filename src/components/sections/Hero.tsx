@@ -336,12 +336,20 @@ const VoiceHero = () => {
           </motion.div>
         </div>
 
-        <Button
-          onClick={() => window.open('/schedule-demo', '_self')}
-          className="bg-gray-800 hover:bg-black text-white px-8 py-3 text-md rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mb-3 font-semibold"
-        >
-          Book a demo
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-3 items-center">
+          <Button
+            onClick={() => window.open('/schedule-demo', '_self')}
+            className="bg-gray-800 hover:bg-black text-white px-8 py-3 text-md rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+          >
+            Book a demo
+          </Button>
+          <Button
+            onClick={() => window.open('https://dashboard.conversailabs.com/agents', '_blank')}
+            className="bg-white hover:bg-gray-50 text-gray-800 border-2 border-gray-800 hover:border-black px-8 py-3 text-md rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+          >
+            Go to Dashboard
+          </Button>
+        </div>
       </div>
 
       {/* Email Input Dialog */}
