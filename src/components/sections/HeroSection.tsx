@@ -12,13 +12,83 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 
+// Import industry prompts
+import { HEALTHCARE_PROMPT } from '@/prompts/healthcare';
+import { EDUCATION_PROMPT } from '@/prompts/education';
+import { FINANCE_PROMPT } from '@/prompts/finance';
+import { REALESTATE_PROMPT } from '@/prompts/realestate';
+import { HINGLISH_FINANCE_PROMPT } from '@/prompts/hinglish-finance';
+import { ECOMMERCE_PROMPT } from '@/prompts/ecommerce';
+import { AUTOMOTIVE_PROMPT } from '@/prompts/automotive';
+
 interface HeroSectionProps {
   industry: string;
   description: string;
   color: string;
 }
 
-// Industry to Agent ID mapping
+// ============= WEBSOCKET VOICE CHAT CONFIGURATION =============
+// Get backend API URL (not WebSocket URL directly)
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+
+// ============= 7 INDUSTRY PROMPT FUNCTIONS =============
+// Pass your custom prompt to these functions
+
+// 1. Healthcare
+function getHealthcarePrompt(customPrompt?: string): string {
+  return customPrompt || HEALTHCARE_PROMPT;
+}
+
+// 2. Education
+function getEducationPrompt(customPrompt?: string): string {
+  return customPrompt || EDUCATION_PROMPT;
+}
+
+// 3. Finance
+function getFinancePrompt(customPrompt?: string): string {
+  return customPrompt || FINANCE_PROMPT;
+}
+
+// 4. Real Estate
+function getRealEstatePrompt(customPrompt?: string): string {
+  return customPrompt || REALESTATE_PROMPT;
+}
+
+// 5. Hinglish Finance
+function getHinglishFinancePrompt(customPrompt?: string): string {
+  return customPrompt || HINGLISH_FINANCE_PROMPT;
+}
+
+// 6. E-commerce
+function getEcommercePrompt(customPrompt?: string): string {
+  return customPrompt || ECOMMERCE_PROMPT;
+}
+
+// 7. Automotive
+function getAutomotivePrompt(customPrompt?: string): string {
+  return customPrompt || AUTOMOTIVE_PROMPT;
+}
+
+// Map industries to their prompt functions
+const industryPromptsMap: Record<string, (customPrompt?: string) => string> = {
+  'Healthcare & Wellness': getHealthcarePrompt,
+  'Education': getEducationPrompt,
+  'Finance & Legal': getFinancePrompt,
+  'Real Estate & Housing': getRealEstatePrompt,
+  'Hinglish Finance': getHinglishFinancePrompt,
+  'E-commerce': getEcommercePrompt,
+  'Automotive': getAutomotivePrompt,
+  // Also map other similar industries to same functions
+  'Fitness & Wellness': getHealthcarePrompt,
+  'EdTech': getEducationPrompt,
+  'Retail': getEcommercePrompt,
+  'Travel & Hospitality': getEcommercePrompt,
+  'Technology': getFinancePrompt,
+};
+
+// ============= RETELL AI CONFIGURATION (COMMENTED OUT) =============
+// Industry to Agent ID mapping (RETELL - NOT USED ANYMORE)
+/*
 const industryAgentMap: Record<string, string> = {
   'Education': 'agent_8132d8f06109249fdec5bdd917',
   'Healthcare & Wellness': 'agent_f7664b8912fa2a5c8106f20668',
@@ -28,6 +98,9 @@ const industryAgentMap: Record<string, string> = {
   'Automotive': 'agent_29a21fa98d3b5caa076f5cf0d8',
   'Hinglish Finance': 'agent_f870e4ef195166cd20f5db3028',
 };
+*/
+
+
 
 const colorMap = {
   blue: 'from-blue-600 to-blue-800',
@@ -113,19 +186,41 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
     return [];
   });
 
-  // Retell AI state
+  // ============= RETELL AI STATE (COMMENTED OUT) =============
+  // const [isCallActive, setIsCallActive] = useState(false);
+  // const [isConnecting, setIsConnecting] = useState(false);
+  // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // const retellClientRef = useRef<any>(null);
+
+  // ============= WEBSOCKET VOICE CHAT STATE =============
   const [isCallActive, setIsCallActive] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const retellClientRef = useRef<any>(null);
 
+  // WebSocket and audio processing refs
+  const wsRef = useRef<WebSocket | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const processorRef = useRef<ScriptProcessorNode | null>(null);
+  const audioQueueRef = useRef<Int16Array[]>([]);
+  const isPlayingRef = useRef(false);
+  const isCallActiveRef = useRef(false); // Track if call is active for closures
+  const isInteractingRef = useRef(false); // Track if interacting for audio processor
+
+  // ============= CLEANUP ON UNMOUNT =============
   // Cleanup: Auto-end call when component unmounts (user navigates away)
   useEffect(() => {
     return () => {
-      if (isCallActive && retellClientRef.current) {
-        console.log('Page navigation detected - ending call automatically');
-        retellClientRef.current.stopCall();
-        retellClientRef.current = null;
+      // ===== RETELL CLEANUP (COMMENTED OUT) =====
+      // if (isCallActive && retellClientRef.current) {
+      //   console.log('Page navigation detected - ending call automatically');
+      //   retellClientRef.current.stopCall();
+      //   retellClientRef.current = null;
+      // }
+
+      // ===== WEBSOCKET CLEANUP =====
+      if (isCallActive) {
+        console.log('Page navigation detected - ending WebSocket call automatically');
+        stopWebSocketCall();
       }
     };
   }, [isCallActive]);
@@ -147,6 +242,309 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
     return emailRegex.test(email);
   };
 
+  // ============= WEBSOCKET VOICE CHAT FUNCTIONS =============
+
+  // Initialize microphone and audio processing
+  const initializeMicrophone = async () => {
+    try {
+      console.log('Requesting microphone access...');
+
+      // Get microphone with quality settings
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          sampleRate: 16000,
+        }
+      });
+
+      mediaStreamRef.current = stream;
+
+      // Create audio context with 16kHz sample rate
+      const audioContext = new AudioContext({ sampleRate: 16000 });
+      audioContextRef.current = audioContext;
+
+      const source = audioContext.createMediaStreamSource(stream);
+      const processor = audioContext.createScriptProcessor(1024, 1, 1);
+      processorRef.current = processor;
+
+      // Process audio and send to WebSocket
+      let audioChunkCount = 0;
+      processor.onaudioprocess = (e) => {
+        // Use ref instead of state to avoid closure issues
+        if (!isInteractingRef.current || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
+
+        const inputData = e.inputBuffer.getChannelData(0);
+        const pcm16 = new Int16Array(inputData.length);
+
+        // Convert float32 to PCM16
+        for (let i = 0; i < inputData.length; i++) {
+          pcm16[i] = Math.max(-32768, Math.min(32767, inputData[i] * 32768));
+        }
+
+        // Encode to base64 and send
+        const audioData = btoa(String.fromCharCode(...new Uint8Array(pcm16.buffer)));
+        wsRef.current.send(JSON.stringify({
+          type: 'audio',
+          data: audioData
+        }));
+
+        // Log every 50th chunk to verify audio is being sent
+        audioChunkCount++;
+        if (audioChunkCount % 50 === 0) {
+          console.log(`Sent ${audioChunkCount} audio chunks to server`);
+        }
+      };
+
+      source.connect(processor);
+      processor.connect(audioContext.destination);
+
+      console.log('Microphone initialized successfully');
+      return true;
+    } catch (error) {
+      console.error('Microphone error:', error);
+      alert('Unable to access microphone. Please grant permission and try again.');
+      return false;
+    }
+  };
+
+  // Play audio received from WebSocket
+  const playNextAudioChunk = () => {
+    if (audioQueueRef.current.length === 0) {
+      isPlayingRef.current = false;
+      return;
+    }
+
+    if (!audioContextRef.current) return;
+
+    isPlayingRef.current = true;
+    const pcm16 = audioQueueRef.current.shift()!;
+
+    // Convert PCM16 to float32
+    const float32 = new Float32Array(pcm16.length);
+    for (let i = 0; i < pcm16.length; i++) {
+      float32[i] = pcm16[i] / 32768;
+    }
+
+    // Create audio buffer and play
+    const buffer = audioContextRef.current.createBuffer(1, float32.length, 16000);
+    buffer.copyToChannel(float32, 0);
+
+    const source = audioContextRef.current.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioContextRef.current.destination);
+
+    source.onended = () => {
+      playNextAudioChunk();
+    };
+
+    source.start();
+  };
+
+  // Connect to WebSocket server
+  const connectWebSocket = (websocketUrl: string) => {
+    return new Promise<boolean>((resolve) => {
+      console.log('Connecting to WebSocket:', websocketUrl);
+
+      const ws = new WebSocket(websocketUrl);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log('WebSocket connected');
+
+        // Send handshake with audio configuration
+        // Use 'elevenlabs' to match the TTS provider in the initial API call
+        const handshake = {
+          type: 'browser_audio',
+          action: 'start',
+          sampleRate: 16000,
+          format: 'pcm16',
+          tts_provider: 'elevenlabs'
+        };
+        ws.send(JSON.stringify(handshake));
+        console.log('Sent handshake:', handshake);
+
+        resolve(true);
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+
+          if (message.type === 'audio' && message.data) {
+            // Decode received audio
+            const audioData = atob(message.data);
+            const pcm16 = new Int16Array(audioData.length / 2);
+
+            for (let i = 0; i < pcm16.length; i++) {
+              const byte1 = audioData.charCodeAt(i * 2);
+              const byte2 = audioData.charCodeAt(i * 2 + 1);
+              pcm16[i] = (byte2 << 8) | byte1;
+            }
+
+            // Add to queue for playback
+            audioQueueRef.current.push(pcm16);
+            if (!isPlayingRef.current) {
+              playNextAudioChunk();
+            }
+          }
+        } catch (error) {
+          console.error('Message processing error:', error);
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        alert('Failed to connect to voice server. Please try again.');
+        resolve(false);
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket closed by server');
+        // Only trigger cleanup if the call was actually active
+        // This prevents cascade when user intentionally ends the call
+        if (isCallActiveRef.current) {
+          console.log('Unexpected WebSocket close - cleaning up');
+          stopWebSocketCall();
+        }
+      };
+    });
+  };
+
+  // Start WebSocket voice call
+  const startWebSocketCall = async () => {
+    // Get industry-specific prompt using the function
+    const promptFunction = industryPromptsMap[industry];
+    const customPrompt = promptFunction
+      ? promptFunction() // Call the function to get the prompt
+      : `You are a helpful AI voice assistant for ${industry}. Assist customers professionally and courteously.`;
+
+    try {
+      setIsConnecting(true);
+      console.log(`Starting WebSocket voice call for ${industry}...`);
+
+      // Step 1: Get WebSocket URL from backend API
+      console.log('Fetching WebSocket URL from backend:', `${API_BASE_URL}/browser/start`);
+
+      const response = await fetch(`${API_BASE_URL}/browser/start`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          security_key: "a7f4d2e3-8b5c-4d9e-b3a1-6c9f8e7d5b4a",
+          tts_provider: "elevenlabs",
+          custom_prompt: customPrompt
+        }),
+      });
+
+      console.log('Backend response status:', response.status);
+
+      if (!response.ok) {
+        let errorMessage = 'Failed to get session URL from server';
+        try {
+          const errorData = await response.json();
+          console.error('Backend error (JSON):', errorData);
+          errorMessage = errorData.detail || errorData.message || errorMessage;
+        } catch {
+          const errorText = await response.text();
+          console.error('Backend error (Text):', errorText);
+          errorMessage = errorText || errorMessage;
+        }
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+      console.log('Backend response data:', data);
+
+      const websocketUrl = data.websocket_url || data.url || data.ws_url;
+
+      if (!websocketUrl) {
+        console.error('No WebSocket URL in response. Full response:', data);
+        throw new Error('No WebSocket URL returned from server');
+      }
+
+      console.log('Received WebSocket URL:', websocketUrl);
+
+      // Step 2: Initialize microphone
+      const micInitialized = await initializeMicrophone();
+      if (!micInitialized) {
+        setIsConnecting(false);
+        return;
+      }
+
+      // Step 3: Connect to WebSocket with the URL from backend
+      const wsConnected = await connectWebSocket(websocketUrl);
+      if (!wsConnected) {
+        setIsConnecting(false);
+        return;
+      }
+
+      // Start recording
+      setIsInteracting(true);
+      setIsCallActive(true);
+      setIsConnecting(false);
+      isCallActiveRef.current = true; // Update ref
+      isInteractingRef.current = true; // Update ref for audio processor
+
+      // Send start conversation signal
+      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+        wsRef.current.send(JSON.stringify({ type: 'start_conversation' }));
+      }
+
+      console.log('WebSocket call started successfully');
+    } catch (error) {
+      console.error('Error starting WebSocket call:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to start call';
+      alert(`Unable to start call: ${errorMessage}\n\nPlease try again or contact support.`);
+      setIsConnecting(false);
+      setIsInteracting(false);
+      stopWebSocketCall();
+    }
+  };
+
+  // Stop WebSocket voice call
+  const stopWebSocketCall = () => {
+    console.log('Stopping WebSocket call');
+
+    setIsInteracting(false);
+    setIsCallActive(false);
+    setIsConnecting(false);
+    isCallActiveRef.current = false; // Update ref
+    isInteractingRef.current = false; // Update ref
+
+    // Send end conversation signal
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ type: 'end_conversation' }));
+      wsRef.current.close();
+    }
+    wsRef.current = null;
+
+    // Stop microphone
+    if (mediaStreamRef.current) {
+      mediaStreamRef.current.getTracks().forEach(track => track.stop());
+      mediaStreamRef.current = null;
+    }
+
+    // Clean up audio context
+    if (processorRef.current) {
+      processorRef.current.disconnect();
+      processorRef.current = null;
+    }
+
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+
+    // Clear audio queue
+    audioQueueRef.current = [];
+    isPlayingRef.current = false;
+  };
+
+  // ============= RETELL AI FUNCTIONS (COMMENTED OUT) =============
+  /*
   const startRetellCall = async () => {
     const agentId = industryAgentMap[industry];
 
@@ -237,13 +635,19 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
       retellClientRef.current = null;
     }
   };
+  */
 
+  // ============= HANDLE CLICK EVENTS (UPDATED FOR WEBSOCKET) =============
   const handleTryAgentClick = () => {
     console.log("Try Agent clicked!");
 
     // If call is active, stop it
     if (isCallActive) {
-      stopRetellCall();
+      // ===== RETELL (COMMENTED OUT) =====
+      // stopRetellCall();
+
+      // ===== WEBSOCKET =====
+      stopWebSocketCall();
       return;
     }
 
@@ -254,8 +658,12 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
       console.log("Saved emails:", emails);
       if (emails.length > 0) {
         // Email exists, start call
-        console.log("Email exists, starting call");
-        startRetellCall();
+        console.log("Email exists, starting WebSocket call");
+        // ===== RETELL (COMMENTED OUT) =====
+        // startRetellCall();
+
+        // ===== WEBSOCKET =====
+        startWebSocketCall();
       } else {
         // No email, show dialog
         console.log("No email, showing dialog");
@@ -268,7 +676,7 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
     }
   };
 
-  const handleEmailSubmit = () => {
+  const handleEmailSubmit = async () => {
     if (!email) {
       setEmailError("Please enter your email address");
       return;
@@ -278,15 +686,41 @@ export function HeroSection({ industry, description, color }: HeroSectionProps) 
       return;
     }
 
+    // Save to localStorage
     if (!savedEmails.includes(email)) {
       const updatedEmails = [email, ...savedEmails].slice(0, 10);
       setSavedEmails(updatedEmails);
       localStorage.setItem('savedEmails', JSON.stringify(updatedEmails));
     }
 
+    // Save to database via existing backend API (non-blocking - silent failure)
+    try {
+      await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          name: 'Industry Page User',
+          message: `Tap to talk call request from ${industry} page`,
+          source: `industry_page_${industry.toLowerCase().replace(/\s+/g, '_')}`,
+        }),
+      });
+      console.log('Email saved to database successfully');
+    } catch (error) {
+      // Silent failure - don't interrupt user experience
+      console.error('Failed to save email to database:', error);
+    }
+
     setEmailError("");
     setShowEmailDialog(false);
-    startRetellCall();
+
+    // ===== RETELL (COMMENTED OUT) =====
+    // startRetellCall();
+
+    // ===== WEBSOCKET =====
+    startWebSocketCall();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

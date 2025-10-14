@@ -11,9 +11,15 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { BookingDialog } from "@/components/booking/BookingDialog";
 
+// ============= RETELL AI CONFIGURATION (COMMENTED OUT) =============
 // Landing page agent ID
-const LANDING_PAGE_AGENT_ID = "agent_fdb605cbf88227c104786cd227";
+// const LANDING_PAGE_AGENT_ID = "agent_fdb605cbf88227c104786cd227";
+
+// ============= WEBSOCKET VOICE CHAT CONFIGURATION =============
+// Get backend API URL (not WebSocket URL directly)
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
 
 type LiquidOrbProps = {
   size: number;
@@ -55,6 +61,7 @@ const LiquidOrb = ({
 const VoiceHero = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [showBookingDialog, setShowBookingDialog] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -67,19 +74,41 @@ const VoiceHero = () => {
     return [];
   });
 
-  // Retell AI state
+  // ============= RETELL AI STATE (COMMENTED OUT) =============
+  // const [isCallActive, setIsCallActive] = useState(false);
+  // const [isConnecting, setIsConnecting] = useState(false);
+  // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // const retellClientRef = useRef<any>(null);
+
+  // ============= WEBSOCKET VOICE CHAT STATE =============
   const [isCallActive, setIsCallActive] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const retellClientRef = useRef<any>(null);
 
+  // WebSocket and audio processing refs
+  const wsRef = useRef<WebSocket | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const processorRef = useRef<ScriptProcessorNode | null>(null);
+  const audioQueueRef = useRef<Int16Array[]>([]);
+  const isPlayingRef = useRef(false);
+  const isCallActiveRef = useRef(false); // Track if call is active for closures
+  const isRecordingRef = useRef(false); // Track if recording for audio processor
+
+  // ============= CLEANUP ON UNMOUNT =============
   // Cleanup: Auto-end call when component unmounts (user navigates away)
   useEffect(() => {
     return () => {
-      if (isCallActive && retellClientRef.current) {
-        console.log('Page navigation detected - ending call automatically');
-        retellClientRef.current.stopCall();
-        retellClientRef.current = null;
+      // ===== RETELL CLEANUP (COMMENTED OUT) =====
+      // if (isCallActive && retellClientRef.current) {
+      //   console.log('Page navigation detected - ending call automatically');
+      //   retellClientRef.current.stopCall();
+      //   retellClientRef.current = null;
+      // }
+
+      // ===== WEBSOCKET CLEANUP =====
+      if (isCallActive) {
+        console.log('Page navigation detected - ending WebSocket call automatically');
+        stopWebSocketCall();
       }
     };
   }, [isCallActive]);
@@ -101,6 +130,304 @@ const VoiceHero = () => {
     return emailRegex.test(email);
   };
 
+  // ============= WEBSOCKET VOICE CHAT FUNCTIONS =============
+
+  // Initialize microphone and audio processing
+  const initializeMicrophone = async () => {
+    try {
+      console.log('Requesting microphone access...');
+
+      // Get microphone with quality settings
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          sampleRate: 16000,
+        }
+      });
+
+      mediaStreamRef.current = stream;
+
+      // Create audio context with 16kHz sample rate
+      const audioContext = new AudioContext({ sampleRate: 16000 });
+      audioContextRef.current = audioContext;
+
+      const source = audioContext.createMediaStreamSource(stream);
+      const processor = audioContext.createScriptProcessor(1024, 1, 1);
+      processorRef.current = processor;
+
+      // Process audio and send to WebSocket
+      processor.onaudioprocess = (e) => {
+        // Use ref instead of state to avoid closure issues
+        if (!isRecordingRef.current || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
+
+        const inputData = e.inputBuffer.getChannelData(0);
+        const pcm16 = new Int16Array(inputData.length);
+
+        // Convert float32 to PCM16
+        for (let i = 0; i < inputData.length; i++) {
+          pcm16[i] = Math.max(-32768, Math.min(32767, inputData[i] * 32768));
+        }
+
+        // Encode to base64 and send
+        const audioData = btoa(String.fromCharCode(...new Uint8Array(pcm16.buffer)));
+        wsRef.current.send(JSON.stringify({
+          type: 'audio',
+          data: audioData
+        }));
+      };
+
+      source.connect(processor);
+      processor.connect(audioContext.destination);
+
+      console.log('Microphone initialized successfully');
+      return true;
+    } catch (error) {
+      console.error('Microphone error:', error);
+      alert('Unable to access microphone. Please grant permission and try again.');
+      return false;
+    }
+  };
+
+  // Play audio received from WebSocket
+  const playNextAudioChunk = () => {
+    if (audioQueueRef.current.length === 0) {
+      isPlayingRef.current = false;
+      return;
+    }
+
+    if (!audioContextRef.current) return;
+
+    isPlayingRef.current = true;
+    const pcm16 = audioQueueRef.current.shift()!;
+
+    // Convert PCM16 to float32
+    const float32 = new Float32Array(pcm16.length);
+    for (let i = 0; i < pcm16.length; i++) {
+      float32[i] = pcm16[i] / 32768;
+    }
+
+    // Create audio buffer and play
+    const buffer = audioContextRef.current.createBuffer(1, float32.length, 16000);
+    buffer.copyToChannel(float32, 0);
+
+    const source = audioContextRef.current.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioContextRef.current.destination);
+
+    source.onended = () => {
+      playNextAudioChunk();
+    };
+
+    source.start();
+  };
+
+  // Connect to WebSocket server
+  const connectWebSocket = (websocketUrl: string) => {
+    return new Promise<boolean>((resolve) => {
+      console.log('Connecting to WebSocket:', websocketUrl);
+
+      const ws = new WebSocket(websocketUrl);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log('WebSocket connected');
+
+        // Send handshake with audio configuration
+        // Use 'elevenlabs' to match the TTS provider in the initial API call
+        const handshake = {
+          type: 'browser_audio',
+          action: 'start',
+          sampleRate: 16000,
+          format: 'pcm16',
+          tts_provider: 'elevenlabs'
+        };
+        ws.send(JSON.stringify(handshake));
+        console.log('Sent handshake:', handshake);
+
+        resolve(true);
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+
+          if (message.type === 'audio' && message.data) {
+            // Decode received audio
+            const audioData = atob(message.data);
+            const pcm16 = new Int16Array(audioData.length / 2);
+
+            for (let i = 0; i < pcm16.length; i++) {
+              const byte1 = audioData.charCodeAt(i * 2);
+              const byte2 = audioData.charCodeAt(i * 2 + 1);
+              pcm16[i] = (byte2 << 8) | byte1;
+            }
+
+            // Add to queue for playback
+            audioQueueRef.current.push(pcm16);
+            if (!isPlayingRef.current) {
+              playNextAudioChunk();
+            }
+          }
+        } catch (error) {
+          console.error('Message processing error:', error);
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        alert('Failed to connect to voice server. Please try again.');
+        resolve(false);
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket closed by server');
+        // Only trigger cleanup if the call was actually active
+        // This prevents cascade when user intentionally ends the call
+        if (isCallActiveRef.current) {
+          console.log('Unexpected WebSocket close - cleaning up');
+          stopWebSocketCall();
+        }
+      };
+    });
+  };
+
+  // Start WebSocket voice call
+  const startWebSocketCall = async () => {
+    try {
+      setIsConnecting(true);
+      console.log('Starting WebSocket voice call...');
+
+      // Step 1: Get WebSocket URL from backend API
+      console.log('Fetching WebSocket URL from backend:', `${API_BASE_URL}/browser/start`);
+
+      const response = await fetch(`${API_BASE_URL}/browser/start`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          security_key: "a7f4d2e3-8b5c-4d9e-b3a1-6c9f8e7d5b4a",
+          tts_provider: "elevenlabs",
+          custom_prompt: "You are a helpful assistant..."
+        }),
+      });
+
+      console.log('Backend response status:', response.status);
+
+      if (!response.ok) {
+        let errorMessage = 'Failed to get session URL from server';
+        try {
+          const errorData = await response.json();
+          console.error('Backend error (JSON):', errorData);
+          errorMessage = errorData.detail || errorData.message || errorMessage;
+        } catch {
+          const errorText = await response.text();
+          console.error('Backend error (Text):', errorText);
+          errorMessage = errorText || errorMessage;
+        }
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+      console.log('Backend response data:', data);
+
+      const websocketUrl = data.websocket_url || data.url || data.ws_url;
+
+      if (!websocketUrl) {
+        console.error('No WebSocket URL in response. Full response:', data);
+        throw new Error('No WebSocket URL returned from server');
+      }
+
+      console.log('Received WebSocket URL:', websocketUrl);
+
+      // Step 2: Initialize microphone
+      const micInitialized = await initializeMicrophone();
+      if (!micInitialized) {
+        setIsConnecting(false);
+        return;
+      }
+
+      // CRITICAL: Set recording flags BEFORE connecting WebSocket
+      // This ensures audio chunks start flowing immediately when WS connects
+      console.log('🎙️ Setting recording flags to enable audio streaming...');
+      isRecordingRef.current = true;
+      isCallActiveRef.current = true;
+      setIsRecording(true);
+      setIsCallActive(true);
+
+      // Step 3: Connect to WebSocket with the URL from backend
+      const wsConnected = await connectWebSocket(websocketUrl);
+      if (!wsConnected) {
+        setIsConnecting(false);
+        setIsRecording(false);
+        setIsCallActive(false);
+        isRecordingRef.current = false;
+        isCallActiveRef.current = false;
+        return;
+      }
+
+      setIsConnecting(false);
+
+      // Send start conversation signal
+      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+        console.log('📞 Sending start_conversation signal...');
+        wsRef.current.send(JSON.stringify({ type: 'start_conversation' }));
+      }
+
+      console.log('✅ WebSocket call started successfully - audio should be streaming now');
+    } catch (error) {
+      console.error('Error starting WebSocket call:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to start call';
+      alert(`Unable to start call: ${errorMessage}\n\nPlease try again or contact support.`);
+      setIsConnecting(false);
+      setIsRecording(false);
+      stopWebSocketCall();
+    }
+  };
+
+  // Stop WebSocket voice call
+  const stopWebSocketCall = () => {
+    console.log('Stopping WebSocket call');
+
+    setIsRecording(false);
+    setIsCallActive(false);
+    setIsConnecting(false);
+    isCallActiveRef.current = false; // Update ref
+    isRecordingRef.current = false; // Update ref
+
+    // Send end conversation signal
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ type: 'end_conversation' }));
+      wsRef.current.close();
+    }
+    wsRef.current = null;
+
+    // Stop microphone
+    if (mediaStreamRef.current) {
+      mediaStreamRef.current.getTracks().forEach(track => track.stop());
+      mediaStreamRef.current = null;
+    }
+
+    // Clean up audio context
+    if (processorRef.current) {
+      processorRef.current.disconnect();
+      processorRef.current = null;
+    }
+
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+
+    // Clear audio queue
+    audioQueueRef.current = [];
+    isPlayingRef.current = false;
+  };
+
+  // ============= RETELL AI FUNCTIONS (COMMENTED OUT) =============
+  /*
   const startRetellCall = async () => {
     try {
       setIsConnecting(true);
@@ -176,13 +503,19 @@ const VoiceHero = () => {
       retellClientRef.current = null;
     }
   };
+  */
 
+  // ============= HANDLE TALK CLICK (UPDATED FOR WEBSOCKET) =============
   const handleTalkClick = () => {
     console.log("Tap to talk clicked!");
 
     // If call is active, stop it
     if (isCallActive) {
-      stopRetellCall();
+      // ===== RETELL (COMMENTED OUT) =====
+      // stopRetellCall();
+
+      // ===== WEBSOCKET =====
+      stopWebSocketCall();
       return;
     }
 
@@ -193,8 +526,12 @@ const VoiceHero = () => {
       console.log("Saved emails:", emails);
       if (emails.length > 0) {
         // Email exists, start call
-        console.log("Email exists, starting call");
-        startRetellCall();
+        console.log("Email exists, starting WebSocket call");
+        // ===== RETELL (COMMENTED OUT) =====
+        // startRetellCall();
+
+        // ===== WEBSOCKET =====
+        startWebSocketCall();
       } else {
         // No email, show dialog
         console.log("No email, showing dialog");
@@ -246,7 +583,12 @@ const VoiceHero = () => {
 
     setEmailError("");
     setShowEmailDialog(false);
-    startRetellCall();
+
+    // ===== RETELL (COMMENTED OUT) =====
+    // startRetellCall();
+
+    // ===== WEBSOCKET =====
+    startWebSocketCall();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -333,12 +675,19 @@ const VoiceHero = () => {
         </div>
 
         <Button
-          onClick={() => window.open('/schedule-demo', '_self')}
+          // onClick={() => window.open('/schedule-demo', '_self')}
+          onClick={() => setShowBookingDialog(true)}
           className="bg-gray-800 hover:bg-black text-white px-8 py-3 text-md rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mb-3 font-semibold"
         >
           Book a demo
         </Button>
       </div>
+
+      {/* Booking Dialog */}
+      <BookingDialog
+        open={showBookingDialog}
+        onOpenChange={setShowBookingDialog}
+      />
 
       {/* Email Input Dialog */}
       <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
