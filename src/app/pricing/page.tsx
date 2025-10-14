@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Star, MessageSquare, Phone, Zap, BarChart3, Shield } from 'lucide-react';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import ContactModal from '@/components/forms/ContactModal';
 import { FAQSchema } from '@/components/seo/StructuredData';
 
@@ -333,7 +332,7 @@ const PricingPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      
       
       <ContactModal
         isOpen={isContactModalOpen}

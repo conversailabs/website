@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Standalone output for Vercel deployment
+  output: 'standalone',
   typescript: {
     // Allows for more detailed type checking during build
     tsconfigPath: './tsconfig.json',

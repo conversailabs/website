@@ -19,8 +19,14 @@ export async function POST(req: NextRequest) {
   try {
     const data: ContactFormData = await req.json();
 
-    // Capture client IP address
-    const clientIp = getClientIp(req);
+    // Capture client IP address - ensure it's never null/undefined/empty
+    let clientIp = getClientIp(req);
+
+    // Additional validation: if IP is empty, unknown, or falsy, default to localhost
+    if (!clientIp || clientIp === 'unknown' || clientIp.trim() === '') {
+      clientIp = '127.0.0.1';
+    }
+
     console.log('✅ Captured IP:', clientIp);
 
     // Validate required fields
